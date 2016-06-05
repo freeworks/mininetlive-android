@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 /**
  * Created by cainli on 16/6/4.
  */
-public interface AccountService extends HttpBinService {
+public interface AccountService  {
 
     class LoginData {
         String username;
@@ -23,10 +23,6 @@ public interface AccountService extends HttpBinService {
             this.password = password;
         }
     }
-
-    // POST with a JSON body
-    @POST("/post")
-    Call<HttpBinResponse> postWithJson(@Body LoginData loginData);
 
     @GET("/user/login")
     Call<HttpBinResponse> login(@Query("openId") String type,@Query("username") String username,@Query("password") String password);

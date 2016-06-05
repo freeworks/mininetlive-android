@@ -1,18 +1,15 @@
 package com.kouchen.mininetlive.login2;
 
 import android.util.Log;
-
-import com.kouchen.mininetlive.MNLApplication;
-import com.kouchen.mininetlive.rest.service.AccountService;
-import com.kouchen.mininetlive.rest.service.HttpBinResponse;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
+import com.kouchen.mininetlive.MNLApplication;
+import com.kouchen.mininetlive.rest.service.AccountService;
+import com.kouchen.mininetlive.rest.service.HttpBinResponse;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,31 +19,25 @@ public class LoginInteractorImpl implements LoginInteractor {
     public static final String TAG = LoginInteractorImpl.class.getSimpleName();
 
     @Override
-    public void login(final OnLoginFinishedListener listener, final LoginType loginType,final String ...args) {
-        AccountService accountService = MNLApplication.getRestClient().getAccountService();
+    public void login(final OnLoginFinishedListener listener, final Platform platform,
+        final String... args) {
+
         Call<HttpBinResponse> call = null;
-        switch (loginType){
-            case PHONE:
-                if(args.length < 2){
-                    listener.onError("少参数");
-                    return;
-                }
-                loginForPhone(listener, loginType, accountService, args);
-                break;
-            case WECHAT:
-            case QQ:
-            case WEIBO:
-                authorize(loginType.name(),listener);
-                break;
-            default:
-                listener.onError("登陆类型错误！");
+        if (platform == null) {
+            if (args.length < 2) {
+                listener.onError("少参数");
                 return;
+            }
+            loginForPhone(listener, args);
+        } else {
+            authorize(platform.getName(), listener);
         }
     }
 
-    private void loginForPhone(final OnLoginFinishedListener listener, LoginType loginType, AccountService accountService, String[] args) {
+    private void loginForPhone(final OnLoginFinishedListener listener, String[] args) {
+        AccountService accountService = MNLApplication.getRestClient().getAccountService();
         Call<HttpBinResponse> call;
-        call = accountService.login(loginType.name(),args[0],args[1]);
+        call = accountService.login("phone", args[0], args[1]);
         // Asynchronously execute HTTP request
         call.enqueue(new Callback<HttpBinResponse>() {
             @Override

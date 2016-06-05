@@ -4,7 +4,7 @@
 
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
     <SinaWeibo AppKey="1711841873" AppSecret="2a174ffa9021fed72301363729ba7305" Enable="true" Id="1"
-        RedirectUrl="http://www.sina.com" ShareByAppClient="true" SortId="1" />
+        RedirectUrl="https://api.weibo.com/oauth2/default.html" ShareByAppClient="true" SortId="1"/>
 
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
     <QQ AppId="1105366453" AppKey="BmqLH1PK10PV3Bju" Enable="true" Id="7" ShareByAppClient="true"

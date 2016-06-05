@@ -18,8 +18,11 @@
 
 package com.kouchen.mininetlive.login2;
 
+import cn.sharesdk.framework.Platform;
+
 public interface LoginPresenter {
-    void validateCredentials(LoginType loginType, String... args);
 
     void onDestroy();
+
+    void validateCredentials(Platform sina,String... args);
 }

@@ -18,6 +18,8 @@
 
 package com.kouchen.mininetlive.login2;
 
+import cn.sharesdk.framework.Platform;
+
 public interface LoginInteractor {
 
     interface OnLoginFinishedListener {
@@ -32,6 +34,6 @@ public interface LoginInteractor {
         void onToRegister();
     }
 
-    void login(OnLoginFinishedListener listener, LoginType loginType, String... params);
+    void login(OnLoginFinishedListener listener, Platform platform, String... params);
 
 }

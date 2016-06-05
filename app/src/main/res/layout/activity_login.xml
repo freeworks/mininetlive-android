@@ -33,6 +33,34 @@
         android:text="@string/log_in"
         android:drawableRight="@drawable/ic_action_accept"
         />
+
+    <TextView
+        android:id="@+id/tvWeibo"
+        android:singleLine="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/weibo_login"
+        android:gravity="center"
+        android:text="用新浪微博登录"
+        android:onClick="onClick"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/tvQQ"
+        android:singleLine="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/weibo_login"
+        android:gravity="center"
+        android:text="用QQ"
+        android:onClick="onClick"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"

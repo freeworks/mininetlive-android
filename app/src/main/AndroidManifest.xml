@@ -33,8 +33,20 @@
         android:theme="@android:style/Theme.Black.NoTitleBar" >
 
         <activity
-            android:name=".login.RegisterPage"
+            android:name=".login2.LoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:name=".login.RegisterPage"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity
@@ -64,7 +76,7 @@
                 则分享结束以后不能得到正确的回调
             -->
             <intent-filter>
-                <data android:scheme="tencent100371282" />
+                <data android:scheme="tencent1105366453" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />

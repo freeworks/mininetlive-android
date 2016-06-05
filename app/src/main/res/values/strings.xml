@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LoginDemo-ShareSDK</string>
+    <string name="app_name">mininetlive</string>
     <string name="sm_item_auth">ShareSDK授权demo</string>
 	<string name="not_yet_authorized">尚未授权</string>
 	<string name="close_info_dialog">关闭信息界面</string>
@@ -24,7 +24,6 @@
     <string name="register_failed">注册失败</string>
     
     <string name="wechat_client_inavailable">目前您的微信版本过低或未安装微信，需要安装微信才能使用</string>
-    <string name="google_plus_client_inavailable">Google+ 版本过低或者没有安装，需要升级或安装Google+才能使用！</string>
 
 
     <string name="hello_world">Hello world!</string>

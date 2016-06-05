@@ -18,6 +18,8 @@
 
 package com.kouchen.mininetlive.login2;
 
+import cn.sharesdk.framework.Platform;
+
 public class LoginPresenterImpl implements LoginPresenter, LoginInteractor.OnLoginFinishedListener {
 
     private LoginView loginView;
@@ -29,11 +31,11 @@ public class LoginPresenterImpl implements LoginPresenter, LoginInteractor.OnLog
     }
 
     @Override
-    public void validateCredentials(LoginType loginType, String... args) {
+    public void validateCredentials(Platform platform, String... args) {
         if (loginView != null) {
             loginView.showProgress();
         }
-        loginInteractor.login(this,loginType,args);
+        loginInteractor.login(this,platform,args);
     }
 
     @Override

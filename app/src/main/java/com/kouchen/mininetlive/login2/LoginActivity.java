@@ -21,18 +21,14 @@ package com.kouchen.mininetlive.login2;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.kouchen.mininetlive.R;
-import com.kouchen.mininetlive.login.Tool;
-
-import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.tencent.qq.QQ;
+import com.kouchen.mininetlive.R;
 
 
 public class LoginActivity extends Activity implements LoginView, View.OnClickListener {
@@ -51,34 +47,41 @@ public class LoginActivity extends Activity implements LoginView, View.OnClickLi
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         findViewById(R.id.button).setOnClickListener(this);
+        findViewById(R.id.tvWeibo).setOnClickListener(this);
+        findViewById(R.id.tvQQ).setOnClickListener(this);
 
         presenter = new LoginPresenterImpl(this);
 
-        initPlatformList();
     }
 
-    @Override protected void onDestroy() {
+    @Override
+    protected void onDestroy() {
         presenter.onDestroy();
         super.onDestroy();
     }
 
-    @Override public void showProgress() {
+    @Override
+    public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
-    @Override public void hideProgress() {
+    @Override
+    public void hideProgress() {
         progressBar.setVisibility(View.GONE);
     }
 
-    @Override public void setUsernameError() {
+    @Override
+    public void setUsernameError() {
         username.setError(getString(R.string.username_error));
     }
 
-    @Override public void setPasswordError() {
+    @Override
+    public void setPasswordError() {
         password.setError(getString(R.string.password_error));
     }
 
-    @Override public void navigateToHome() {
+    @Override
+    public void navigateToHome() {
 //        startActivity(new Intent(this, MainActivity.class));
 //        finish();
     }
@@ -88,60 +91,20 @@ public class LoginActivity extends Activity implements LoginView, View.OnClickLi
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 
-    @Override public void onClick(View v) {
-        Button btn = (Button) v;
-        Object tag = v.getTag();
-        if (tag != null) {
-            Platform platform = (Platform) tag;
-            String name = platform.getName();
-            System.out.println("名字"+name+" "+getString(com.kouchen.mininetlive.R.string.login_to_format, name));
-            if(!platform.isAuthValid()){
-                btn.setText(getString(com.kouchen.mininetlive.R.string.remove_to_format, name));
-            }else{
-                btn.setText(getString(com.kouchen.mininetlive.R.string.login_to_format, name));
-                String msg = getString(com.kouchen.mininetlive.R.string.remove_to_format_success, name);
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-            }
-            presenter.validateCredentials(LoginType.PHONE,platform.getDb().getUserId(),platform.getDb().getToken());
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.tvWeibo) {
+            Platform sina = ShareSDK.getPlatform(SinaWeibo.NAME);
+            presenter.validateCredentials(sina);
+        }
+        if (v.getId() == R.id.tvQQ) {
+            Platform sina = ShareSDK.getPlatform(QQ.NAME);
+            presenter.validateCredentials(sina);
         }else{
-            presenter.validateCredentials(LoginType.PHONE,username.getText().toString(), password.getText().toString());
+            presenter.validateCredentials(null, username.getText().toString(),
+                password.getText().toString());
         }
 
-    }
-
-    /* 获取平台列表,显示平台按钮*/
-    private void initPlatformList() {
-        ShareSDK.initSDK(this);
-        Platform[] Platformlist = ShareSDK.getPlatformList();
-        if (Platformlist != null) {
-            LinearLayout linear = (LinearLayout) findViewById(com.kouchen.mininetlive.R.id.linear);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            lp.weight = 1;
-            for (Platform platform : Platformlist) {
-                if (!Tool.canGetUserInfo(platform)) {
-                    continue;
-                }
-
-                if (platform instanceof CustomPlatform) {
-                    continue;
-                }
-
-                Button btn = new Button(this);
-                btn.setSingleLine();
-                String name = platform.getName();
-                System.out.println("名字"+name);
-                if(platform.isAuthValid()){
-                    btn.setText(getString(com.kouchen.mininetlive.R.string.remove_to_format, name));
-                }else{
-                    btn.setText(getString(com.kouchen.mininetlive.R.string.login_to_format, name));
-                }
-                btn.setTextSize(16);
-                btn.setTag(platform);
-                btn.setVisibility(View.VISIBLE);
-                btn.setOnClickListener(this);
-                linear.addView(btn, lp);
-            }
-        }
     }
 
 }
