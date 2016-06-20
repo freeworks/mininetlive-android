@@ -30,4 +30,8 @@ public interface LoginView {
     void navigateToHome();
 
     void setError(String msg);
+
+    void onSubmitVCodeSuccess();
+
+    void onGetVCodeSuccess();
 }

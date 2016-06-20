@@ -3,6 +3,11 @@ package com.kouchen.mininetlive.rest;
 import com.kouchen.mininetlive.rest.service.AccountService;
 import com.kouchen.mininetlive.rest.service.ActivityService;
 
+import java.io.IOException;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -15,8 +20,14 @@ public class RestClient {
     private ActivityService activityService;
 
     public RestClient() {
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder client = new OkHttpClient.Builder();
+        client.addInterceptor(loggingInterceptor);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API_URL)
+                .client(client.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         accountService = retrofit.create(AccountService.class);

@@ -61,6 +61,48 @@
         android:onClick="onClick"
         android:textColor="@color/white"
         android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/get_vcode_btn"
+        android:singleLine="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/weibo_login"
+        android:gravity="center"
+        android:text="发短信"
+        android:onClick="onClick"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+
+    <EditText
+        android:id="@+id/vcode_et"
+        android:singleLine="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/weibo_login"
+        android:gravity="center"
+        android:hint="验证码"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/submit_vcode_btn"
+        android:singleLine="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/weibo_login"
+        android:gravity="center"
+        android:text="提交短信验证"
+        android:onClick="onClick"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"

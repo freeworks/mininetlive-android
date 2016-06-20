@@ -18,16 +18,58 @@
 
 package com.kouchen.mininetlive.login2;
 
+import android.os.Handler;
+import android.os.Looper;
 import cn.sharesdk.framework.Platform;
+import cn.smssdk.EventHandler;
+import cn.smssdk.OnSendMessageHandler;
+import cn.smssdk.SMSSDK;
 
 public class LoginPresenterImpl implements LoginPresenter, LoginInteractor.OnLoginFinishedListener {
 
     private LoginView loginView;
     private LoginInteractor loginInteractor;
 
+    private Handler uiHandler = new Handler(Looper.getMainLooper());
+
+    private EventHandler eventHandler =  new EventHandler(){
+        @Override
+        public void afterEvent(int event, int result, Object data) {
+            if (result == SMSSDK.RESULT_COMPLETE) {
+                //回调完成
+                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
+                    //提交验证码成功
+                    uiHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loginView != null) {
+                                loginView.onSubmitVCodeSuccess();
+                            }
+                        }
+                    });
+                }else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE){
+                    //获取验证码成功
+                    uiHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loginView != null) {
+                                loginView.onGetVCodeSuccess();
+                            }
+                        }
+                    });
+                }else if (event ==SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES){
+                    //返回支持发送验证码的国家列表
+                }
+            }else{
+                //{"detail":"用户提交校验的验证码错误。","status":468,"description":"需要校验的验证码错误"}
+                ((Throwable)data).printStackTrace();
+            }
+        }};
+
     public LoginPresenterImpl(LoginView loginView) {
         this.loginView = loginView;
         this.loginInteractor = new LoginInteractorImpl();
+        SMSSDK.registerEventHandler(eventHandler);
     }
 
     @Override
@@ -39,8 +81,30 @@ public class LoginPresenterImpl implements LoginPresenter, LoginInteractor.OnLog
     }
 
     @Override
+    public void sendMSM(String s) {
+        if (loginView != null) {
+            loginView.showProgress();
+        }
+        SMSSDK.getVerificationCode("+86", s, new OnSendMessageHandler() {
+            @Override
+            public boolean onSendMessage(String s, String s1) {
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public void commmitSMS(String phone,String code) {
+        if (loginView != null) {
+            loginView.showProgress();
+        }
+        SMSSDK.submitVerificationCode("+86",phone,code);
+    }
+
+    @Override
     public void onDestroy() {
         loginView = null;
+        SMSSDK.unregisterEventHandler(eventHandler);
     }
 
     @Override

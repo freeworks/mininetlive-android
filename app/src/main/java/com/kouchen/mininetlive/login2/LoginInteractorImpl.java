@@ -108,9 +108,8 @@ public class LoginInteractorImpl implements LoginInteractor {
                 if (action == Platform.ACTION_USER_INFOR) {
                     AccountService accountService = MNLApplication.getRestClient().getAccountService();
                     Call<HttpBinResponse> call = accountService.login2(plat.getName(),
-                            res.get("openid").toString(),
-                            res.get("access_token").toString(),
-                            Long.valueOf(res.get("expires_in").toString()));
+                        plat.getDb().getUserId(), plat.getDb().getToken(),
+                        plat.getDb().getExpiresIn());
                     call.enqueue(new Callback<HttpBinResponse>(){
 
                         @Override

@@ -25,4 +25,8 @@ public interface LoginPresenter {
     void onDestroy();
 
     void validateCredentials(Platform sina,String... args);
+
+    void sendMSM(String phone);
+
+    void commmitSMS(String phone,String code);
 }

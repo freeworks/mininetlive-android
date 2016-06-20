@@ -1,9 +1,7 @@
 package com.kouchen.mininetlive.rest.service;
 
 import com.kouchen.mininetlive.model.UserInfo;
-
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -25,10 +23,12 @@ public interface AccountService  {
     }
 
     @GET("/user/login")
-    Call<HttpBinResponse> login(@Query("openId") String type,@Query("username") String username,@Query("password") String password);
+    Call<HttpBinResponse> login(@Query("plat") String plat, @Query("username") String username,
+        @Query("password") String password);
 
     @GET("/user/login")
-    Call<HttpBinResponse> login2(@Query("openId") String type,@Query("openId") String openId,@Query("access_token") String accessToken,@Query("expires_in") long expiresIn);
+    Call<HttpBinResponse> login2(@Query("plat") String plat, @Query("openId") String openId,
+        @Query("access_token") String accessToken, @Query("expires_in") long expiresIn);
 
     @POST("/user/register")
     void register();
