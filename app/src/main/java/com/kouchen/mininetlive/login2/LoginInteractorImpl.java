@@ -107,6 +107,8 @@ public class LoginInteractorImpl implements LoginInteractor {
             public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
                 if (action == Platform.ACTION_USER_INFOR) {
                     AuthService accountService = MNLApplication.getRestClient().getAccountService();
+//                    plat.getDb().getUserId(), plat.getDb().getToken(),
+//                            plat.getDb().getExpiresIn());
                     Call<HttpBinResponse> call = accountService.oauthLogin(plat.getName(),
                             res.get("openid").toString(),
                             res.get("access_token").toString(),

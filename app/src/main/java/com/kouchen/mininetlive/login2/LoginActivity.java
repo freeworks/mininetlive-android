@@ -38,6 +38,7 @@ public class LoginActivity extends Activity implements LoginView, View.OnClickLi
     private ProgressBar progressBar;
     private EditText username;
     private EditText password;
+    private EditText vCode;
     private LoginPresenter presenter;
 
     @Override
@@ -51,6 +52,9 @@ public class LoginActivity extends Activity implements LoginView, View.OnClickLi
         findViewById(R.id.button).setOnClickListener(this);
         findViewById(R.id.tvWeibo).setOnClickListener(this);
         findViewById(R.id.tvQQ).setOnClickListener(this);
+        findViewById(R.id.get_vcode_btn).setOnClickListener(this);
+        findViewById(R.id.submit_vcode_btn).setOnClickListener(this);
+        vCode = (EditText) findViewById(R.id.vcode_et);
 
         presenter = new LoginPresenterImpl(this);
 
@@ -94,15 +98,28 @@ public class LoginActivity extends Activity implements LoginView, View.OnClickLi
     }
 
     @Override
+    public void onSubmitVCodeSuccess() {
+        Toast.makeText(this,"提交验证码成功",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetVCodeSuccess() {
+        Toast.makeText(this,"获取验证码成功",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onClick(View v) {
         if (v.getId() == R.id.tvWeibo) {
             Platform sina = ShareSDK.getPlatform(SinaWeibo.NAME);
             presenter.validateCredentials(sina);
-        }
-        if (v.getId() == R.id.tvQQ) {
-            Platform sina = ShareSDK.getPlatform(QQ.NAME);
-            presenter.validateCredentials(sina);
-        }else{
+        } else if (v.getId() == R.id.tvQQ) {
+            Platform qq = ShareSDK.getPlatform(QQ.NAME);
+            presenter.validateCredentials(qq);
+        } else if(v.getId() == R.id.get_vcode_btn){
+            presenter.sendMSM("18689490100");
+        } else if(v.getId() == R.id.submit_vcode_btn){
+            presenter.commmitSMS("18689490100",vCode.getText().toString());
+        } else if(v.getId() == R.id.button){
             presenter.validateCredentials(null, username.getText().toString(),
                 password.getText().toString());
         }
