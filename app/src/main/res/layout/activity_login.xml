@@ -1,72 +1,131 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="250dp"
-              android:layout_height="wrap_content"
-              android:layout_gravity="center_horizontal"
-              android:gravity="center"
-              android:orientation="vertical"
-              android:layout_marginTop="16dp"
-    >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:paddingRight="20dp"
+    android:paddingLeft="20dp">
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:id="@+id/close"
+        android:src="@drawable/ic_close"
+        android:layout_gravity="left|top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_below="@id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_logo_login"
+       android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        />
 
     <EditText
+        android:layout_below="@id/logo"
         android:id="@+id/username"
+        android:padding="8dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:hint="@string/user_name"
-        android:drawableLeft="@drawable/ic_action_person"
+        android:drawableLeft="@drawable/ic_phone"
         android:drawablePadding="8dp"
-        />
+        android:gravity="center_vertical"
+        android:layout_centerHorizontal="true"
+        android:background="@null"
+        android:textSize="14dp"
+        android:hint="@string/user_name" />
+
     <EditText
+        android:layout_below="@+id/username"
+        android:layout_gravity="center_horizontal"
         android:id="@+id/password"
+        android:padding="8dp"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:drawableLeft="@drawable/ic_action_accounts"
+        android:drawableLeft="@drawable/ic_password"
         android:drawablePadding="8dp"
-        />
+        android:gravity="center_vertical"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/password"
+        android:background="@null"
+        android:textSize="14dp"
+        android:inputType="textPassword" />
+
     <Button
+        android:layout_below="@+id/password"
+        android:layout_gravity="center_horizontal"
         android:id="@+id/button"
+        android:layout_marginTop="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/log_in"
         android:drawableRight="@drawable/ic_action_accept"
-        />
+        android:text="@string/log_in" />
+
 
     <TextView
-        android:id="@+id/tvWeibo"
-        android:singleLine="true"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/weibo_login"
+        android:text="第三方账号登陆"
         android:gravity="center"
-        android:text="用新浪微博登录"
-        android:onClick="onClick"
-        android:textColor="@color/white"
-        android:textSize="18dp" />
+        android:layout_above="@+id/oauthLayout"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/oauthLayout"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_above="@+id/reigsterBtn"
+        android:weightSum="3"
+
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_weight="1"
+            android:id="@+id/tvQQ"
+            android:src="@drawable/ic_qq"
+            android:onClick="onClick"
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
+        <ImageView
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:src="@drawable/ic_wechat"
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
+        <ImageView
+            android:layout_weight="1"
+            android:id="@+id/tvWeibo"
+            android:src="@drawable/ic_weibo"
+            android:onClick="onClick"
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/tvQQ"
-        android:singleLine="true"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/reigsterBtn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/weibo_login"
         android:gravity="center"
-        android:text="用QQ"
         android:onClick="onClick"
-        android:textColor="@color/white"
-        android:textSize="18dp" />
+        android:singleLine="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
+        android:text="立即注册"
+        android:layout_marginTop="26dp"
+        android:textColor="#FF4A4A4A"
+        android:textSize="14dp" />
+
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
-</LinearLayout>
+</RelativeLayout>

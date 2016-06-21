@@ -3,6 +3,7 @@ package com.kouchen.mininetlive;
 import android.app.Application;
 
 import com.kouchen.mininetlive.rest.RestClient;
+import com.pingplusplus.android.Pingpp;
 
 import cn.sharesdk.framework.ShareSDK;
 

@@ -1,42 +1,41 @@
 package com.kouchen.mininetlive.rest.service;
 
-import com.kouchen.mininetlive.model.UserInfo;
+import com.kouchen.mininetlive.rest.service.base.HttpBinResponse;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.Multipart;
+import retrofit2.http.PUT;
 
 /**
- * Created by cainli on 16/6/4.
+ * Created by cainli on 16/6/5.
  */
-public interface AccountService  {
+public interface AccountService {
 
-    class LoginData {
-        String username;
-        String password;
+    @GET("/account/info")
+    Call<HttpBinResponse> GetAccountInfo();
 
-        public LoginData(String username, String password) {
-            this.username = username;
-            this.password = password;
-        }
-    }
+    @GET("/account/record/pay/list")
+    Call<HttpBinResponse> GetPayRecordList();
 
-    @GET("/user/login")
-    Call<HttpBinResponse> login(@Query("openId") String type,@Query("username") String username,@Query("password") String password);
+    @GET("/account/record/play/list")
+    Call<HttpBinResponse> GetPlayRecordList();
 
-    @GET("/user/login")
-    Call<HttpBinResponse> login2(@Query("openId") String type,@Query("openId") String openId,@Query("access_token") String accessToken,@Query("expires_in") long expiresIn);
+    @GET("/account/record/appointment/list")
+    Call<HttpBinResponse> GetAppointmentRecordList();
 
-    @POST("/user/register")
-    void register();
+    @PUT("/account/nickname")
+    Call<HttpBinResponse> UpdateNickname();
 
-    @GET("/user/{userId}")
-    Call<UserInfo> getUserInfo(@Path("userId") String userId);
+    @GET("/account/vcode")
+    Call<HttpBinResponse> GetVCode();
 
-    @GET("/user/list/{activityId}")
-    Call<UserInfo> getUserListByActivityId(@Path("activityId") String activityId);
+    @PUT("/account/phone")
+    Call<HttpBinResponse> UpdatePhone();
+
+    ///account/avatar
+    @Multipart
+    Call<HttpBinResponse> UpdateAvatar();
+
 
 }

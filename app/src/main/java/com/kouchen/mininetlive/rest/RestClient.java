@@ -1,6 +1,6 @@
 package com.kouchen.mininetlive.rest;
 
-import com.kouchen.mininetlive.rest.service.AccountService;
+import com.kouchen.mininetlive.rest.service.AuthService;
 import com.kouchen.mininetlive.rest.service.ActivityService;
 
 import retrofit2.Retrofit;
@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RestClient {
     public static final String API_URL = "http://127.0.0.1:3000";
-    private AccountService accountService;
+    private AuthService accountService;
     private ActivityService activityService;
 
     public RestClient() {
@@ -19,10 +19,10 @@ public class RestClient {
                 .baseUrl(API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        accountService = retrofit.create(AccountService.class);
+        accountService = retrofit.create(AuthService.class);
     }
 
-    public AccountService getAccountService() {
+    public AuthService getAccountService() {
         return accountService;
     }
 

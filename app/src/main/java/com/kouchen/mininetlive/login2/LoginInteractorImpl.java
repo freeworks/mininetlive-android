@@ -5,8 +5,8 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import com.kouchen.mininetlive.MNLApplication;
-import com.kouchen.mininetlive.rest.service.AccountService;
-import com.kouchen.mininetlive.rest.service.HttpBinResponse;
+import com.kouchen.mininetlive.rest.service.AuthService;
+import com.kouchen.mininetlive.rest.service.base.HttpBinResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,9 +35,9 @@ public class LoginInteractorImpl implements LoginInteractor {
     }
 
     private void loginForPhone(final OnLoginFinishedListener listener, String[] args) {
-        AccountService accountService = MNLApplication.getRestClient().getAccountService();
+        AuthService accountService = MNLApplication.getRestClient().getAccountService();
         Call<HttpBinResponse> call;
-        call = accountService.login("phone", args[0], args[1]);
+        call = accountService.login(args[0], args[1]);
         // Asynchronously execute HTTP request
         call.enqueue(new Callback<HttpBinResponse>() {
             @Override
@@ -106,8 +106,8 @@ public class LoginInteractorImpl implements LoginInteractor {
         plat.setPlatformActionListener(new PlatformActionListener() {
             public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
                 if (action == Platform.ACTION_USER_INFOR) {
-                    AccountService accountService = MNLApplication.getRestClient().getAccountService();
-                    Call<HttpBinResponse> call = accountService.login2(plat.getName(),
+                    AuthService accountService = MNLApplication.getRestClient().getAccountService();
+                    Call<HttpBinResponse> call = accountService.oauthLogin(plat.getName(),
                             res.get("openid").toString(),
                             res.get("access_token").toString(),
                             Long.valueOf(res.get("expires_in").toString()));
