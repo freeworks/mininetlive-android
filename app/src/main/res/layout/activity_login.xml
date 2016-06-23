@@ -28,6 +28,7 @@
         android:layout_below="@id/logo"
         android:id="@+id/username"
         android:padding="8dp"
+        android:text="18689490100"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,6 +45,7 @@
         android:layout_gravity="center_horizontal"
         android:id="@+id/password"
         android:padding="8dp"
+        android:text="123"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,11 +61,10 @@
     <Button
         android:layout_below="@+id/password"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/button"
+        android:id="@+id/loginBtn"
         android:layout_marginTop="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableRight="@drawable/ic_action_accept"
         android:text="@string/log_in" />
 
 
@@ -87,13 +88,14 @@
         <ImageView
             android:layout_weight="1"
             android:id="@+id/tvQQ"
-            android:src="@drawable/ic_qq"
             android:onClick="onClick"
+            android:src="@drawable/ic_qq"
             android:layout_width="45dp"
             android:layout_height="45dp" />
         <ImageView
             android:layout_weight="1"
             android:onClick="onClick"
+            android:id="@+id/tvWechat"
             android:src="@drawable/ic_wechat"
             android:layout_width="45dp"
             android:layout_height="45dp" />
@@ -125,6 +127,7 @@
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_marginTop="8dp"
         android:visibility="gone" />
 

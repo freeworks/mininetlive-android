@@ -1,11 +1,11 @@
 package com.kouchen.mininetlive.rest.service;
 
-import com.kouchen.mininetlive.rest.service.base.HttpBinResponse;
-
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 
 /**
  * Created by cainli on 16/6/5.
@@ -13,29 +13,29 @@ import retrofit2.http.PUT;
 public interface AccountService {
 
     @GET("/account/info")
-    Call<HttpBinResponse> GetAccountInfo();
+    Call<HttpResponse> GetAccountInfo();
 
     @GET("/account/record/pay/list")
-    Call<HttpBinResponse> GetPayRecordList();
+    Call<HttpResponse> GetPayRecordList();
 
     @GET("/account/record/play/list")
-    Call<HttpBinResponse> GetPlayRecordList();
+    Call<HttpResponse> GetPlayRecordList();
 
     @GET("/account/record/appointment/list")
-    Call<HttpBinResponse> GetAppointmentRecordList();
+    Call<HttpResponse> GetAppointmentRecordList();
 
     @PUT("/account/nickname")
-    Call<HttpBinResponse> UpdateNickname();
+    Call<HttpResponse> UpdateNickname();
 
     @GET("/account/vcode")
-    Call<HttpBinResponse> GetVCode();
+    Call<HttpResponse> GetVCode();
 
     @PUT("/account/phone")
-    Call<HttpBinResponse> UpdatePhone();
+    Call<HttpResponse> UpdatePhone();
 
-    ///account/avatar
     @Multipart
-    Call<HttpBinResponse> UpdateAvatar();
+    @PUT("account/avatar")
+    Call<HttpResponse> UpdateAvatar(@Part("photo") RequestBody photo, @Part("uid") String uid);
 
 
 }

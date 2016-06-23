@@ -1,12 +1,7 @@
 package com.kouchen.mininetlive.rest.service;
 
-import com.kouchen.mininetlive.model.UserInfo;
-import com.kouchen.mininetlive.rest.service.base.HttpBinResponse;
-
 import retrofit2.Call;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -16,18 +11,30 @@ public interface AuthService {
 
 
     @POST("/auth/login")
-    Call<HttpBinResponse> login(@Query("username") String username, @Query("password") String password);
+    Call<HttpResponse> login(@Query("phone") String username, @Query("password") String password);
 
     @POST("/auth/register")
-    Call<HttpBinResponse> register();
+    Call<HttpResponse> register();
 
     @POST("/oauth/login")
-    Call<HttpBinResponse> oauthLogin(@Query("openId") String type,@Query("openId") String openId,@Query("access_token") String accessToken,@Query("expires_in") long expiresIn);
+    Call<HttpResponse> oauthLogin(@Query("plat") String type, @Query("openid") String openId, @Query("access_token") String accessToken, @Query("expires_in") long expiresIn);
 
     @POST("/oauth/register")
-    Call<HttpBinResponse> oauthRegister();
+    Call<HttpResponse> oauthRegister();
 
     @POST("/auth/logout")
-    Call<HttpBinResponse> logout();
+    Call<HttpResponse> logout();
+
+
+
+//    // POST form encoded with form field params
+//    @FormUrlEncoded
+//    @POST("/post")
+//    Call<HttpResponse> postWithFormParams(@Field("field1") String field1
+//    );
+// request /get?testArg=...
+//@GET("/get")
+//Call<HttpResponse> getWithArg(@Query("testArg") String arg
+//);
 
 }

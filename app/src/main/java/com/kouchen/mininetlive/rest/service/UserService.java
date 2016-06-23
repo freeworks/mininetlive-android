@@ -1,8 +1,6 @@
 package com.kouchen.mininetlive.rest.service;
 
 
-import com.kouchen.mininetlive.rest.service.base.HttpBinResponse;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -14,5 +12,5 @@ public interface UserService {
 
 
     @GET("/user/info/{id}")
-    Call<HttpBinResponse> GetUserInfo(@Path("id") String id);
+    Call<HttpResponse> GetUserInfo(@Path("id") String id);
 }

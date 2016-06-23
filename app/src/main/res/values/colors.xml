@@ -5,4 +5,5 @@
     <color name="white">#ffffffff</color>
     <color name="login_with_other_plat_text_color">#ff383838</color>
     <color name="dialog_white_bg">#fbfbfb</color>
+    <color name="dark_24">#3d000000</color>
 </resources>

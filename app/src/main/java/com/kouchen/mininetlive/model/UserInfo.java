@@ -7,10 +7,10 @@ import org.parceler.Parcel;
 public class UserInfo {
 
 	@SerializedName("avatar")
-	private String avatar;
-	private String name;
-	private Gender gender;
-	private String note;
+	public String avatar;
+	public String name;
+	public Gender gender;
+	public String note;
 
 	public UserInfo() {
 	}

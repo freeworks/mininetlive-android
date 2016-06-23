@@ -1,140 +1,62 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFEEEEEE"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:id="@+id/videoLayout"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:background="#ff00ff" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/videoLayout"
-            android:background="#ffffff"
-            android:paddingBottom="10dp"
-            android:paddingLeft="9dp"
-            android:paddingRight="9dp"
-            android:paddingTop="5dp">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5.5dp"
-                android:textColor="#FF4A4A4A"
-                android:textSize="17sp"
-                android:text="如何在短期内提高自己的运营效率。" />
-
-            <TextView
-                android:id="@+id/datetime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/title"
-                android:layout_marginTop="2dp"
-                android:textSize="14dp"
-                android:text="时间：05-26   9:30" />
-
-            <TextView
-                android:id="@+id/onlineUserCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/datetime"
-                android:layout_marginTop="2dp"
-                android:text="1000人在看" />
-
-            <RelativeLayout
-                android:id="@+id/owner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/onlineUserCount"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical"
-                android:text="时间">
-
-                <ImageView
-                    android:id="@+id/avatar"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentLeft="true"
-                    android:src="@drawable/ic_launcher" />
-
-                <TextView
-                    android:id="@+id/nickname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@id/avatar"
-                    android:text="名称" />
-            </RelativeLayout>
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/videoLayout"
-            android:background="#ffffff"
-            android:layout_marginTop="5dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="9dp"
-            android:paddingRight="9dp"
-            android:paddingTop="5dp">
-
-            <TextView
-                android:id="@+id/labeldec"
-                android:textColor="#FF4A4A4A"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="活动介绍" />
-
-            <TextView
-                android:id="@+id/desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/labeldec"
-                android:layout_marginTop="3dp"
-                android:textColor="#FFA0A0A0"
-                android:textSize="14dp"
-                android:text="人人都想要自己的转化率飙升，那么有哪些事半功倍的方法可以提高订单转化率？优惠价格过多会导致成本加大，过少对用户又没有太大诱惑，那如何对优惠套餐进行配置才能让用户心动呢？想知道这些问题的答案，赶紧来听前天猫资深运营袁野老师是怎么说的吧。" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/onlineUserList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:background="#ffffff"
-            android:paddingBottom="10dp"
-            android:paddingLeft="9dp"
-            android:paddingRight="9dp"
-            android:paddingTop="5dp">
-
-            <TextView
-                android:id="@+id/labelOnlineUser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="在线人数:xxxx" />
-            
-        </RelativeLayout>
-    </LinearLayout>
-
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingTop="20dp"
+    tools:context=".MainActivity"
+    >
     <RelativeLayout
-        android:layout_alignParentBottom="true"
-        android:background="#E6FAFAFA"
+        android:id="@+id/container"
+        android:layout_below="@+id/bottom_bar_root"
         android:layout_width="match_parent"
-        android:layout_height="25dp">
+        android:layout_height="match_parent">
 
     </RelativeLayout>
+    <com.kouchen.mininetlive.ui.BottomTabGroup
+        android:id="@+id/bottom_bar_root"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/list_vertical_root_bg"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        >
+
+        <com.kouchen.mininetlive.ui.BottomTab
+            android:id="@+id/tab_home"
+            style="@style/bottomTab"
+            app:hintEnable="false"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:drawableTop="@drawable/tab_home_selector"
+            app:bottomTabText="首页"/>
+
+        <com.kouchen.mininetlive.ui.BottomTab
+            android:id="@+id/tab_live"
+            style="@style/bottomTab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:hintEnable="false"
+            app:drawableTop="@drawable/tab_live_selector"
+            app:bottomTabText="直播"/>
+
+        <com.kouchen.mininetlive.ui.BottomTab
+            android:id="@+id/tab_me"
+            style="@style/bottomTab"
+            app:hintEnable="false"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:drawableTop="@drawable/tab_me_selector"
+            app:bottomTabText="我的"/>
+
+    </com.kouchen.mininetlive.ui.BottomTabGroup>
+
+
 </RelativeLayout>

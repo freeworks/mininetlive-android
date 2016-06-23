@@ -5,4 +5,13 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="bottomTab">
+        <item name="bottomTabTextColor">@color/main_bottombar_text_selector</item>
+        <item name="bottomTabTextSize">12sp</item>
+        <item name="hintTextColor">@android:color/white</item>
+        <item name="hintTextSize">3sp</item>
+        <item name="hintTextBackground">@drawable/red_hint</item>
+        <item name="hintEnable">true</item>
+        <item name="verticalSpace">6dp</item>
+    </style>
 </resources>
