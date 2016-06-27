@@ -1,51 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
+    android:orientation="vertical"
     android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:orientation="vertical">
+    android:paddingRight="20dp">
 
-    <TextView
+    <EditText
         android:id="@+id/nickname"
-        android:hint="输入昵称"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="60dp"
-        android:gravity="center"
-        android:singleLine="true"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:layout_marginRight="60dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:hint="输入昵称"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:singleLine="true" />
 
     <RadioGroup
+        android:id="@+id/genderRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nickname"
         android:layout_marginTop="26dp"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/female_rb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:drawableLeft="@drawable/ic_female" />
 
         <RadioButton
             android:id="@+id/male_rb"
-            android:layout_marginLeft="40dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
             android:drawableLeft="@drawable/ic_male" />
     </RadioGroup>
 
 
     <Button
-        android:layout_marginTop="40dp"
+        android:id="@+id/submitBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/genderRadioGroup"
+        android:layout_marginTop="40dp"
+        android:onClick="onClick"
         android:text="进入微网" />
-</LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="8dp"
+        android:visibility="gone" />
+</RelativeLayout>

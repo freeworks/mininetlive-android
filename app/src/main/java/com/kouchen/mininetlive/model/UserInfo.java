@@ -3,21 +3,29 @@ package com.kouchen.mininetlive.model;
 import com.google.gson.annotations.SerializedName;
 import org.parceler.Parcel;
 
+import java.io.Serializable;
+
 @Parcel
-public class UserInfo {
+public class UserInfo implements Serializable{
 
 	@SerializedName("avatar")
 	public String avatar;
-	public String name;
+	public String nickname;
 	public Gender gender;
 	public String note;
+	public String uid;
+	public String easemobUuid;
+	public int balance;
+	public String inviteCode;
+	public String qrCode;
+	public String phone;
 
 	public UserInfo() {
 	}
 
-	public UserInfo(String avatar, String name, Gender gender, String note) {
+	public UserInfo(String avatar, String nickname, Gender gender, String note) {
 		this.avatar = avatar;
-		this.name = name;
+		this.nickname = nickname;
 		this.gender = gender;
 		this.note = note;
 	}
@@ -30,12 +38,12 @@ public class UserInfo {
 		this.avatar = avatar;
 	}
 
-	public String getName() {
-		return name;
+	public String getNickname() {
+		return nickname;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public Gender getGender() {
@@ -56,4 +64,51 @@ public class UserInfo {
 
 	public static enum Gender {MALE, FEMALE}
 
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
+	public String getEasemobUuid() {
+		return easemobUuid;
+	}
+
+	public void setEasemobUuid(String easemobUuid) {
+		this.easemobUuid = easemobUuid;
+	}
+
+	public int getBalance() {
+		return balance;
+	}
+
+	public void setBalance(int balance) {
+		this.balance = balance;
+	}
+
+	public String getInviteCode() {
+		return inviteCode;
+	}
+
+	public void setInviteCode(String inviteCode) {
+		this.inviteCode = inviteCode;
+	}
+
+	public String getQrCode() {
+		return qrCode;
+	}
+
+	public void setQrCode(String qrCode) {
+		this.qrCode = qrCode;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 }

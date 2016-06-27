@@ -18,24 +18,20 @@
 
 package com.kouchen.mininetlive.auth;
 
-import cn.sharesdk.framework.Platform;
+public interface AuthView {
+    void showProgress();
 
-public interface LoginInteractor {
+    void hideProgress();
 
-    interface OnLoginFinishedListener {
-        void onUsernameError();
+    void navigateToHome();
 
-        void onPasswordError();
+    void setError(String msg);
 
-        void onSuccess();
+    void onSubmitVCodeSuccess();
 
-        void onError(String msg);
+    void onGetVCodeSuccess();
 
-        void onToRegister();
-    }
-
-    void oauthLogin(OnLoginFinishedListener listener, Platform platform, String... params);
-
-    void login(OnLoginFinishedListener listener, String phone,String password);
-
+    void toRegisterInfo();
 }
+
+

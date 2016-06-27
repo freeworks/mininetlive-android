@@ -16,25 +16,14 @@
  *
  */
 
-package com.kouchen.mininetlive.auth;
+package com.kouchen.mininetlive.activity;
 
-public interface LoginView {
-    void showProgress();
 
-    void hideProgress();
+public interface ActivityPresenter {
 
-    void setUsernameError();
+    void onDestroy();
 
-    void setPasswordError();
+    void getLiveList();
 
-    void navigateToHome();
-
-    void setError(String msg);
-
-    void onSubmitVCodeSuccess();
-
-    void onGetVCodeSuccess();
-
-    void startRegister();
+    void getHomeList();
 }
-

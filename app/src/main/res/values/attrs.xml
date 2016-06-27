@@ -12,4 +12,13 @@
         <attr name="hintEnable" format="boolean"/>
         <attr name="verticalSpace" format="dimension|reference"/>
     </declare-styleable>
+
+    <declare-styleable name="ItemView">
+        <attr name="ItemIcon" format="reference"/>
+        <attr name="ItemText" format="string|reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="ItemViewDivider">
+        <attr name="LeftMargin" format="dimension|reference"/>
+    </declare-styleable>
 </resources>

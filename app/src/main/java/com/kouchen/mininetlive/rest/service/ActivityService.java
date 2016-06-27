@@ -1,7 +1,5 @@
 package com.kouchen.mininetlive.rest.service;
 
-import com.kouchen.mininetlive.model.UserInfo;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -15,9 +13,12 @@ public interface ActivityService {
     Call<HttpResponse> GetActivityDetail(@Path("id") String activityId);
 
     @GET("/activity/list")
-    Call<UserInfo> GetAcivityList();
+    Call<HttpResponse> GetAcivityList();
 
     @GET("/activity/list/more")
-    Call<UserInfo> GetAcivityListMore();
+    Call<HttpResponse> GetAcivityListMore();
+
+    @GET("/activity/live/list")
+    Call<HttpResponse> GetLiveList();
 
 }

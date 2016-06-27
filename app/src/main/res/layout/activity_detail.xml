@@ -8,16 +8,17 @@
         android:background="#FFEEEEEE"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/videoLayout"
+        <ImageView
+            android:id="@+id/frontCover"
+            android:scaleType="centerCrop"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:background="#ff00ff" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/img_default" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/videoLayout"
+            android:layout_below="@id/frontCover"
             android:background="#ffffff"
             android:paddingBottom="10dp"
             android:paddingLeft="9dp"
@@ -29,9 +30,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5.5dp"
+                android:text="如何在短期内提高自己的运营效率。"
                 android:textColor="#FF4A4A4A"
-                android:textSize="17sp"
-                android:text="如何在短期内提高自己的运营效率。" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/datetime"
@@ -39,11 +40,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
                 android:layout_marginTop="2dp"
-                android:textSize="14dp"
-                android:text="时间：05-26   9:30" />
+                android:text="时间：05-26   9:30"
+                android:textSize="14dp" />
 
             <TextView
-                android:id="@+id/onlineUserCount"
+                android:id="@+id/onlineCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/datetime"
@@ -54,7 +55,7 @@
                 android:id="@+id/owner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/onlineUserCount"
+                android:layout_below="@id/onlineCount"
                 android:layout_marginTop="5dp"
                 android:gravity="center_vertical"
                 android:text="时间">
@@ -70,10 +71,10 @@
                     android:id="@+id/nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14dp"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/avatar"
-                    android:text="名称" />
+                    android:text="名称"
+                    android:textSize="14dp" />
             </RelativeLayout>
 
         </RelativeLayout>
@@ -82,9 +83,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/videoLayout"
-            android:background="#ffffff"
+            android:layout_below="@id/frontCover"
             android:layout_marginTop="5dp"
+            android:background="#ffffff"
             android:paddingBottom="10dp"
             android:paddingLeft="9dp"
             android:paddingRight="9dp"
@@ -92,10 +93,10 @@
 
             <TextView
                 android:id="@+id/labeldec"
-                android:textColor="#FF4A4A4A"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="活动介绍" />
+                android:text="活动介绍"
+                android:textColor="#FF4A4A4A" />
 
             <TextView
                 android:id="@+id/desc"
@@ -103,9 +104,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/labeldec"
                 android:layout_marginTop="3dp"
+                android:text="人人都想要自己的转化率飙升，那么有哪些事半功倍的方法可以提高订单转化率？优惠价格过多会导致成本加大，过少对用户又没有太大诱惑，那如何对优惠套餐进行配置才能让用户心动呢？想知道这些问题的答案，赶紧来听前天猫资深运营袁野老师是怎么说的吧。"
                 android:textColor="#FFA0A0A0"
-                android:textSize="14dp"
-                android:text="人人都想要自己的转化率飙升，那么有哪些事半功倍的方法可以提高订单转化率？优惠价格过多会导致成本加大，过少对用户又没有太大诱惑，那如何对优惠套餐进行配置才能让用户心动呢？想知道这些问题的答案，赶紧来听前天猫资深运营袁野老师是怎么说的吧。" />
+                android:textSize="14dp" />
 
 
         </RelativeLayout>
@@ -126,15 +127,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="在线人数:xxxx" />
-            
+
         </RelativeLayout>
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_alignParentBottom="true"
-        android:background="#E6FAFAFA"
         android:layout_width="match_parent"
-        android:layout_height="25dp">
+        android:layout_height="25dp"
+        android:layout_alignParentBottom="true"
+        android:background="#E6FAFAFA">
 
     </RelativeLayout>
+
+    <com.kouchen.mininetlive.ui.TitlebarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

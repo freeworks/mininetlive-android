@@ -1,9 +1,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#ffffff"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="22dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:text="关于"
-        android:gravity="center"
+
+    <EditText
+        android:id="@+id/phone"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:background="@null"
+        android:drawablePadding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_phone" />
+
+    <Button
+        android:layout_below="@+id/phone"
+        android:id="@+id/next"
+        android:onClick="onClick"
+        android:layout_marginTop="22dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="下一步" />
 </RelativeLayout>

@@ -48,6 +48,7 @@ public class RestClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         accountService = retrofit.create(AuthService.class);
+        activityService = retrofit.create(ActivityService.class);
     }
 
     public AuthService getAccountService() {

@@ -6,4 +6,10 @@
     <color name="login_with_other_plat_text_color">#ff383838</color>
     <color name="dialog_white_bg">#fbfbfb</color>
     <color name="dark_24">#3d000000</color>
+    <color name="divide_gray_color">#EEEEEE</color>
+    <color name="background">#EEEEEE</color>
+    <color name="blue0">#FF4A90E2</color>
+    <color name="blue1">#FF3B82D5</color>
+    <drawable name="item0">#FFFFFF</drawable>
+    <drawable name="item1">#EDF2F8</drawable>
 </resources>

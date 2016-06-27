@@ -1,9 +1,117 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:text="个人信息"
-        android:gravity="center"
+    android:layout_height="match_parent"
+    android:background="#FFEEEEEE"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/infoLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:paddingBottom="15dp"
+        android:paddingTop="22dp">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/avatar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="sssss"
+            android:textColor="#4A4A4A"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nickname"
+            android:layout_centerHorizontal="true"
+            android:text="sssss"
+            android:textColor="#B0B0B0"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <com.kouchen.mininetlive.ui.ItemView
+        android:id="@+id/reward"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#ffffff"
+        app:ItemIcon="@drawable/ic_money"
+        app:ItemText="分红奖励" />
+
+    <com.kouchen.mininetlive.ui.ItemViewDivider
+        app:LeftMargin="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <com.kouchen.mininetlive.ui.ItemView
+        android:id="@+id/appointmentRecord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        app:ItemIcon="@drawable/ic_money"
+        app:ItemText="预约" />
+
+    <com.kouchen.mininetlive.ui.ItemViewDivider
+        app:LeftMargin="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <com.kouchen.mininetlive.ui.ItemView
+        android:id="@+id/payRecord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        app:ItemIcon="@drawable/ic_money"
+        app:ItemText="支付记录" />
+
+    <com.kouchen.mininetlive.ui.ItemViewDivider
+        app:LeftMargin="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <com.kouchen.mininetlive.ui.ItemView
+        android:id="@+id/playRecord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        app:ItemIcon="@drawable/ic_play_history"
+        app:ItemText="播放历史" />
+
+    <com.kouchen.mininetlive.ui.ItemView
+        android:id="@+id/about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#ffffff"
+        app:ItemIcon="@drawable/ic_about"
+        app:ItemText="关于" />
+
+
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:text="退出登陆"
+        android:textColor="#F66666" />
+</LinearLayout>

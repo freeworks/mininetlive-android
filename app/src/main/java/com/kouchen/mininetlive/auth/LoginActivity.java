@@ -19,6 +19,7 @@
 package com.kouchen.mininetlive.auth;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -36,19 +37,18 @@ import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.base.BaseActivity;
 
 
-public class LoginActivity extends BaseActivity implements LoginView, View.OnClickListener {
+public class LoginActivity extends BaseActivity implements AuthView, View.OnClickListener {
 
     private ProgressBar progressBar;
     private EditText username;
     private EditText password;
     private EditText vCode;
-    private LoginPresenter presenter;
+    private AuthPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         progressBar = (ProgressBar) findViewById(R.id.progress);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
@@ -56,7 +56,7 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
         findViewById(R.id.tvWeibo).setOnClickListener(this);
         findViewById(R.id.tvQQ).setOnClickListener(this);
         findViewById(R.id.loginBtn).setOnClickListener(this);
-        presenter = new LoginPresenterImpl(this);
+        presenter = new AuthPresenterImpl(this);
 
     }
 
@@ -77,18 +77,10 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
     }
 
     @Override
-    public void setUsernameError() {
-        username.setError(getString(R.string.username_error));
-    }
-
-    @Override
-    public void setPasswordError() {
-        password.setError(getString(R.string.password_error));
-    }
-
-    @Override
     public void navigateToHome() {
-        startActivity(new Intent(this, MainActivity.class));
+        SharedPreferences sp = getSharedPreferences("account", 0);
+        sp.edit().putBoolean("isLogin",true).apply();
+        setResult(RESULT_OK);
         finish();
     }
 
@@ -108,17 +100,23 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
     }
 
     @Override
-    public void startRegister() {
-        RegisterActivity.startActivity(this);
+    public void toRegisterInfo() {
     }
 
     @Override
     public void onClick(View v) {
         Platform platform;
         switch (v.getId()) {
+            case R.id.close:
+                finish();
+                break;
             case R.id.loginBtn:
                 presenter.login(username.getText().toString(),
                         password.getText().toString());
+                break;
+            case R.id.reigsterBtn:
+                Intent intent = new Intent(this,RegisterPhoneActivity.class);
+                startActivity(intent);
                 break;
             case R.id.tvWeibo:
                 platform = ShareSDK.getPlatform(SinaWeibo.NAME);

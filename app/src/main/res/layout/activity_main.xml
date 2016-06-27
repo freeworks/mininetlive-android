@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:paddingTop="20dp"
     tools:context=".MainActivity"
     >
     <RelativeLayout
         android:id="@+id/container"
-        android:layout_below="@+id/bottom_bar_root"
+        android:background="@color/background"
+        android:layout_above="@+id/bottom_bar_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -17,7 +17,7 @@
     <com.kouchen.mininetlive.ui.BottomTabGroup
         android:id="@+id/bottom_bar_root"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -34,6 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:drawableTop="@drawable/tab_home_selector"
+            app:bottomTabTextSize="11dp"
+            app:verticalSpace="0dp"
             app:bottomTabText="首页"/>
 
         <com.kouchen.mininetlive.ui.BottomTab
@@ -43,7 +45,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:hintEnable="false"
+            app:verticalSpace="0dp"
             app:drawableTop="@drawable/tab_live_selector"
+            app:bottomTabTextSize="11dp"
             app:bottomTabText="直播"/>
 
         <com.kouchen.mininetlive.ui.BottomTab
@@ -53,7 +57,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            app:verticalSpace="0dp"
             app:drawableTop="@drawable/tab_me_selector"
+            app:bottomTabTextSize="11dp"
             app:bottomTabText="我的"/>
 
     </com.kouchen.mininetlive.ui.BottomTabGroup>
