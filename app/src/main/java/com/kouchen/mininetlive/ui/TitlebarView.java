@@ -17,10 +17,12 @@ import com.kouchen.mininetlive.R;
  */
 public class TitlebarView extends FrameLayout {
 
+    private View view;
     private View backview;
     private TextView titleTextView;
     private TextView rightTextView;
     private Paint paint;
+    private boolean transparentBackgroud;
 
     public TitlebarView(Context context) {
         super(context);
@@ -37,26 +39,40 @@ public class TitlebarView extends FrameLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public void init(){
-        LayoutInflater.from(getContext()).inflate(R.layout.title_bar, this);
+    public void init() {
+        view = LayoutInflater.from(getContext()).inflate(R.layout.title_bar, null);
+        addView(view);
         backview = (TextView) findViewById(R.id.back);
         titleTextView = (TextView) findViewById(R.id.title);
         rightTextView = (TextView) findViewById(R.id.right);
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(0x8AB2B2B2);
-        paint.setStrokeWidth(DensityUtil.dip2px(getContext(),1));
+        paint.setStrokeWidth(DensityUtil.dip2px(getContext(), 1));
+    }
+
+
+    public void setTransparentBackground(boolean b) {
+        if(b){
+            setBackgroundResource(R.color.transparent);
+            view.setBackgroundResource(R.color.transparent);
+            transparentBackgroud = b;
+        }else{
+            setBackgroundResource(R.color.titlebarBg);
+            view.setBackgroundResource(R.color.titlebarBg);
+            transparentBackgroud = !b;
+        }
     }
 
     public void setTitle(String title) {
         titleTextView.setText(title);
     }
 
-    public void setBackLister(OnClickListener onClickListener){
-        if (onClickListener != null){
+    public void setBackLister(OnClickListener onClickListener) {
+        if (onClickListener != null) {
             backview.setVisibility(View.VISIBLE);
             backview.setOnClickListener(onClickListener);
-        }else{
+        } else {
             backview.setVisibility(View.INVISIBLE);
         }
     }
@@ -64,8 +80,10 @@ public class TitlebarView extends FrameLayout {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        canvas.save();
-        canvas.drawLine(0,getHeight(),getWidth(),getHeight(),paint);
-        canvas.restore();
+        if (!transparentBackgroud) {
+            canvas.save();
+            canvas.drawLine(0, getHeight(), getWidth(), getHeight(), paint);
+            canvas.restore();
+        }
     }
 }

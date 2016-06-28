@@ -10,6 +10,9 @@
     <color name="background">#EEEEEE</color>
     <color name="blue0">#FF4A90E2</color>
     <color name="blue1">#FF3B82D5</color>
+    <color name="transparent">#00000000</color>
+    <color name="titlebarBg">#F8F8F8</color>
+    <color name="green">#0AC653</color>
     <drawable name="item0">#FFFFFF</drawable>
     <drawable name="item1">#EDF2F8</drawable>
 </resources>

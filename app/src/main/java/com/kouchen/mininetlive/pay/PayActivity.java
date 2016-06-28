@@ -4,22 +4,37 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.kouchen.mininetlive.AbsTitlebarActivity;
+import com.kouchen.mininetlive.MNLApplication;
+import com.kouchen.mininetlive.activity.ActivityInfo;
 import com.kouchen.mininetlive.base.BaseActivity;
+import com.kouchen.mininetlive.rest.service.ActivityService;
+import com.kouchen.mininetlive.rest.service.HttpResponse;
+import com.kouchen.mininetlive.rest.service.PayService;
 import com.pingplusplus.android.Pingpp;
 import com.pingplusplus.android.PingppLog;
+
+import java.util.Arrays;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by cainli on 16/6/21.
  */
-public class PayActivity extends BaseActivity {
+public abstract class PayActivity extends AbsTitlebarActivity {
     private static final String TAG = PayActivity.class.getSimpleName();
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         PingppLog.DEBUG = true;
     }
 
@@ -64,15 +79,40 @@ public class PayActivity extends BaseActivity {
         }
     }
 
-    public void onGetChargeSuccess(String data){
+    public void onGetChargeSuccess(String data) {
         Pingpp.createPayment(this, data);
     }
 
-    public void Pay(PayChannel channel, int count) {
-        getCharge();
+    public void pay(PayChannel channel, int count) {
+        final PayService payService = MNLApplication.getRestClient().getPayService();
+        Call<HttpResponse> call = payService.GetCharge(channel.getChannelName(),count,1);
+        call.enqueue(new Callback<HttpResponse>() {
+            @Override
+            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                if (response.isSuccess()) {
+                    HttpResponse httpResponse = response.body();
+                    if (httpResponse.ret == 0) {
+                        Log.i(TAG, "onResponse: " + httpResponse.data);
+                        Log.i(TAG, "onResponse: "+ httpResponse.data);
+                        Pingpp.createPayment(PayActivity.this, ((String)httpResponse.data));
+                    } else {
+//                        listener.onError(httpResponse.msg);
+                    }
+                } else {
+//                    listener.onError(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HttpResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private void getCharge() {
 
     }
+
+
 }

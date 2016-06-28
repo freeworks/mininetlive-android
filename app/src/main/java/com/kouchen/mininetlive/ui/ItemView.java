@@ -2,8 +2,10 @@ package com.kouchen.mininetlive.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,7 +16,6 @@ import com.kouchen.mininetlive.R;
  * Created by cainli on 16/6/26.
  */
 public class ItemView extends RelativeLayout {
-
     private ImageView icon;
     private TextView text;
 
@@ -24,7 +25,7 @@ public class ItemView extends RelativeLayout {
 
     public ItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        LayoutInflater.from(context).inflate(R.layout.itemview_layout, this);
+        View view = LayoutInflater.from(context).inflate(R.layout.itemview_layout, null);
         icon = (ImageView) findViewById(R.id.icon);
         text = (TextView) findViewById(R.id.text);
         TypedArray tTypedArray = null;

@@ -2,6 +2,7 @@ package com.kouchen.mininetlive.rest;
 
 import com.kouchen.mininetlive.rest.service.AuthService;
 import com.kouchen.mininetlive.rest.service.ActivityService;
+import com.kouchen.mininetlive.rest.service.PayService;
 
 import java.io.IOException;
 
@@ -20,6 +21,7 @@ public class RestClient {
     public static final String API_URL = "http://106.75.19.205:8080";
     private AuthService accountService;
     private ActivityService activityService;
+    private PayService payService;
 
     public RestClient() {
 
@@ -49,6 +51,7 @@ public class RestClient {
                 .build();
         accountService = retrofit.create(AuthService.class);
         activityService = retrofit.create(ActivityService.class);
+        payService = retrofit.create(PayService.class);
     }
 
     public AuthService getAccountService() {
@@ -57,5 +60,8 @@ public class RestClient {
 
     public ActivityService getActivityService() {
         return activityService;
+    }
+    public PayService getPayService() {
+        return payService;
     }
 }
