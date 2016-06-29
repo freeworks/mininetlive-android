@@ -36,12 +36,15 @@ public abstract class AbsTitlebarActivity extends BaseActivity implements View.O
                 finish();
             }
         });
+        titlebarView.setTitle(getTitleString());
         if (isBelowTitleBar()) {
             ((RelativeLayout.LayoutParams) rootContainer.getLayoutParams()).topMargin = titlebarView.getHeight();
         }
     }
 
     protected abstract View getContentView();
+
+    public abstract String getTitleString();
 
     protected boolean isBelowTitleBar() {
         return true;

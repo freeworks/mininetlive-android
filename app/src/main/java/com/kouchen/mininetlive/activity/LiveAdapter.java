@@ -68,9 +68,9 @@ public class LiveAdapter extends RecyclerView.Adapter<LiveAdapter.ActivityViewHo
                     .into(frontCover);
             title.setText(info.getTitle());
             onlineCount.setText("111111");
-            nickname.setText(info.getUid());
-            state.setText(info.getStateString());
-
+            nickname.setText(info.getOwner().getNickname());
+            state.setBackgroundResource(R.color.blue0);
+            state.setText("直播中");
         }
     }
 

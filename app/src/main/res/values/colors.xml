@@ -13,6 +13,14 @@
     <color name="transparent">#00000000</color>
     <color name="titlebarBg">#F8F8F8</color>
     <color name="green">#0AC653</color>
+    <color name="red">#E97512 </color>
+    <color name="grey">#9BA0A8</color>
     <drawable name="item0">#FFFFFF</drawable>
     <drawable name="item1">#EDF2F8</drawable>
+    <drawable name="blue_normal">@color/blue0</drawable>
+    <drawable name="blue_pressed">@color/blue1</drawable>
+    <drawable name="green_normal">@color/green</drawable>
+    <drawable name="green_pressed">#0DBD51</drawable>
+    <drawable name="red_normal">#E97512</drawable>
+    <drawable name="red_pressed">#EC573B</drawable>
 </resources>

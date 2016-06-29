@@ -1,163 +1,236 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#ff00ff"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#EEEEEE">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/frontCover"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFEEEEEE"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/img_default"
+        android:scaleType="centerCrop" />
 
-        <ImageView
-            android:id="@+id/frontCover"
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frontCover"
+        android:background="#ffffff"
+        android:paddingBottom="12dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/img_default" />
+            android:layout_marginTop="5.5dp"
+            android:text="如何在短期内提高自己的运营效率。"
+            android:textColor="#FF4A4A4A"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/datetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginTop="5dp"
+            android:text="时间：05-26   9:30"
+            android:textColor="#A0A0A0"
+            android:textSize="14sp" />
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/frontCover"
-            android:background="#ffffff"
-            android:paddingBottom="10dp"
-            android:paddingLeft="9dp"
-            android:paddingRight="9dp"
-            android:paddingTop="5dp">
-
+            android:id="@+id/optionLayout"
+            android:layout_below="@+id/datetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/onlineCount1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5.5dp"
-                android:text="如何在短期内提高自己的运营效率。"
-                android:textColor="#FF4A4A4A"
+                android:layout_marginTop="5dp"
+                android:text="1000人在看"
+                android:textColor="#A0A0A0" />
+            <TextView
+                android:id="@+id/playCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="播放：6.8万次"
+                android:textColor="#A0A0A0" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/owner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/optionLayout"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:text="时间">
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/ic_avatar_default" />
+
+            <TextView
+                android:id="@+id/nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/avatar"
+                android:text="名称"
+                android:textColor="#A0A0A0"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/owner"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/owner"
+            android:layout_marginRight="14dp"
+            android:gravity="center_vertical"
+            android:text="¥666"
+            android:textColor="@color/green"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/appointmentCountLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/owner"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/owner"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="已有"
+                android:textColor="#A0A0A0"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/appointmentCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12000"
+                android:textColor="#4A90E2"
                 android:textSize="17sp" />
 
             <TextView
-                android:id="@+id/datetime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/title"
-                android:layout_marginTop="2dp"
-                android:text="时间：05-26   9:30"
-                android:textSize="14dp" />
+                android:layout_marginTop="1dp"
+                android:text="人预约"
+                android:textColor="#A0A0A0"
+                android:textSize="12sp" />
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/onlineCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/datetime"
-                android:layout_marginTop="2dp"
-                android:text="1000人在看" />
-
-            <RelativeLayout
-                android:id="@+id/owner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/onlineCount"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical"
-                android:text="时间">
-
-                <ImageView
-                    android:id="@+id/avatar"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentLeft="true"
-                    android:src="@drawable/ic_launcher" />
-
-                <TextView
-                    android:id="@+id/nickname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@id/avatar"
-                    android:text="名称"
-                    android:textSize="14dp" />
-            </RelativeLayout>
-
-        </RelativeLayout>
+    </RelativeLayout>
 
 
-        <RelativeLayout
+    <RelativeLayout
+        android:id="@+id/descLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/onlineUserListLayout"
+        android:layout_below="@id/titleLayout"
+        android:layout_marginTop="6dp"
+        android:background="#ffffff"
+        android:paddingBottom="8dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:id="@+id/labeldec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="活动介绍"
+            android:textColor="#FF4A4A4A" />
+
+        <TextView
+            android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/frontCover"
+            android:layout_below="@id/labeldec"
             android:layout_marginTop="5dp"
-            android:background="#ffffff"
-            android:paddingBottom="10dp"
-            android:paddingLeft="9dp"
-            android:paddingRight="9dp"
-            android:paddingTop="5dp">
-
-            <TextView
-                android:id="@+id/labeldec"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="活动介绍"
-                android:textColor="#FF4A4A4A" />
-
-            <TextView
-                android:id="@+id/desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/labeldec"
-                android:layout_marginTop="3dp"
-                android:text="人人都想要自己的转化率飙升，那么有哪些事半功倍的方法可以提高订单转化率？优惠价格过多会导致成本加大，过少对用户又没有太大诱惑，那如何对优惠套餐进行配置才能让用户心动呢？想知道这些问题的答案，赶紧来听前天猫资深运营袁野老师是怎么说的吧。"
-                android:textColor="#FFA0A0A0"
-                android:textSize="14dp" />
+            android:text="人人都想要自己的转化率飙升，那么有哪些事半功倍的方法可以提高订单转化率？优惠价格过多会导致成本加大，过少对用户又没有太大诱惑，那如何对优惠套餐进行配置才能让用户心动呢？想知道这些问题的答案，赶紧来听前天猫资深运营袁野老师是怎么说的吧。"
+            android:textColor="#A0A0A0"
+            android:textSize="14dp" />
 
 
-        </RelativeLayout>
+    </RelativeLayout>
 
-        <RelativeLayout
+    <RelativeLayout
+        android:id="@+id/onlineUserListLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp"
+        android:background="#ffffff"
+        android:paddingBottom="10dp"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:layout_marginBottom="50dp"
+        android:paddingTop="5dp">
+        <TextView
+            android:id="@+id/labelOnlineUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="在线人数:xxxx" />
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/onlineUserList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:background="#ffffff"
-            android:paddingBottom="10dp"
-            android:paddingLeft="9dp"
-            android:paddingRight="9dp"
-            android:paddingTop="5dp">
-
-            <TextView
-                android:id="@+id/labelOnlineUser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="在线人数:xxxx" />
-
-        </RelativeLayout>
-    </LinearLayout>
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="43dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="#FAFAFA">
+
         <com.kouchen.mininetlive.ui.ItemViewDivider
             android:id="@+id/line"
-            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
-            android:layout_height="1dp" />
+            android:layout_height="1dp"
+            android:layout_alignParentTop="true" />
 
         <TextView
             android:id="@+id/share"
-            android:text="分享"
-            android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:drawableTop="@drawable/ic_share"
+            android:gravity="center_horizontal"
+            android:text="分享"
+            android:textColor="#A0A0A0"
+            android:textSize="10sp" />
+
         <TextView
             android:id="@+id/button"
-            android:layout_below="@+id/line"
-           android:background="@color/green"
-            android:textColor="#ffffff"
-            android:text="购买观看"
-            android:gravity="center"
-            android:layout_alignParentRight="true"
             android:layout_width="120dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/line"
+            android:background="@color/green"
+            android:gravity="center"
+            android:text="购买观看"
+            android:textColor="#ffffff" />
     </RelativeLayout>
 </RelativeLayout>

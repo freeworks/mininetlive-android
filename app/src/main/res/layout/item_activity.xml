@@ -7,6 +7,7 @@
 
     <ImageView
         android:id="@+id/frontCover"
+        android:src="@drawable/img_default"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 
@@ -16,9 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="10dp"
-        android:background="#4A90E2"
-        android:padding="5dp"
+        android:layout_marginRight="20dp"
+        android:padding="8dp"
         android:text="直播中"
         android:textColor="#FFFFFF" />
 

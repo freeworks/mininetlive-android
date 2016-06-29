@@ -85,7 +85,7 @@ public abstract class PayActivity extends AbsTitlebarActivity {
 
     public void pay(PayChannel channel, int count) {
         final PayService payService = MNLApplication.getRestClient().getPayService();
-        Call<HttpResponse> call = payService.GetCharge(channel.getChannelName(),count,1);
+        Call<HttpResponse> call = payService.GetCharge(channel.getChannelName(), count, 1);
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
@@ -93,8 +93,8 @@ public abstract class PayActivity extends AbsTitlebarActivity {
                     HttpResponse httpResponse = response.body();
                     if (httpResponse.ret == 0) {
                         Log.i(TAG, "onResponse: " + httpResponse.data);
-                        Log.i(TAG, "onResponse: "+ httpResponse.data);
-                        Pingpp.createPayment(PayActivity.this, ((String)httpResponse.data));
+                        Gson gson = new Gson();
+                        Pingpp.createPayment(PayActivity.this, gson.toJson(httpResponse.data));
                     } else {
 //                        listener.onError(httpResponse.msg);
                     }

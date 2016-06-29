@@ -10,4 +10,9 @@ public class AboutActivity extends AbsTitlebarActivity {
     protected View getContentView() {
         return null;
     }
+
+    @Override
+    public String getTitleString() {
+        return "关于";
+    }
 }

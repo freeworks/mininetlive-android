@@ -6,6 +6,7 @@
     android:padding="10dp">
 
     <ImageView
+        android:src="@drawable/img_default"
         android:id="@+id/frontCover"
         android:layout_width="match_parent"
         android:layout_height="100dp" />

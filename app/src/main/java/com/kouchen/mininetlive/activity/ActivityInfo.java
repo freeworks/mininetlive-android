@@ -9,30 +9,36 @@ import java.io.Serializable;
  * Created by cainli on 16/6/25.
  */
 public class ActivityInfo implements Serializable {
-    private int id;
+    @SerializedName("aid")
+    private String id;
     private String title;
-    private String data;
+    private String date;
     private String desc;
     @SerializedName("fontCover")
     private String frontCover;
-    private String type;
     private int price;
-    private String password;
-    private String uid;
-    private String videoId;
-    private int vedioType;
-    private String videoPullPath;
-    private int state;//0.未开播，1.正在直播，2.可点播，3.已下线
+    private String streamId;
+    private int streamType;
+    private String livePullPath;
+    private String videoPath;
+    private int activityState;
+    private int activityType;
     private int playCount;
-    private String createTime;
+    private int appointmentCount;
+    private int payState; //0.未开播，1.正在直播，2已经结束
+    private int appoinState;
+    private String groupId;
     @SerializedName("owner")
     private UserInfo owner;
 
-    public int getId() {
+    public ActivityInfo() {
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -44,12 +50,12 @@ public class ActivityInfo implements Serializable {
         this.title = title;
     }
 
-    public String getData() {
-        return data;
+    public String getDate() {
+        return date;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getDesc() {
@@ -68,14 +74,6 @@ public class ActivityInfo implements Serializable {
         this.frontCover = frontCover;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public int getPrice() {
         return price;
     }
@@ -84,67 +82,52 @@ public class ActivityInfo implements Serializable {
         this.price = price;
     }
 
-    public String getPassword() {
-        return password;
+    public String getStreamId() {
+        return streamId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setStreamId(String streamId) {
+        this.streamId = streamId;
     }
 
-    public String getUid() {
-        return uid;
+    public int getStreamType() {
+        return streamType;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setStreamType(int streamType) {
+        this.streamType = streamType;
     }
 
-    public String getVideoId() {
-        return videoId;
+    public String getLivePullPath() {
+        return livePullPath;
     }
 
-    public void setVideoId(String videoId) {
-        this.videoId = videoId;
+    public void setLivePullPath(String livePullPath) {
+        this.livePullPath = livePullPath;
     }
 
-    public int getVedioType() {
-        return vedioType;
+    public String getVideoPath() {
+        return videoPath;
     }
 
-    public void setVedioType(int vedioType) {
-        this.vedioType = vedioType;
+    public void setVideoPath(String videoPath) {
+        this.videoPath = videoPath;
     }
 
-    public String getVideoPullPath() {
-        return videoPullPath;
+    public int getActivityState() {
+        return activityState;
     }
 
-    public void setVideoPullPath(String videoPullPath) {
-        this.videoPullPath = videoPullPath;
+    public void setActivityState(int activityState) {
+        this.activityState = activityState;
     }
 
-    public int getState() {
-        return state;
+    public int getActivityType() {
+        return activityType;
     }
 
-    //0.未开播，1.正在直播，2.可点播，3.已下线
-    public String getStateString() {
-        switch (state) {
-            case 0:
-                return "未开通";
-            case 1:
-                return "正在直播";
-            case 2:
-                return "可点播";
-            case 3:
-                return "已下线";
-        }
-        return "已下线";
-    }
-
-    public void setState(int state) {
-        this.state = state;
+    public void setActivityType(int activityType) {
+        this.activityType = activityType;
     }
 
     public int getPlayCount() {
@@ -155,12 +138,36 @@ public class ActivityInfo implements Serializable {
         this.playCount = playCount;
     }
 
-    public String getCreateTime() {
-        return createTime;
+    public int getAppointmentCount() {
+        return appointmentCount;
     }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
+    public void setAppointmentCount(int appointmentCount) {
+        this.appointmentCount = appointmentCount;
+    }
+
+    public int getPayState() {
+        return payState;
+    }
+
+    public void setPayState(int payState) {
+        this.payState = payState;
+    }
+
+    public int getAppoinState() {
+        return appoinState;
+    }
+
+    public void setAppoinState(int appoinState) {
+        this.appoinState = appoinState;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public UserInfo getOwner() {
@@ -169,5 +176,17 @@ public class ActivityInfo implements Serializable {
 
     public void setOwner(UserInfo owner) {
         this.owner = owner;
+    }
+
+    public String getActivityStateStr() {
+        switch (activityState) {
+            case 0:
+                return "预告";
+            case 1:
+                return "直播中";
+            case 2:
+                return "已结束";
+        }
+        return "";
     }
 }

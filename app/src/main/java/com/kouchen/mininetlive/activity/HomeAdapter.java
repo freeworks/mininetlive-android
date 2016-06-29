@@ -79,23 +79,20 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
 
     static class ActivityViewHolder2 extends ActivityViewHolder {
 
-
         private ImageView frontCover0;
-        private TextView title0, nickname0;
+        private TextView title0;
 
         private ImageView frontCover1;
-        private TextView title1, nickname1;
+        private TextView title1;
 
         public ActivityViewHolder2(View view) {
             super(view);
             View view0 = view.findViewById(R.id.item0);
             frontCover0 = (ImageView) view0.findViewById(R.id.frontCover);
             title0 = (TextView) view0.findViewById(R.id.title);
-            nickname0 = (TextView) view0.findViewById(R.id.nickname);
             View view1 = view.findViewById(R.id.item1);
             frontCover1 = (ImageView) view1.findViewById(R.id.frontCover);
             title1 = (TextView) view1.findViewById(R.id.title);
-            nickname1 = (TextView) view1.findViewById(R.id.nickname);
         }
 
         public void setActivity(ActivityInfo[] infos) {
@@ -166,9 +163,28 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
                     .crossFade()
                     .into(frontCover);
             title.setText(info.getTitle());
-            onlineCount.setText("111111");
-            nickname.setText(info.getUid());
-            state.setText(info.getStateString());
+            nickname.setText(info.getOwner().getNickname());
+            if(info.getStreamType() == 1){
+                state.setVisibility(View.VISIBLE);
+                switch (info.getActivityState()) {
+                    case 0:
+                        state.setBackgroundResource(R.color.blue0);
+                        state.setText("预告");
+                        break;
+                    case 1:
+                        state.setBackgroundResource(R.color.red);
+                        state.setText("直播中");
+                        break;
+                    case 2:
+                        state.setBackgroundResource(R.color.grey);
+                        state.setText("已结束");
+                        break;
+
+                }
+                state.setText(info.getActivityStateStr());
+            }else{
+                state.setVisibility(View.INVISIBLE);
+            }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

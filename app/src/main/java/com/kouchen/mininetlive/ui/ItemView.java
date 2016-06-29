@@ -25,7 +25,7 @@ public class ItemView extends RelativeLayout {
 
     public ItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        View view = LayoutInflater.from(context).inflate(R.layout.itemview_layout, null);
+        LayoutInflater.from(context).inflate(R.layout.itemview_layout, this);
         icon = (ImageView) findViewById(R.id.icon);
         text = (TextView) findViewById(R.id.text);
         TypedArray tTypedArray = null;
@@ -38,6 +38,7 @@ public class ItemView extends RelativeLayout {
                 tTypedArray.recycle();
         }
     }
+
 
     public ItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
