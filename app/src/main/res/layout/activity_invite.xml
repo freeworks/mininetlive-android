@@ -1,9 +1,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_invite" />
+
+
     <TextView
-        android:text="邀请码"
-        android:gravity="center"
+        android:id="@+id/inviteCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="wtf689"
+        android:textColor="#F67C15"
+        android:textSize="40sp" />
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inviteCode"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:text="点击复制邀请码"
+        android:textColor="#9B9B9B"
+        android:textSize="15sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/desc"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_smile" />
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="分享邀请码给朋友注册时使用你们将获得奖励分红"
+        android:textSize="12sp" />
+
 </RelativeLayout>

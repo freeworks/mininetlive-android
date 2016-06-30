@@ -21,6 +21,7 @@ public class ActivityInfo implements Serializable {
     private int streamType;
     private String livePullPath;
     private String videoPath;
+    private int appointmentState;
     private int activityState;
     private int activityType;
     private int playCount;
@@ -188,5 +189,13 @@ public class ActivityInfo implements Serializable {
                 return "已结束";
         }
         return "";
+    }
+
+    public int getAppointmentState() {
+        return appointmentState;
+    }
+
+    public void setAppointmentState(int appointmentState) {
+        this.appointmentState = appointmentState;
     }
 }

@@ -126,7 +126,13 @@
     <TextView
         android:layout_gravity="center_horizontal"
         android:id="@+id/reigsterBtn"
-        android:layout_width="fill_parent"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/grey_rect"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:onClick="onClick"
@@ -135,7 +141,7 @@
         android:layout_marginBottom="25dp"
         android:text="立即注册"
         android:layout_marginTop="26dp"
-        android:textColor="#FF4A4A4A"
+        android:textColor="#4A4A4A"
         android:textSize="14dp" />
 
     <ProgressBar

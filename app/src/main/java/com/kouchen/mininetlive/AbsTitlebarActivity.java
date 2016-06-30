@@ -2,6 +2,7 @@ package com.kouchen.mininetlive;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
@@ -38,11 +39,16 @@ public abstract class AbsTitlebarActivity extends BaseActivity implements View.O
         });
         titlebarView.setTitle(getTitleString());
         if (isBelowTitleBar()) {
-            ((RelativeLayout.LayoutParams) rootContainer.getLayoutParams()).topMargin = titlebarView.getHeight();
+            ((RelativeLayout.LayoutParams) rootContainer.getLayoutParams()).topMargin =
+                    (int) getResources().getDimension(R.dimen.titlebar_height);
         }
     }
 
-    protected abstract View getContentView();
+    protected View getContentView() {
+        return LayoutInflater.from(this).inflate(getContentResId(), null);
+    }
+
+    protected abstract int getContentResId();
 
     public abstract String getTitleString();
 

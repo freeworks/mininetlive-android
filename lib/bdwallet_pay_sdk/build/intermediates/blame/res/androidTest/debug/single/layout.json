@@ -12,12 +12,12 @@
         "source": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/layout/wallet_base_action_bar.xml"
     },
     {
-        "merged": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/res/merged/androidTest/debug/layout/wallet_base_one_key_pay.xml",
-        "source": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/layout/wallet_base_one_key_pay.xml"
-    },
-    {
         "merged": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/res/merged/androidTest/debug/layout/ebpay_layout_login.xml",
         "source": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/layout/ebpay_layout_login.xml"
+    },
+    {
+        "merged": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/res/merged/androidTest/debug/layout/wallet_base_one_key_pay.xml",
+        "source": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/layout/wallet_base_one_key_pay.xml"
     },
     {
         "merged": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/res/merged/androidTest/debug/layout/ebpay_pwdpay_activity.xml",

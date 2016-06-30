@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="22dp">
+
+    <RelativeLayout
+        android:id="@+id/vcodeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/phone"
+        android:layout_marginTop="30dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:id="@+id/labelVCode"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="邀请码"
+            android:textColor="#FF4A4A4A"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/vCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@+id/sendVCode"
+            android:layout_toRightOf="@+id/labelVCode"
+            android:background="@null"
+            android:hint="非必填项"
+            android:inputType="number"
+            android:textColor="#4A4A4A"
+            android:textColorHint="#C1C1C1"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <com.kouchen.mininetlive.ui.ItemViewDivider
+        android:id="@+id/d1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/vcodeLayout" />
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/d1"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/blue_btn_selector"
+        android:onClick="onClick"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="进入微网直播"
+        android:textColor="#ffffffff"
+        android:textSize="16sp" />
+</RelativeLayout>

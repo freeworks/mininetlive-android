@@ -6,30 +6,44 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
 
+import com.kouchen.mininetlive.AbsTitlebarActivity;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.base.BaseActivity;
+
+import butterknife.BindView;
 
 /**
  * Created by cainli on 16/6/25.
  */
-public class RegisterPasswordActivity extends BaseActivity implements AuthView {
+public class RegisterPasswordActivity extends AbsTitlebarActivity implements AuthView {
 
     private AuthPresenterImpl presenter;
 
-    private EditText vcode, password, inviteCode;
+    @BindView(R.id.vCode)
+    EditText vcode;
+    @BindView(R.id.password)
+    EditText password;
+    @BindView(R.id.inviteCode)
+    EditText inviteCode;
 
     private String phone;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_password);
-        vcode = (EditText) findViewById(R.id.vCode);
-        password = (EditText) findViewById(R.id.password);
-        inviteCode = (EditText) findViewById(R.id.inviteCode);
         presenter = new AuthPresenterImpl(this);
         phone = getIntent().getStringExtra("phone");
         presenter.getVCode(phone);
+    }
+
+    @Override
+    protected int getContentResId() {
+        return R.layout.activity_register_password;
+    }
+
+    @Override
+    public String getTitleString() {
+        return "注册";
     }
 
     @Override
@@ -78,7 +92,7 @@ public class RegisterPasswordActivity extends BaseActivity implements AuthView {
 
     @Override
     public void toRegisterInfo() {
-        Intent intent = new Intent(this,RegisterInfoActivity.class);
+        Intent intent = new Intent(this, RegisterInfoActivity.class);
         startActivity(intent);
     }
 }

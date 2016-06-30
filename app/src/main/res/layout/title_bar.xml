@@ -1,15 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:id="@+id/titlebar"
-    android:layout_height="40dp"
+    android:layout_height="@dimen/titlebar_height"
     android:paddingBottom="6dp"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
     android:paddingTop="6dp">
     <TextView
         android:id="@+id/back"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:drawableLeft="@drawable/ic_arrow_left"
         android:text="返回"
@@ -22,10 +21,11 @@
         android:visibility="invisible"
         android:id="@+id/backImageView"
         android:src="@drawable/ic_back"
+        android:scaleType="centerInside"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/title"
@@ -41,7 +41,8 @@
 
     <TextView
         android:id="@+id/right"
-        android:layout_width="100dp"
+        android:layout_width="60dp"
+        android:text="返回返回"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"

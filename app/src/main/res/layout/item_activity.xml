@@ -5,20 +5,22 @@
     android:background="@drawable/item_selector"
     android:padding="10dp">
 
-    <ImageView
+    <com.kouchen.mininetlive.ui.FrontCoverImageView
         android:id="@+id/frontCover"
-        android:src="@drawable/img_default"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/frontCover"
         android:layout_marginRight="20dp"
-        android:padding="8dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="直播中"
         android:textColor="#FFFFFF" />
 
@@ -43,6 +45,7 @@
         android:textColor="#A0A0A0" />
 
     <TextView
+        android:visibility="invisible"
         android:id="@+id/onlineCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,6 +53,17 @@
         android:layout_alignTop="@+id/nickname"
         android:textSize="13dp"
         android:text="1000人在看。"
+        android:textColor="#A0A0A0" />
+
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/appointmentCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/nickname"
+        android:textSize="13dp"
+        android:text="预约：12000人。"
         android:textColor="#A0A0A0" />
 
 </RelativeLayout>

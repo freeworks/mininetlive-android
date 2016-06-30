@@ -8,7 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.hyphenate.util.DensityUtil;
 import com.kouchen.mininetlive.R;
+import com.kouchen.mininetlive.ui.GlideRoundTransform;
 
 import java.util.List;
 
@@ -65,11 +67,12 @@ public class LiveAdapter extends RecyclerView.Adapter<LiveAdapter.ActivityViewHo
                     .centerCrop()
                     .placeholder(R.drawable.img_default)
                     .crossFade()
+                    .transform(new GlideRoundTransform(itemView.getContext(), DensityUtil.dip2px(itemView.getContext(),1f)))
                     .into(frontCover);
             title.setText(info.getTitle());
             onlineCount.setText("111111");
             nickname.setText(info.getOwner().getNickname());
-            state.setBackgroundResource(R.color.blue0);
+            state.setBackgroundResource(R.drawable.blue_round_bg);
             state.setText("直播中");
         }
     }

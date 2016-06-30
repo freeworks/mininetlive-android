@@ -9,9 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.hyphenate.util.DensityUtil;
 import com.kouchen.mininetlive.R;
+import com.kouchen.mininetlive.ui.GlideRoundTransform;
 
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by cainli on 16/6/25.
@@ -59,7 +63,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
 
     @Override
     public int getItemCount() {
-        if(homeModel == null){
+        if (homeModel == null) {
             return 0;
         }
         return homeModel.getCount();
@@ -80,19 +84,23 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
     static class ActivityViewHolder2 extends ActivityViewHolder {
 
         private ImageView frontCover0;
-        private TextView title0;
+        private TextView title0, playCount0;
 
         private ImageView frontCover1;
-        private TextView title1;
+        private TextView title1, playCount1;
+
+        private View view0, view1;
 
         public ActivityViewHolder2(View view) {
             super(view);
-            View view0 = view.findViewById(R.id.item0);
+            view0 = view.findViewById(R.id.item0);
             frontCover0 = (ImageView) view0.findViewById(R.id.frontCover);
             title0 = (TextView) view0.findViewById(R.id.title);
-            View view1 = view.findViewById(R.id.item1);
+            playCount0 = (TextView) view0.findViewById(R.id.playCount);
+            view1 = view.findViewById(R.id.item1);
             frontCover1 = (ImageView) view1.findViewById(R.id.frontCover);
             title1 = (TextView) view1.findViewById(R.id.title);
+            playCount1 = (TextView) view1.findViewById(R.id.playCount);
         }
 
         public void setActivity(ActivityInfo[] infos) {
@@ -100,19 +108,23 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
             Glide.with(itemView.getContext())
                     .load(info0.getFrontCover())
                     .centerCrop()
+                    .centerCrop()
                     .placeholder(R.drawable.img_default)
                     .crossFade()
+                    .transform(new GlideRoundTransform(itemView.getContext(), DensityUtil.dip2px(itemView.getContext(), 1.5f)))
                     .into(frontCover0);
             title0.setText(info0.getTitle());
-            itemView.setOnClickListener(new View.OnClickListener() {
+            playCount0.setText(String.valueOf(info0.getPlayCount()));
+            view0.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(),ActivityDetailActivity.class);
+                    Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
                     intent.putExtra("activityInfo", info0);
                     view.getContext().startActivity(intent);
 
                 }
             });
+
 
             final ActivityInfo info1 = infos[1];
             if (info1 != null) {
@@ -122,12 +134,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
                         .centerCrop()
                         .placeholder(R.drawable.img_default)
                         .crossFade()
+                        .transform(new GlideRoundTransform(itemView.getContext(), DensityUtil.dip2px(itemView.getContext(), 1.5f)))
                         .into(frontCover1);
                 title1.setText(info1.getTitle());
-                itemView.setOnClickListener(new View.OnClickListener() {
+                playCount1.setText(String.valueOf(info1.getPlayCount()));
+                view1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(view.getContext(),ActivityDetailActivity.class);
+                        Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
                         intent.putExtra("activityInfo", info1);
                         view.getContext().startActivity(intent);
 
@@ -144,13 +158,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
     static class ActivityViewHolder1 extends ActivityViewHolder {
 
         private ImageView frontCover;
-        private TextView title, nickname, onlineCount, state;
+        private TextView title, nickname, onlineCount, appointCount, state;
 
         public ActivityViewHolder1(View view) {
             super(view);
             frontCover = (ImageView) view.findViewById(R.id.frontCover);
             title = (TextView) view.findViewById(R.id.title);
             onlineCount = (TextView) view.findViewById(R.id.onlineCount);
+            appointCount = (TextView) view.findViewById(R.id.appointmentCount);
             nickname = (TextView) view.findViewById(R.id.nickname);
             state = (TextView) view.findViewById(R.id.state);
         }
@@ -161,35 +176,42 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
                     .centerCrop()
                     .placeholder(R.drawable.img_default)
                     .crossFade()
+                    .transform(new GlideRoundTransform(itemView.getContext(), DensityUtil.dip2px(itemView.getContext(), 1.5f)))
                     .into(frontCover);
             title.setText(info.getTitle());
             nickname.setText(info.getOwner().getNickname());
-            if(info.getStreamType() == 1){
+            appointCount.setVisibility(View.INVISIBLE);
+            onlineCount.setVisibility(View.INVISIBLE);
+            if (info.getStreamType() == 1) {
                 state.setVisibility(View.VISIBLE);
                 switch (info.getActivityState()) {
                     case 0:
-                        state.setBackgroundResource(R.color.blue0);
+                        state.setBackgroundResource(R.drawable.blue_round_bg);
                         state.setText("预告");
+                        appointCount.setVisibility(View.VISIBLE);
+                        appointCount.setText("预约：" + String.valueOf(info.getAppointmentCount()) + "人");
                         break;
                     case 1:
-                        state.setBackgroundResource(R.color.red);
+                        state.setBackgroundResource(R.drawable.red_round_bg);
                         state.setText("直播中");
+                        onlineCount.setVisibility(View.VISIBLE);
+                        onlineCount.setText(String.valueOf(11111) + "人在看");
                         break;
                     case 2:
-                        state.setBackgroundResource(R.color.grey);
+                        state.setBackgroundResource(R.drawable.grey_round_bg);
                         state.setText("已结束");
                         break;
 
                 }
                 state.setText(info.getActivityStateStr());
-            }else{
+            } else {
                 state.setVisibility(View.INVISIBLE);
             }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(),ActivityDetailActivity.class);
-                    intent.putExtra("activityInfo",info);
+                    Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
+                    intent.putExtra("activityInfo", info);
                     view.getContext().startActivity(intent);
 
                 }

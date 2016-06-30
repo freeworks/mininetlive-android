@@ -1,10 +1,13 @@
 package com.kouchen.mininetlive;
 
 import android.app.Application;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
 
 import cn.smssdk.SMSSDK;
 import com.kouchen.mininetlive.rest.RestClient;
-import com.pingplusplus.android.Pingpp;
 
 import cn.sharesdk.framework.ShareSDK;
 
@@ -24,5 +27,4 @@ public class MNLApplication extends Application {
     public static RestClient getRestClient() {
         return restClient;
     }
-
 }

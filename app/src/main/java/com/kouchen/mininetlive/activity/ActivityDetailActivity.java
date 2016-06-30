@@ -15,9 +15,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.hyphenate.util.DensityUtil;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.pay.PayActivity;
 import com.kouchen.mininetlive.pay.PayChannel;
+import com.kouchen.mininetlive.ui.GlideCircleTransform;
+import com.kouchen.mininetlive.ui.GlideRoundTransform;
 import com.kouchen.mininetlive.ui.TitlebarView;
 
 import butterknife.BindView;
@@ -80,6 +83,7 @@ public class ActivityDetailActivity extends PayActivity {
                 .centerCrop()
                 .placeholder(R.drawable.ic_avatar_default)
                 .crossFade()
+                .transform(new GlideCircleTransform(this))
                 .into(avatar);
 
 
@@ -98,13 +102,18 @@ public class ActivityDetailActivity extends PayActivity {
         onlineCount1.setVisibility(View.GONE);
         price.setVisibility(View.GONE);
         price.setText("￥" + info.getPrice());
-        if (info.getStreamType() == 0) {
+        if (info.getStreamType() == 1) {
             switch (info.getActivityState()) {
                 case 0:
                     appointCountLayout.setVisibility(View.VISIBLE);
                     appointmentCount.setText(String.valueOf(info.getAppointmentCount()));
-                    button.setBackgroundResource(R.drawable.blue_rect_selector);
-                    button.setText("立即预约");
+                    if(info.getAppointmentState() == 0){
+                        button.setBackgroundResource(R.drawable.blue_rect_selector);
+                        button.setText("立即预约");
+                    }else{
+                        button.setBackgroundResource(R.drawable.grey_disable);
+                        button.setText("已经预约");
+                    }
                     break;
                 case 1:
                     onlineUserListLayout.setVisibility(View.VISIBLE);
@@ -156,8 +165,8 @@ public class ActivityDetailActivity extends PayActivity {
     }
 
     @Override
-    protected View getContentView() {
-        return LayoutInflater.from(this).inflate(R.layout.activity_detail, null);
+    protected int getContentResId() {
+        return R.layout.activity_detail;
     }
 
     @Override

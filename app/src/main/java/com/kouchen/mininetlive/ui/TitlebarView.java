@@ -14,6 +14,7 @@ import com.kouchen.mininetlive.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by cainli on 16/6/25.
@@ -49,7 +50,7 @@ public class TitlebarView extends FrameLayout {
     public void init() {
         setBackgroundResource(R.color.titlebarBg);
         LayoutInflater.from(getContext()).inflate(R.layout.title_bar, this);
-        ButterKnife.bind(this,this);
+        ButterKnife.bind(this, this);
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(0x8AB2B2B2);
@@ -58,10 +59,10 @@ public class TitlebarView extends FrameLayout {
 
 
     public void setTransparentBackground(boolean b) {
-        if(b){
+        if (b) {
             setBackgroundResource(R.color.transparent);
             transparentBackgroud = b;
-        }else{
+        } else {
             setBackgroundResource(R.color.titlebarBg);
             transparentBackgroud = !b;
         }
@@ -72,16 +73,16 @@ public class TitlebarView extends FrameLayout {
     }
 
     public void setBackLister(OnClickListener onClickListener) {
-        setBackLister(onClickListener,true);
+        setBackLister(onClickListener, true);
     }
 
-    public void setBackLister(OnClickListener onClickListener,boolean isText) {
+    public void setBackLister(OnClickListener onClickListener, boolean isText) {
         if (onClickListener != null) {
-            if(!isText){
+            if (!isText) {
                 backview.setVisibility(View.INVISIBLE);
                 backImageView.setVisibility(View.VISIBLE);
                 backImageView.setOnClickListener(onClickListener);
-            }else{
+            } else {
                 backImageView.setVisibility(View.INVISIBLE);
                 backview.setVisibility(View.VISIBLE);
                 backview.setOnClickListener(onClickListener);
@@ -89,6 +90,17 @@ public class TitlebarView extends FrameLayout {
         } else {
             backview.setVisibility(View.INVISIBLE);
             backImageView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void setRightTextView(String text, OnClickListener onClickListener) {
+        if (text == null || text.equals("")) {
+            rightTextView.setVisibility(View.INVISIBLE);
+            rightTextView.setOnClickListener(null);
+        } else {
+            rightTextView.setVisibility(VISIBLE);
+            rightTextView.setText(text);
+            rightTextView.setOnClickListener(onClickListener);
         }
     }
 
