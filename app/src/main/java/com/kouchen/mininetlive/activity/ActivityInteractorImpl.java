@@ -46,7 +46,7 @@ public class ActivityInteractorImpl implements ActivityInteractor {
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
-                listener.onError("请假检查您的网络");
+                listener.onError("获取失败");
             }
         });
     }
@@ -62,12 +62,16 @@ public class ActivityInteractorImpl implements ActivityInteractor {
                     HttpResponse httpResponse = response.body();
                     if (httpResponse.ret == 0) {
                         Log.i(TAG, "onResponse: " + httpResponse.data);
+                        JsonObject asJsonObject = httpResponse.data.getAsJsonObject();
                         Gson gson = new Gson();
-                        Type type = new TypeToken<Map<String, List<ActivityInfo>>>() {}.getType();
-                        Map<String, List<ActivityInfo>> data = gson.fromJson(httpResponse.data, type);
-                        HomeModel homeModel = new HomeModel();
-                        homeModel.general = data.get("general");
-                        homeModel.recommond = data.get("recommend");
+                        HomeModel homeModel = gson.fromJson(asJsonObject, HomeModel.class);
+//                        Type type = new TypeToken<Map<String, List<ActivityInfo>>>() {}.getType();
+//                        gson.fromJson()
+//                        Map<String, List<ActivityInfo>> data = gson.fromJson(httpResponse.data, type);
+//                        HomeModel homeModel = new HomeModel();
+//                        homeModel.setHasMore(data);
+//                        homeModel.general = data.get("general");
+//                        homeModel.recommond = data.get("recommend");
                         listener.onSuccess(homeModel);
                     } else {
                         listener.onError(httpResponse.msg);
@@ -79,7 +83,7 @@ public class ActivityInteractorImpl implements ActivityInteractor {
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
-                listener.onError("请假检查您的网络");
+                listener.onError("获取失败");
             }
         });
     }

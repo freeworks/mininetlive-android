@@ -29,6 +29,7 @@ public class ActivityInfo implements Serializable {
     private int payState; //0.未开播，1.正在直播，2已经结束
     private int appoinState;
     private String groupId;
+    private String onlineCount;
     @SerializedName("owner")
     private UserInfo owner;
 
@@ -177,6 +178,14 @@ public class ActivityInfo implements Serializable {
 
     public void setOwner(UserInfo owner) {
         this.owner = owner;
+    }
+
+    public String getOnlineCount() {
+        return onlineCount;
+    }
+
+    public void setOnlineCount(String onlineCount) {
+        this.onlineCount = onlineCount;
     }
 
     public String getActivityStateStr() {

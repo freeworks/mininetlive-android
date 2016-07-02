@@ -64,12 +64,12 @@
         "source": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/drawable/wallet_base_dashed_shape_normal.xml"
     },
     {
-        "merged": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/res/merged/androidTest/debug/drawable/wallet_base_pwdpay_submit_selector.xml",
-        "source": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/drawable/wallet_base_pwdpay_submit_selector.xml"
-    },
-    {
         "merged": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/res/merged/androidTest/debug/drawable/wallet_base_pwdpay_close_selector.xml",
         "source": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/drawable/wallet_base_pwdpay_close_selector.xml"
+    },
+    {
+        "merged": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/res/merged/androidTest/debug/drawable/wallet_base_pwdpay_submit_selector.xml",
+        "source": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/drawable/wallet_base_pwdpay_submit_selector.xml"
     },
     {
         "merged": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/res/merged/androidTest/debug/drawable/wallet_base_loading.xml",

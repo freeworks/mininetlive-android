@@ -2,12 +2,14 @@ package com.kouchen.mininetlive.activity;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +17,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
+import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.DensityUtil;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.pay.PayActivity;
@@ -23,14 +28,22 @@ import com.kouchen.mininetlive.ui.GlideCircleTransform;
 import com.kouchen.mininetlive.ui.GlideRoundTransform;
 import com.kouchen.mininetlive.ui.TitlebarView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by cainli on 16/6/21.
  */
 public class ActivityDetailActivity extends PayActivity {
+    private static final String TAG = "ActivityDetailActivity";
     @BindView(R.id.frontCover)
     ImageView frontCover;
     @BindView(R.id.title)
@@ -78,6 +91,7 @@ public class ActivityDetailActivity extends PayActivity {
                 .into(frontCover);
         title.setText(info.getTitle());
         nickname.setText(info.getOwner().getNickname());
+        date.setText("时间："+info.getDate());
         Glide.with(this)
                 .load(info.getOwner().getAvatar())
                 .centerCrop()
@@ -92,7 +106,7 @@ public class ActivityDetailActivity extends PayActivity {
             public void onClick(View view) {
                 finish();
             }
-        },false);
+        }, false);
 
         desc.setText(info.getDesc());
 
@@ -107,10 +121,10 @@ public class ActivityDetailActivity extends PayActivity {
                 case 0:
                     appointCountLayout.setVisibility(View.VISIBLE);
                     appointmentCount.setText(String.valueOf(info.getAppointmentCount()));
-                    if(info.getAppointmentState() == 0){
+                    if (info.getAppointmentState() == 0) {
                         button.setBackgroundResource(R.drawable.blue_rect_selector);
                         button.setText("立即预约");
-                    }else{
+                    } else {
                         button.setBackgroundResource(R.drawable.grey_disable);
                         button.setText("已经预约");
                     }
@@ -118,7 +132,7 @@ public class ActivityDetailActivity extends PayActivity {
                 case 1:
                     onlineUserListLayout.setVisibility(View.VISIBLE);
                     onlineCount1.setVisibility(View.VISIBLE);
-                    onlineCount1.setText("10000人在线观看");
+                    onlineCount1.setText(info.getOnlineCount()+"人在线观看");
                     onlineCount2.setText("在线人数:10002");
                     if (info.getActivityType() == 0) { //免费
                         price.setVisibility(View.VISIBLE);
@@ -162,7 +176,88 @@ public class ActivityDetailActivity extends PayActivity {
                 }
             }
         }
+
+        new AsyncTask<Void,Void,Void>(){
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    EMClient.getInstance().groupManager().addUsersToGroup("210681821065642408", new String []{"5bb8a54b63c8e3ae","a518ae1b32764697","6a38ad58c8654ade"});
+                } catch (Exception e) {
+                    Log.e(TAG, "doInBackground: ", e);
+                }
+                return null;
+            }
+        }.execute();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        new Observable.OnSubscribe<String>() {
+//            @Override public void call(Subscriber<? super String> subscriber) {
+//                subscriber.onNext(joinGroup()); // 发送事件
+//                subscriber.onCompleted(); // 完成事件
+//            }
+//        }.call(new Subscriber<String>() {
+//            @Override
+//            public void onCompleted() {
+//
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//
+//            }
+//
+//            @Override
+//            public void onNext(String s) {
+//
+//            }
+//        });;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+//        new Observable.OnSubscribe<String>() {
+//            @Override public void call(Subscriber<? super String> subscriber) {
+//                subscriber.onNext(liveGroup()); // 发送事件
+//                subscriber.onCompleted(); // 完成事件
+//            }
+//        }.call(new Subscriber<String>() {
+//            @Override
+//            public void onCompleted() {
+//
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//
+//            }
+//
+//            @Override
+//            public void onNext(String s) {
+//
+//            }
+//        });
+    }
+//    private String joinGroup() {
+//        try {
+//            EMClient.getInstance().groupManager().addUsersToGroup("210681821065642408", new String []{"5bb8a54b63c8e3ae","a518ae1b32764697","6a38ad58c8654ade"});
+//        } catch (Exception e) {
+//            Log.e(TAG, "onStart: joinGroup ", e);
+//        }
+//        return "joinSuccess";
+//    }
+//    private String liveGroup() {
+//        try {
+//            EMClient.getInstance().groupManager().leaveGroup(info.getGroupId());
+//        } catch (Exception e) {
+//            Log.e(TAG, "onStart: joinGroup ", e);
+//        }
+//        return "joinSuccess";
+//    }
 
     @Override
     protected boolean isBelowTitleBar() {

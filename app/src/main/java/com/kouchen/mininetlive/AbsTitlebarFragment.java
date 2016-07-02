@@ -9,6 +9,7 @@ import com.kouchen.mininetlive.base.BaseFragment;
 import com.kouchen.mininetlive.ui.TitlebarView;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by cainli on 16/6/25.
@@ -16,6 +17,8 @@ import butterknife.ButterKnife;
 public abstract class AbsTitlebarFragment extends BaseFragment {
 
     protected TitlebarView titlebarView;
+
+    private Unbinder bind;
 
     @Override
     public View getRootView() {
@@ -36,7 +39,7 @@ public abstract class AbsTitlebarFragment extends BaseFragment {
         linearLayout.addView(titlebarView);
         linearLayout.addView(getContentView());
         linearLayout.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
-        ButterKnife.bind(this, linearLayout);
+        bind = ButterKnife.bind(this, linearLayout);
         initView(linearLayout);
         return linearLayout;
     }
@@ -44,6 +47,7 @@ public abstract class AbsTitlebarFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        bind.unbind();
     }
 
     @Override

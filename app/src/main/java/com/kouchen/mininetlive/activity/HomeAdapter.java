@@ -47,10 +47,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
         if (holder == null) {
             return;
         }
-        ActivityInfo[] activityInfos = homeModel.getActivityByItemIndex(position);
         if (holder instanceof ActivityViewHolder1) {
-            ((ActivityViewHolder1) holder).setActivity(activityInfos[0]);
+            ((ActivityViewHolder1) holder).setActivity(homeModel.getRecommend(position));
         } else if (holder instanceof ActivityViewHolder2) {
+            ActivityInfo[] activityInfos = homeModel.getGeneral(position-homeModel.getRecommondCount());
             ((ActivityViewHolder2) holder).setActivity(activityInfos);
         }
     }
@@ -104,30 +104,42 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
         }
 
         public void setActivity(ActivityInfo[] infos) {
+            if(infos == null){
+                itemView.setVisibility(View.INVISIBLE);
+                return;
+            }else{
+                itemView.setVisibility(View.VISIBLE);
+            }
             final ActivityInfo info0 = infos[0];
-            Glide.with(itemView.getContext())
-                    .load(info0.getFrontCover())
-                    .centerCrop()
-                    .centerCrop()
-                    .placeholder(R.drawable.img_default)
-                    .crossFade()
-                    .transform(new GlideRoundTransform(itemView.getContext(), DensityUtil.dip2px(itemView.getContext(), 1.5f)))
-                    .into(frontCover0);
-            title0.setText(info0.getTitle());
-            playCount0.setText(String.valueOf(info0.getPlayCount()));
-            view0.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
-                    intent.putExtra("activityInfo", info0);
-                    view.getContext().startActivity(intent);
+            if(info0 == null){
+                view0.setVisibility(View.INVISIBLE);
+            }else{
+                view0.setVisibility(View.VISIBLE);
+                Glide.with(itemView.getContext())
+                        .load(info0.getFrontCover())
+                        .centerCrop()
+                        .centerCrop()
+                        .placeholder(R.drawable.img_default)
+                        .crossFade()
+                        .transform(new GlideRoundTransform(itemView.getContext(), DensityUtil.dip2px(itemView.getContext(), 1.5f)))
+                        .into(frontCover0);
+                title0.setText(info0.getTitle());
+                playCount0.setText(String.valueOf(info0.getPlayCount()));
+                view0.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
+                        intent.putExtra("activityInfo", info0);
+                        view.getContext().startActivity(intent);
 
-                }
-            });
+                    }
+                });
+            }
 
 
             final ActivityInfo info1 = infos[1];
             if (info1 != null) {
+                view1.setVisibility(View.VISIBLE);
                 itemView.setVisibility(View.VISIBLE);
                 Glide.with(itemView.getContext())
                         .load(info1.getFrontCover())
@@ -149,7 +161,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
                 });
 
             } else {
-                itemView.setVisibility(View.INVISIBLE);
+                view1.setVisibility(View.INVISIBLE);
             }
 
         }
@@ -171,6 +183,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
         }
 
         public void setActivity(final ActivityInfo info) {
+            if(info == null){
+                itemView.setVisibility(View.INVISIBLE);
+                return;
+            }
             Glide.with(itemView.getContext())
                     .load(info.getFrontCover())
                     .centerCrop()
@@ -182,7 +198,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
             nickname.setText(info.getOwner().getNickname());
             appointCount.setVisibility(View.INVISIBLE);
             onlineCount.setVisibility(View.INVISIBLE);
-            if (info.getStreamType() == 1) {
+            if (info.getStreamType() == 0) {
                 state.setVisibility(View.VISIBLE);
                 switch (info.getActivityState()) {
                     case 0:
@@ -195,7 +211,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
                         state.setBackgroundResource(R.drawable.red_round_bg);
                         state.setText("直播中");
                         onlineCount.setVisibility(View.VISIBLE);
-                        onlineCount.setText(String.valueOf(11111) + "人在看");
+                        onlineCount.setText(info.getOnlineCount() + "人在看");
                         break;
                     case 2:
                         state.setBackgroundResource(R.drawable.grey_round_bg);

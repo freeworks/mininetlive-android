@@ -3,11 +3,14 @@ package com.kouchen.mininetlive.account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.kouchen.mininetlive.AboutActivity;
 import com.kouchen.mininetlive.AbsTitlebarFragment;
 import com.kouchen.mininetlive.MNLApplication;
@@ -24,6 +27,8 @@ import butterknife.OnClick;
  * Created by cainli on 16/6/24.
  */
 public class MeFragment extends AbsTitlebarFragment {
+
+    private static final String TAG = "MeFragment";
 
     @BindView(R.id.reward)
     ItemView reward;
@@ -56,17 +61,17 @@ public class MeFragment extends AbsTitlebarFragment {
         UserInfo userInfo = getUserInfo();
         if (userInfo == null) {
             return;
-        }else{
+        } else {
             setUserInfo(userInfo);
         }
     }
 
     private void setUserInfo(UserInfo userInfo) {
-        if(userInfo == null){
+        if (userInfo == null) {
             avatar.setBackgroundResource(R.drawable.ic_avatar_default);
             nickName.setText("未知");
             phone.setText("");
-        }else{
+        } else {
             Glide.with(this)
                     .load(userInfo.getAvatar())
                     .centerCrop()
@@ -108,10 +113,25 @@ public class MeFragment extends AbsTitlebarFragment {
     public void logout() {
         MNLApplication.getCacheManager().unset("user");
         setUserInfo(null);
+        EMClient.getInstance().logout(true, new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "onSuccess: 退出成功");
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                Log.e(TAG, "onError: 退出失败", new Exception("code " + message));
+            }
+        });
         ((MainActivity) getActivity()).goHomeTab();
     }
 
-    @OnClick({R.id.avatar,R.id.reward, R.id.appointmentRecord, R.id.payRecord,
+    @OnClick({R.id.avatar, R.id.reward, R.id.appointmentRecord, R.id.payRecord,
             R.id.playRecord, R.id.about})
     public void onClick(View view) {
         Intent intent = null;
@@ -135,7 +155,7 @@ public class MeFragment extends AbsTitlebarFragment {
                 intent = new Intent(getContext(), AboutActivity.class);
                 break;
         }
-        if(intent == null){
+        if (intent == null) {
             return;
         }
         startActivity(intent);

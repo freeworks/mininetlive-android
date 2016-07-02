@@ -18,7 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by cainli on 16/6/4.
  */
 public class RestClient {
-    public static final String API_URL = "http://106.75.19.205:8080";
+    //    public static final String API_URL = "http://106.75.19.205:8080";
+    public static final String API_URL = "http://192.168.0.103:8080";
     private AuthService accountService;
     private ActivityService activityService;
     private PayService payService;
@@ -35,7 +36,7 @@ public class RestClient {
                 Request original = chain.request();
                 Request request = original.newBuilder()
 //                        .header("User-Agent", "Your-App-Name")
-                        .header("Content-Type","application/x-www-form-urlencoded")
+                        .header("Content-Type", "application/x-www-form-urlencoded")
                         .header("Accept", "application/vnd.yourapi.v1.full+json")
                         .method(original.method(), original.body())
                         .build();
@@ -61,6 +62,7 @@ public class RestClient {
     public ActivityService getActivityService() {
         return activityService;
     }
+
     public PayService getPayService() {
         return payService;
     }
