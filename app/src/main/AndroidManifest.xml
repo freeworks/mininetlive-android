@@ -5,8 +5,8 @@
     android:versionName="1.0">
 
     <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="19" />
+        android:minSdkVersion="10"
+        android:targetSdkVersion="23" />
 
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -34,21 +34,25 @@
         android:smallScreens="true" />
 
     <application
+        android:hardwareAccelerated="false"
         android:name=".MNLApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Black.NoTitleBar">
         <activity
+            android:screenOrientation="portrait"
             android:name=".auth.LoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
+            android:screenOrientation="portrait"
             android:name=".SplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop"/>
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop">
             <intent-filter>
@@ -58,30 +62,79 @@
         </activity>
         <activity
             android:name=".activity.ActivityDetailActivity"
+            android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop"/>
 
         <activity
-            android:name=".BalanceActivity"
+            android:name=".account.BalanceActivity"
+            android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop"/>
+
+        <activity
+            android:name=".account.EditGenderActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"/>
+
+        <activity
+            android:name=".account.EditNickActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"/>
+
+        <activity
+            android:name=".account.WithdrawRecordActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"/>
+
+        <activity
+            android:name=".account.EditMeActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".AboutActivity"
+            android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".auth.RegisterPhoneActivity"
+            android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".auth.RegisterPasswordActivity"
+            android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
             android:name=".auth.RegisterInfoActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
+            android:name=".account.AppointmentRecordActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
+            android:name=".account.PlayRecordActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+
+        <activity
+            android:name=".account.PaidRecordActivity"
+            android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
@@ -103,12 +156,12 @@
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind"/>
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind"/>
 
         <!-- 设置环信应用的AppKey -->
         <meta-data

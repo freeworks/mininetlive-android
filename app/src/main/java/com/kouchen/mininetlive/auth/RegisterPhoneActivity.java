@@ -39,6 +39,7 @@ public class RegisterPhoneActivity extends AbsTitlebarActivity {
     @OnClick(R.id.next)
     public void onClick(View view) {
         if (R.id.next == view.getId()) {
+
             Intent intent = new Intent(this, RegisterPasswordActivity.class);
             intent.putExtra("phone", phone.getText().toString());
             startActivity(intent);

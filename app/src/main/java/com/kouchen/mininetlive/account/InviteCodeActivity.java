@@ -1,28 +1,30 @@
-package com.kouchen.mininetlive;
+package com.kouchen.mininetlive.account;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.Toast;
+
+import com.kouchen.mininetlive.AbsTitlebarActivity;
+import com.kouchen.mininetlive.R;
 
 /**
  * Created by cainli on 16/6/26.
  */
-public class BalanceDetailListActivity extends AbsTitlebarActivity {
+public class InviteCodeActivity extends AbsTitlebarActivity {
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     protected int getContentResId() {
-        return R.layout.activity_balance_detaillist;
+        return R.layout.activity_invite;
     }
 
     @Override
     public String getTitleString() {
-        return "提现明细";
+        return "我的邀请码";
     }
 }

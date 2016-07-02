@@ -60,10 +60,6 @@
         "source": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/drawable-hdpi-v4/wallet_base_dialog_bg.9.png"
     },
     {
-        "merged": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ebpay_pwdpay_next_gray.png",
-        "source": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/drawable-hdpi-v4/ebpay_pwdpay_next_gray.png"
-    },
-    {
         "merged": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/wallet_base_bg_input_tip.9.png",
         "source": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/drawable-hdpi-v4/wallet_base_bg_input_tip.9.png"
     },
@@ -74,6 +70,10 @@
     {
         "merged": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/wallet_base_password_bg.png",
         "source": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/drawable-hdpi-v4/wallet_base_password_bg.png"
+    },
+    {
+        "merged": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ebpay_pwdpay_next_gray.png",
+        "source": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/drawable-hdpi-v4/ebpay_pwdpay_next_gray.png"
     },
     {
         "merged": "/Users/cainli/Desktop/v2.7.2/minnetlive/lib/bdwallet_pay_sdk/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ebpay_sec_icon.png",

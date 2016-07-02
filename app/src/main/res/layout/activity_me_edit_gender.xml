@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFEEEEEE"
+    android:clickable="true"
+    android:orientation="vertical">
+
+
+    <com.kouchen.mininetlive.ui.ItemView2
+        android:id="@+id/femaleItem"
+        android:onClick="onClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#ffffff"
+        app:IsShowArrow="false"
+        app:ItemKey="男" />
+
+    <com.kouchen.mininetlive.ui.ItemViewDivider
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:LeftMargin="15dp" />
+
+    <com.kouchen.mininetlive.ui.ItemView2
+        android:id="@+id/maleItem"
+        android:onClick="onClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        app:IsShowArrow="false"
+        app:ItemKey="女" />
+
+    <com.kouchen.mininetlive.ui.ItemViewDivider
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:IsShowArrow="false"
+        app:LeftMargin="15dp" />
+
+</LinearLayout>

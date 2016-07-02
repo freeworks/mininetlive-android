@@ -12,15 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
-        android:paddingBottom="15dp"
-        android:paddingTop="22dp">
+        android:paddingBottom="12dp"
+        android:paddingTop="20dp">
 
         <ImageView
             android:id="@+id/avatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/ic_avatar_default" />
 
         <TextView
             android:id="@+id/nickname"
@@ -28,8 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/avatar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:text="sssss"
+            android:layout_marginTop="20dp"
+            android:text="linshu"
             android:textColor="#4A4A4A"
             android:textSize="16sp" />
 
@@ -39,9 +39,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/nickname"
             android:layout_centerHorizontal="true"
-            android:text="sssss"
+            android:text=""
+            android:layout_marginTop="2dp"
             android:textColor="#B0B0B0"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
 
     </RelativeLayout>
 
@@ -64,8 +65,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
-        app:ItemIcon="@drawable/ic_money"
-        app:ItemText="预约" />
+        app:ItemIcon="@drawable/ic_reserva"
+        app:ItemText="预约记录" />
 
     <com.kouchen.mininetlive.ui.ItemViewDivider
         app:LeftMargin="40dp"
@@ -77,8 +78,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
-        app:ItemIcon="@drawable/ic_money"
-        app:ItemText="支付记录" />
+        app:ItemIcon="@drawable/ic_living"
+        app:ItemText="购买记录" />
 
     <com.kouchen.mininetlive.ui.ItemViewDivider
         app:LeftMargin="40dp"
@@ -108,10 +109,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="#ffffff"
+        android:background="@drawable/item_selector"
         android:gravity="center"
-        android:paddingBottom="12dp"
-        android:paddingTop="12dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textSize="16sp"
         android:text="退出登陆"
         android:textColor="#F66666" />
 </LinearLayout>

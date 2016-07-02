@@ -18,6 +18,15 @@
         <attr name="ItemText" format="string|reference"/>
     </declare-styleable>
 
+    <declare-styleable name="ItemView2">
+        <attr name="ItemKey" format="string|reference"/>
+        <attr name="ItemValue" format="string|reference"/>
+        <attr name="IsShowAvatar" format="boolean"/>
+        <attr name="IsShowArrow" format="boolean"/>
+        <attr name="IsShowCheck" format="boolean"/>
+    </declare-styleable>
+
+
     <declare-styleable name="ItemViewDivider">
         <attr name="LeftMargin" format="dimension|reference"/>
     </declare-styleable>

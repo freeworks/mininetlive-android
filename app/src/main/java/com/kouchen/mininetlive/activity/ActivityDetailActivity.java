@@ -165,6 +165,11 @@ public class ActivityDetailActivity extends PayActivity {
     }
 
     @Override
+    protected boolean isBelowTitleBar() {
+        return false;
+    }
+
+    @Override
     protected int getContentResId() {
         return R.layout.activity_detail;
     }

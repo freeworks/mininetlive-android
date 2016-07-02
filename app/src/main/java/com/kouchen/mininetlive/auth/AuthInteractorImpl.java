@@ -6,6 +6,8 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.rest.service.AuthService;
 import com.kouchen.mininetlive.rest.service.HttpResponse;
@@ -20,6 +22,7 @@ import retrofit2.Response;
 public class AuthInteractorImpl implements AuthInteractor {
 
     public static final String TAG = AuthInteractorImpl.class.getSimpleName();
+
 
     @Override
     public void oauthLogin(final OnLoginFinishedListener listener, Platform platform, String... args) {
@@ -48,6 +51,11 @@ public class AuthInteractorImpl implements AuthInteractor {
                             if (response.isSuccess()) {
                                 HttpResponse httpResponse = response.body();
                                 if (httpResponse.ret == 0) {
+                                    JsonObject data = httpResponse.data.getAsJsonObject();
+                                    Gson gson = new Gson();
+                                    MNLApplication.getCacheManager().put("token",gson.fromJson(data.get("token"),String.class));
+                                    UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
+                                    MNLApplication.getCacheManager().put("user",user);
                                     listener.onSuccess();
                                 } else {
                                     oauthRegister(plat, res, listener, accountService);
@@ -58,22 +66,18 @@ public class AuthInteractorImpl implements AuthInteractor {
                         @Override
                         public void onFailure(Call<HttpResponse> call, Throwable t) {
                             Log.e(TAG, "onFailure: ", t);
+                            listener.onError("登陆失败");
                         }
                     });
                 }
             }
 
             public void onError(Platform plat, int action, Throwable t) {
-                if (action == Platform.ACTION_USER_INFOR) {
-                    //
-                }
-                Log.e(TAG, "", t);
+                listener.onError("登陆失败");
             }
 
             public void onCancel(Platform plat, int action) {
-                if (action == Platform.ACTION_USER_INFOR) {
-
-                }
+                listener.onError("取消成功");
             }
         });
         plat.showUser(null);
@@ -138,8 +142,12 @@ public class AuthInteractorImpl implements AuthInteractor {
                 if (response.isSuccess()) {
                     HttpResponse httpResponse = response.body();
                     if (httpResponse.ret == 0) {
+                        JsonObject data = httpResponse.data.getAsJsonObject();
+                        Gson gson = new Gson();
+                        MNLApplication.getCacheManager().put("token",gson.fromJson(data.get("token"),String.class));
+                        UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
+                        MNLApplication.getCacheManager().put("user",user);
                         listener.onSuccess();
-                        return;
                     } else {
                         listener.onError(httpResponse.msg);
                     }
@@ -150,7 +158,7 @@ public class AuthInteractorImpl implements AuthInteractor {
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
-                listener.onError(null);
+                listener.onError("登陆失败");
             }
         });
     }
@@ -160,32 +168,30 @@ public class AuthInteractorImpl implements AuthInteractor {
         AuthService accountService = MNLApplication.getRestClient().getAccountService();
         Call<HttpResponse> call = accountService.login(phone, password);
         call.enqueue(new Callback<HttpResponse>() {
+
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                if (!response.isSuccess()) {
-                    try {
-                        Log.i(TAG, "onResponse: " + response.errorBody().string());
-                    } catch (IOException e) {
-                        Log.e(TAG, "onResponse: ", e);
+                if (response.isSuccess()) {
+                    HttpResponse httpResponse = response.body();
+                    if (httpResponse.ret == 0) {
+                        JsonObject data = httpResponse.data.getAsJsonObject();
+                        Gson gson = new Gson();
+                        MNLApplication.getCacheManager().put("token",gson.fromJson(data.get("token"),String.class));
+                        UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
+                        MNLApplication.getCacheManager().put("user",user);
+                        listener.onSuccess();
+                    } else {
+                        listener.onError(httpResponse.msg);
                     }
-                    return;
-                }
-
-                HttpResponse resp = response.body();
-                if (resp == null) {
-                    return;
-                }
-                if (resp.ret == 0) {
-                    listener.onSuccess();
-                } else {
-                    listener.onError(resp.msg);
+                }else{
+                    listener.onError("登陆失败");
                 }
             }
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
-                listener.onError(null);
+                listener.onError("登陆失败");
             }
         });
     }
@@ -197,28 +203,21 @@ public class AuthInteractorImpl implements AuthInteractor {
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                if (!response.isSuccess()) {
-                    try {
-                        Log.i(TAG, "onResponse: " + response.errorBody().string());
-                    } catch (IOException e) {
-                        Log.e(TAG, "onResponse: ", e);
+                if (response.isSuccess()) {
+                    HttpResponse resp = response.body();
+                    if (resp.ret == 0) {
+                        listener.onSuccess();
+                    } else {
+                        listener.onError(resp.msg);
                     }
-                    return;
-                }
-                HttpResponse resp = response.body();
-                if (resp == null) {
-                    return;
-                }
-                if (resp.ret == 0) {
-                    listener.onSuccess();
-                } else {
-                    listener.onError(resp.msg);
+                }else{
+                    listener.onError("获取验证码失败");
                 }
             }
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
-                listener.onError(null);
+                listener.onError("获取验证码失败");
                 Log.e(TAG, "onFailure: ", t);
             }
         });
@@ -231,29 +230,27 @@ public class AuthInteractorImpl implements AuthInteractor {
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                if (!response.isSuccess()) {
-                    try {
-                        Log.i(TAG, "onResponse: " + response.errorBody().string());
-                    } catch (IOException e) {
-                        Log.e(TAG, "onResponse: ", e);
+                if (response.isSuccess()) {
+                    HttpResponse httpResponse = response.body();
+                    if (httpResponse.ret == 0) {
+                        JsonObject data = httpResponse.data.getAsJsonObject();
+                        Gson gson = new Gson();
+                        MNLApplication.getCacheManager().put("token",gson.fromJson(data.get("token"),String.class));
+                        UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
+                        MNLApplication.getCacheManager().put("user",user);
+                        listener.onSuccess();
+                    } else {
+                        listener.onError(httpResponse.msg);
                     }
-                    return;
-                }
-                HttpResponse resp = response.body();
-                if (resp == null) {
-                    return;
-                }
-                if (resp.ret == 0) {
-                    listener.onRegisterSuccess();
-                } else {
-                    listener.onError(resp.msg);
+                }else{
+                    listener.onError("注册失败");
                 }
             }
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
-                listener.onError(null);
                 Log.e(TAG, "onFailure: ", t);
+                listener.onError("注册失败");
             }
         });
     }

@@ -7,12 +7,13 @@
     android:paddingTop="6dp">
     <TextView
         android:id="@+id/back"
-        android:layout_width="60dp"
+        android:layout_width="70dp"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:drawableLeft="@drawable/ic_arrow_left"
         android:text="返回"
         android:drawablePadding="0dp"
+        android:textSize="15sp"
         android:gravity="left|center_vertical"
         android:layout_centerVertical="true"
         android:textColor="#FF4A90E2" />
@@ -35,17 +36,21 @@
         android:layout_toRightOf="@+id/back"
         android:layout_toLeftOf="@+id/right"
         android:text="title"
+        android:textSize="15sp"
         android:layout_centerVertical="true"
         android:gravity="center"
         android:textColor="#FF4A90E2" />
 
     <TextView
         android:id="@+id/right"
-        android:layout_width="60dp"
-        android:text="返回返回"
+        android:layout_width="70dp"
+        android:text=""
+        android:textSize="15sp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:gravity="center_vertical|right"
+        android:paddingRight="5dp"
         android:textColor="#FF4A90E2"
         android:visibility="invisible" />
 </RelativeLayout>

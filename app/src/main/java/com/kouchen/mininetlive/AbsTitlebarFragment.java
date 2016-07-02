@@ -1,7 +1,5 @@
 package com.kouchen.mininetlive;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +7,6 @@ import android.widget.LinearLayout;
 
 import com.kouchen.mininetlive.base.BaseFragment;
 import com.kouchen.mininetlive.ui.TitlebarView;
-
 
 import butterknife.ButterKnife;
 
@@ -20,9 +17,8 @@ public abstract class AbsTitlebarFragment extends BaseFragment {
 
     protected TitlebarView titlebarView;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View getRootView() {
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         titlebarView = new TitlebarView(getContext());

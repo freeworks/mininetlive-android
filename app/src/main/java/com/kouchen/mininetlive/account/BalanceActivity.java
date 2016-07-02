@@ -1,9 +1,12 @@
-package com.kouchen.mininetlive;
+package com.kouchen.mininetlive.account;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+
+import com.kouchen.mininetlive.AbsTitlebarActivity;
+import com.kouchen.mininetlive.R;
 
 /**
  * Created by cainli on 16/6/26.
@@ -17,7 +20,7 @@ public class BalanceActivity extends AbsTitlebarActivity {
         titlebarView.setRightTextView("提现明细", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BalanceActivity.this, BalanceDetailListActivity.class);
+                Intent intent = new Intent(BalanceActivity.this, WithdrawRecordActivity.class);
                 startActivity(intent);
             }
         });

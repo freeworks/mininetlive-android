@@ -78,8 +78,6 @@ public class LoginActivity extends BaseActivity implements AuthView, View.OnClic
 
     @Override
     public void navigateToHome() {
-        SharedPreferences sp = getSharedPreferences("account", 0);
-        sp.edit().putBoolean("isLogin",true).apply();
         setResult(RESULT_OK);
         finish();
     }
