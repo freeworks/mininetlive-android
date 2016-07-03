@@ -3,6 +3,8 @@ package com.kouchen.mininetlive;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.pm.PackageManager;
+import android.os.Build;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.hyphenate.chat.EMClient;
@@ -10,6 +12,7 @@ import com.hyphenate.chat.EMOptions;
 import com.iainconnor.objectcache.CacheManager;
 import com.iainconnor.objectcache.DiskCache;
 import com.kouchen.mininetlive.rest.RestClient;
+import com.ucloud.live.UEasyStreaming;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,12 +30,21 @@ public class MNLApplication extends Application {
 
     private static final String TAG = "MNLApplication";
 
+    protected static MNLApplication  mInstance;
+    private DisplayMetrics displayMetrics = null;
     private static RestClient restClient;
     private static CacheManager cacheManager;
+
+    public MNLApplication() {
+        mInstance = this;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        mInstance = this;
+        UEasyStreaming.initStreaming("publish3-key");
+        UEasyStreaming.syncMobileConfig(this, 3600 * 24);
         restClient = new RestClient();
         ButterKnife.setDebug(true);
         String cachePath = getCacheDir().getPath();
@@ -90,5 +102,65 @@ public class MNLApplication extends Application {
 
     public static CacheManager getCacheManager() {
         return cacheManager;
+    }
+
+    public static boolean sRunningOnIceCreamSandwich;
+
+    static {
+        sRunningOnIceCreamSandwich = Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+    }
+
+    public static MNLApplication getApplication() {
+        if (mInstance != null && mInstance instanceof MNLApplication) {
+            return (MNLApplication) mInstance;
+        } else {
+            mInstance = new MNLApplication();
+            mInstance.onCreate();
+            return (MNLApplication) mInstance;
+        }
+    }
+
+    public float getScreenDensity() {
+        if (this.displayMetrics == null) {
+            setDisplayMetrics(getResources().getDisplayMetrics());
+        }
+        return this.displayMetrics.density;
+    }
+
+    public int getScreenHeight() {
+        if (this.displayMetrics == null) {
+            setDisplayMetrics(getResources().getDisplayMetrics());
+        }
+        return this.displayMetrics.heightPixels;
+    }
+
+    public int getScreenWidth() {
+        if (this.displayMetrics == null) {
+            setDisplayMetrics(getResources().getDisplayMetrics());
+        }
+        return this.displayMetrics.widthPixels;
+    }
+
+    public void setDisplayMetrics(DisplayMetrics DisplayMetrics) {
+        this.displayMetrics = DisplayMetrics;
+    }
+
+    public int dp2px(float f)
+    {
+        return (int)(0.5F + f * getScreenDensity());
+    }
+
+    public int px2dp(float pxValue) {
+        return (int) (pxValue / getScreenDensity() + 0.5f);
+    }
+
+    //获取应用的data/data/....File目录
+    public String getFilesDirPath() {
+        return getFilesDir().getAbsolutePath();
+    }
+
+    //获取应用的data/data/....Cache目录
+    public String getCacheDirPath() {
+        return getCacheDir().getAbsolutePath();
     }
 }

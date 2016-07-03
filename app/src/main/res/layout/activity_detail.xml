@@ -3,19 +3,17 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE">
 
-    <com.kouchen.mininetlive.ui.FrontCoverImageView
-        android:id="@+id/frontCover"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.kouchen.mininetlive.ui.VideoPlayer
+        android:id="@+id/player"
         android:layout_alignParentTop="true"
-        android:background="@drawable/img_default"
-        android:scaleType="centerCrop" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <RelativeLayout
         android:id="@+id/titleLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/frontCover"
+        android:layout_below="@id/player"
         android:background="#ffffff"
         android:paddingBottom="12dp"
         android:paddingLeft="14dp"
