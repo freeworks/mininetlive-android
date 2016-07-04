@@ -1,17 +1,14 @@
 package com.kouchen.mininetlive.activity;
 
 import android.annotation.TargetApi;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.hyphenate.chat.EMClient;
 import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.pay.PayActivity;
@@ -21,7 +18,8 @@ import com.kouchen.mininetlive.ui.VideoPlayer;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import fm.jiecao.jcvideoplayer_lib.JCMediaManager;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by cainli on 16/6/21.
@@ -67,16 +65,22 @@ public class ActivityDetailActivity extends PayActivity {
         super.onCreate(savedInstanceState);
         titlebarView.setTransparentBackground(true);
         int screenWidth = MNLApplication.getApplication().getScreenWidth();
-        player.getLayoutParams().height = (int) (screenWidth*9/16f);
+        player.getLayoutParams().height = (int) (screenWidth * 9 / 16f);
         info = (ActivityInfo) getIntent().getSerializableExtra("activityInfo");
-        player.setUp("http://mediademo.ufile.ucloud.com.cn/ucloud_promo_140s.mp4"
-                , info.getTitle());
+        player.setUp(info.getVideoPath(), info.getTitle());
         Glide.with(this)
                 .load(info.getFrontCover())
-//                .centerCrop()
-//                .placeholder(R.drawable.img_default)
-//                .crossFade()
+                .centerCrop()
+                .placeholder(R.drawable.img_default)
+                .crossFade()
                 .into(player.thumbImageView);
+
+        JCVideoPlayerStandard.setJcBuriedPointStandard(new JCBuriedPointStandardAdapter() {
+            @Override
+            public void onClickStartIcon(String url, Object... objects) {
+                super.onClickStartIcon(url, objects);
+            }
+        });
 
         title.setText(info.getTitle());
         nickname.setText(info.getOwner().getNickname());
@@ -175,12 +179,7 @@ public class ActivityDetailActivity extends PayActivity {
     @Override
     protected void onPause() {
         super.onPause();
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        JCMediaManager.instance().releaseMediaPlayer();
+        JCVideoPlayer.releaseAllVideos();
     }
 
     @Override
@@ -243,10 +242,10 @@ public class ActivityDetailActivity extends PayActivity {
     }
 
     private void buy() {
-        pay(PayChannel.CHANNEL_WECHAT, 1);
+        pay(info.getId(), PayChannel.CHANNEL_WECHAT, 1);
     }
 
     private void reward() {
-        pay(PayChannel.CHANNEL_WECHAT, 0);
+        pay(info.getId(), PayChannel.CHANNEL_WECHAT, 0);
     }
 }

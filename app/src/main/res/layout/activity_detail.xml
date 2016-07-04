@@ -7,7 +7,7 @@
         android:id="@+id/player"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="200dp"/>
 
     <RelativeLayout
         android:id="@+id/titleLayout"

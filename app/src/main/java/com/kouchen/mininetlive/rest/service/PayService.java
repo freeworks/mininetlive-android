@@ -12,5 +12,5 @@ public interface PayService {
 
     @FormUrlEncoded
     @POST("/pay/charge")
-    Call<HttpResponse> GetCharge(@Field("channel") String channel, @Field("amount") int amount, @Field("payType") int type);
+    Call<HttpResponse> GetCharge(@Field("aid") String aid, @Field("channel") String channel, @Field("amount") int amount, @Field("payType") int type);
 }

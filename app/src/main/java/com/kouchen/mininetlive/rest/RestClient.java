@@ -1,10 +1,14 @@
 package com.kouchen.mininetlive.rest;
 
+import com.google.gson.reflect.TypeToken;
+import com.kouchen.mininetlive.MNLApplication;
+import com.kouchen.mininetlive.auth.UserInfo;
 import com.kouchen.mininetlive.rest.service.AuthService;
 import com.kouchen.mininetlive.rest.service.ActivityService;
 import com.kouchen.mininetlive.rest.service.PayService;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -18,8 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by cainli on 16/6/4.
  */
 public class RestClient {
-    public static final String API_URL = "http://106.75.19.205:8080";
-    //    public static final String API_URL = "http://192.168.0.103:8080";
+//    public static final String API_URL = "http://106.75.19.205:8080";
+        public static final String API_URL = "http://192.168.0.103:8080";
     private AuthService accountService;
     private ActivityService activityService;
     private PayService payService;
@@ -33,9 +37,16 @@ public class RestClient {
         client.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Interceptor.Chain chain) throws IOException {
+                Type userType = new TypeToken<UserInfo>() {
+                }.getType();
+                UserInfo userInfo = (UserInfo) MNLApplication.getCacheManager().get("user", UserInfo.class, userType);
                 Request original = chain.request();
-                Request request = original.newBuilder()
-//                        .header("User-Agent", "Your-App-Name")
+                Request.Builder builder = original.newBuilder();
+                if(userInfo == null){
+                    builder.header("uid", userInfo.getUid());
+                }
+                Request request = builder
+                        .header("uid", userInfo.getUid())
                         .header("Content-Type", "application/x-www-form-urlencoded")
                         .header("Accept", "application/vnd.yourapi.v1.full+json")
                         .method(original.method(), original.body())

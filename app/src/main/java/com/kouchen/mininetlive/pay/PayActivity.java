@@ -83,9 +83,9 @@ public abstract class PayActivity extends AbsTitlebarActivity {
         Pingpp.createPayment(this, data);
     }
 
-    public void pay(PayChannel channel, int count) {
+    public void pay(String aid, PayChannel channel, int count) {
         final PayService payService = MNLApplication.getRestClient().getPayService();
-        Call<HttpResponse> call = payService.GetCharge(channel.getChannelName(), count, 1);
+        Call<HttpResponse> call = payService.GetCharge(aid, channel.getChannelName(), count, 1);
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
