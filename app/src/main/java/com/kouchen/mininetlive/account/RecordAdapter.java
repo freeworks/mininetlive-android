@@ -4,21 +4,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.kouchen.mininetlive.R;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by cainli on 16/6/25.
  */
-public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordViewHolder> {
+public abstract class RecordAdapter<T extends RecordInfo> extends RecyclerView.Adapter<RecordAdapter.RecordViewHolder> {
 
-    private List<RecordInfo> recordInfoList;
+    private List<? extends RecordInfo> recordInfoList;
+
     @Override
     public RecordAdapter.RecordViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_activity2, parent, false);
-        return new RecordViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutResId(), parent, false);
+        return createViewHolder(view);
     }
 
     @Override
@@ -26,8 +31,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordView
         if (holder == null) {
             return;
         }
-        RecordInfo recordInfo = recordInfoList.get(position);
-        holder.setData(recordInfo);
+        holder.setData(recordInfoList.get(position));
     }
 
     @Override
@@ -38,19 +42,34 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordView
         return recordInfoList.size();
     }
 
-    public void setData(List<RecordInfo> recordInfoList) {
+    public void setData(List<? extends RecordInfo> recordInfoList) {
         this.recordInfoList = recordInfoList;
         notifyDataSetChanged();
     }
 
-    static class RecordViewHolder extends RecyclerView.ViewHolder {
+
+    protected abstract RecordViewHolder createViewHolder(View view);
+
+    protected abstract int getItemLayoutResId();
+
+    static abstract class RecordViewHolder<T extends RecordInfo> extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.title)
+        TextView title;
+        @BindView(R.id.nickname)
+        TextView nickname;
+        @BindView(R.id.date)
+        TextView date;
 
         public RecordViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(itemView);
         }
 
-        public void setData(RecordInfo recordInfo) {
-
+        public void setData(T t) {
+            title.setText(t.getNickname());
+            nickname.setText(t.getNickname());
+            date.setText(t.getDate());
         }
     }
 

@@ -14,7 +14,6 @@ import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.rest.service.AuthService;
 import com.kouchen.mininetlive.rest.service.HttpResponse;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -41,7 +40,7 @@ public class AuthInteractorImpl implements AuthInteractor {
         plat.setPlatformActionListener(new PlatformActionListener() {
             public void onComplete(final Platform plat, int action, final HashMap<String, Object> res) {
                 if (action == Platform.ACTION_USER_INFOR) {
-                    final AuthService accountService = MNLApplication.getRestClient().getAccountService();
+                    final AuthService accountService = MNLApplication.getRestClient().getAuthService();
                     Call<HttpResponse> call = accountService.oauthLogin(plat.getName(),
                             plat.getDb().getUserId(),
                             plat.getDb().getToken(),
@@ -169,7 +168,7 @@ public class AuthInteractorImpl implements AuthInteractor {
 
     @Override
     public void login(final OnLoginFinishedListener listener, final String phone, final String password) {
-        AuthService accountService = MNLApplication.getRestClient().getAccountService();
+        AuthService accountService = MNLApplication.getRestClient().getAuthService();
         Call<HttpResponse> call = accountService.login(phone, password);
         call.enqueue(new Callback<HttpResponse>() {
 
@@ -203,7 +202,7 @@ public class AuthInteractorImpl implements AuthInteractor {
 
     @Override
     public void getVCode(final OnLoginFinishedListener listener, String phone) {
-        AuthService accountService = MNLApplication.getRestClient().getAccountService();
+        AuthService accountService = MNLApplication.getRestClient().getAuthService();
         Call<HttpResponse> call = accountService.getVCode(phone);
         call.enqueue(new Callback<HttpResponse>() {
             @Override
@@ -230,7 +229,7 @@ public class AuthInteractorImpl implements AuthInteractor {
 
     @Override
     public void register(final OnLoginFinishedListener listener, String phone, String vcode, String password, String inviteCode) {
-        AuthService accountService = MNLApplication.getRestClient().getAccountService();
+        AuthService accountService = MNLApplication.getRestClient().getAuthService();
         Call<HttpResponse> call = accountService.register(phone, vcode, password, inviteCode);
         call.enqueue(new Callback<HttpResponse>() {
             @Override

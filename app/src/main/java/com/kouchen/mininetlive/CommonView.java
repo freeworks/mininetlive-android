@@ -1,11 +1,11 @@
-package com.kouchen.mininetlive.activity;
+package com.kouchen.mininetlive;
 
 import java.util.List;
 
 /**
  * Created by cainli on 16/6/25.
  */
-public interface LiveView {
+public interface CommonView {
 
     void showProgress();
 

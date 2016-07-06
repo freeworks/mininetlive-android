@@ -8,4 +8,29 @@ public class AppointmentRecordActivity extends RecordActivity {
     public String getTitleString() {
         return "预约记录";
     }
+
+    @Override
+    protected void loadData() {
+
+    }
+
+    @Override
+    protected RecordAdapter getAdapter() {
+        return null;
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void success(Object list) {
+
+    }
 }

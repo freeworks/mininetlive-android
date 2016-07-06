@@ -1,17 +1,16 @@
 package com.kouchen.mininetlive.activity;
 
-
-import java.util.List;
+import com.kouchen.mininetlive.CommonView;
 
 /**
  * Created by cainli on 16/6/25.
  */
 public class ActivityPresenterImpl implements ActivityPresenter, ActivityInteractor.OnActivityFinishedListener {
 
-    private LiveView liveView;
+    private CommonView liveView;
     private ActivityInteractor activityInteractor;
 
-    public ActivityPresenterImpl(LiveView loginView) {
+    public ActivityPresenterImpl(CommonView loginView) {
         this.liveView = loginView;
         this.activityInteractor = new ActivityInteractorImpl();
     }
