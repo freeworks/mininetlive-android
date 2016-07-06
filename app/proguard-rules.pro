@@ -18,3 +18,6 @@
 
 -keep class com.hyphenate.** {*;}
 -dontwarn  com.hyphenate.**
+
+-keep class com.ucloud.**{*;}
+-keep class org.xbill.**{*;}

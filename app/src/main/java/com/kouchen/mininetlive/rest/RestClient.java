@@ -24,7 +24,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RestClient {
     //    public static final String API_URL = "http://106.75.19.205:8080";
-    public static final String API_URL = "http://192.168.0.103:8080";
+    //public static final String API_URL = "http://192.168.0.103:8080";
+    public static final String API_URL = "http://172.17.23.194:8080";
     private AuthService authService;
     private AccountService accountService;
     private ActivityService activityService;
@@ -44,11 +45,10 @@ public class RestClient {
                 UserInfo userInfo = (UserInfo) MNLApplication.getCacheManager().get("user", UserInfo.class, userType);
                 Request original = chain.request();
                 Request.Builder builder = original.newBuilder();
-                if (userInfo == null) {
+                if (userInfo != null) {
                     builder.header("uid", userInfo.getUid());
                 }
                 Request request = builder
-                        .header("uid", userInfo.getUid())
                         .header("Content-Type", "application/x-www-form-urlencoded")
                         .header("Accept", "application/vnd.yourapi.v1.full+json")
                         .method(original.method(), original.body())

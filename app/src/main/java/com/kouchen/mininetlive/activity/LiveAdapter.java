@@ -1,5 +1,6 @@
 package com.kouchen.mininetlive.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +62,7 @@ public class LiveAdapter extends RecyclerView.Adapter<LiveAdapter.ActivityViewHo
             state = (TextView) view.findViewById(R.id.state);
         }
 
-        public void setActivity(ActivityInfo info) {
+        public void setActivity(final ActivityInfo info) {
             Glide.with(itemView.getContext())
                     .load(info.getFrontCover())
                     .centerCrop()
@@ -74,6 +75,15 @@ public class LiveAdapter extends RecyclerView.Adapter<LiveAdapter.ActivityViewHo
             nickname.setText(info.getOwner().getNickname());
             state.setBackgroundResource(R.drawable.blue_round_bg);
             state.setText("直播中");
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
+                    intent.putExtra("activityInfo", info);
+                    view.getContext().startActivity(intent);
+
+                }
+            });
         }
     }
 

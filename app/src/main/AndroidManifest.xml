@@ -30,7 +30,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
+    <uses-feature android:name="android.hardware.camera.autofocus" />
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
