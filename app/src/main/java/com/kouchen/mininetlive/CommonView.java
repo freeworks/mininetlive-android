@@ -1,9 +1,7 @@
 package com.kouchen.mininetlive;
 
-import java.util.List;
-
 /**
- * Created by cainli on 16/6/25.
+ * Created by cainli on 16/7/6.
  */
 public interface CommonView {
 
@@ -11,5 +9,7 @@ public interface CommonView {
 
     void hideProgress();
 
-    void success(Object list);
+    void onFail();
+
+    void success(Object object);
 }

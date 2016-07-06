@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.kouchen.mininetlive.AbsTitlebarFragment;
-import com.kouchen.mininetlive.CommonView;
+import com.kouchen.mininetlive.ActivityView;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.ui.RecycleViewDivider;
 import com.kouchen.mininetlive.utils.DisplayUtil;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by cainli on 16/6/24.
  */
-public class LiveFragment extends AbsTitlebarFragment implements CommonView {
+public class LiveFragment extends AbsTitlebarFragment implements ActivityView {
 
     private ActivityPresenter presenter;
 
@@ -74,7 +74,27 @@ public class LiveFragment extends AbsTitlebarFragment implements CommonView {
     }
 
     @Override
+    public void onFail() {
+
+    }
+
+    @Override
     public void success(Object list) {
+    }
+
+    @Override
+    public void getHomeListSuccess(HomeModel homeModel) {
+
+    }
+
+    @Override
+    public void loadMoreSuccess(List<ActivityInfo> list, boolean hasmore) {
+
+    }
+
+    @Override
+    public void getLiveListSuccess(List<ActivityInfo> list) {
         adapter.setData((List<ActivityInfo>)list);
+
     }
 }

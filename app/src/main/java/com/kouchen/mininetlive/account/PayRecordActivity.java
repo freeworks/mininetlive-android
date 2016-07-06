@@ -1,39 +1,38 @@
 package com.kouchen.mininetlive.account;
 
 import android.view.View;
+
 import com.kouchen.mininetlive.R;
 
 
 /**
  * Created by cainli on 16/7/2.
  */
-public class PlayRecordActivity extends RecordActivity {
-
+public class PayRecordActivity extends RecordActivity {
     @Override
     public String getTitleString() {
-        return "播放记录";
+        return "购买记录";
     }
 
     @Override
     protected void loadData() {
-        presenter.getPlayRecordList();
+        presenter.getPayRecordList();
     }
 
     @Override
     protected RecordAdapter getAdapter() {
-        return new PlayRecordAdapter();
+        return new PayRecordAdapter();
     }
 
-    public static class PlayRecordAdapter extends RecordAdapter<PlayRecordInfo> {
+    public static class PayRecordAdapter extends RecordAdapter<PayRecordInfo> {
         @Override
         protected RecordViewHolder createViewHolder(View view) {
-            return new PlayRecordViewHolder(view);
+            return new RecordViewHolder(view);
         }
 
         @Override
         protected int getItemLayoutResId() {
-            return R.layout.item_play_layout;
+            return R.layout.item_pay_layout;
         }
-
     }
 }

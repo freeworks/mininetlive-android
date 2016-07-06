@@ -79,7 +79,7 @@ public class AccountInteractorImpl implements AccountInteractor {
     @Override
     public void getAppointRecordList(final OnAccountFinishedListener listener) {
         final AccountService accountService = MNLApplication.getRestClient().getAccountService();
-        Call<HttpResponse> call = accountService.GetPayRecordList();
+        Call<HttpResponse> call = accountService.GetAppointmentRecordList();
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {

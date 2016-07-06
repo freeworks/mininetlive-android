@@ -26,4 +26,6 @@ public interface ActivityPresenter {
     void getLiveList();
 
     void getHomeList();
+
+    void loadMore(String lastId);
 }

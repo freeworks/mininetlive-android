@@ -18,8 +18,8 @@ public interface ActivityService {
     @GET("/activity/list")
     Call<HttpResponse> GetAcivityList();
 
-    @GET("/activity/list/more")
-    Call<HttpResponse> GetAcivityListMore();
+    @GET("/activity/list/more/{lastAid}")
+    Call<HttpResponse> GetAcivityListMore(@Path("lastAid") String lastId);
 
     @GET("/activity/live/list")
     Call<HttpResponse> GetLiveList();

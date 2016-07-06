@@ -1,16 +1,18 @@
 package com.kouchen.mininetlive.activity;
 
-import com.kouchen.mininetlive.CommonView;
+import com.kouchen.mininetlive.ActivityView;
+
+import java.util.List;
 
 /**
  * Created by cainli on 16/6/25.
  */
 public class ActivityPresenterImpl implements ActivityPresenter, ActivityInteractor.OnActivityFinishedListener {
 
-    private CommonView liveView;
+    private ActivityView liveView;
     private ActivityInteractor activityInteractor;
 
-    public ActivityPresenterImpl(CommonView loginView) {
+    public ActivityPresenterImpl(ActivityView loginView) {
         this.liveView = loginView;
         this.activityInteractor = new ActivityInteractorImpl();
     }
@@ -36,16 +38,38 @@ public class ActivityPresenterImpl implements ActivityPresenter, ActivityInterac
         activityInteractor.getHomeList(this);
     }
 
+    @Override
+    public void loadMore(String lastId) {
+        activityInteractor.getMore(this,lastId);
+    }
+
 
     @Override
-    public void onSuccess(Object object) {
-        if(liveView!=null){
-            liveView.success(object);
+    public void getHomeListSuccess(HomeModel homeModel) {
+        if (liveView != null) {
+            liveView.hideProgress();
         }
+        liveView.getHomeListSuccess(homeModel);
     }
 
     @Override
     public void onError(String msg) {
 
+    }
+
+    @Override
+    public void onLoadMoreSuccess(List<ActivityInfo> list, boolean hasmore) {
+        if (liveView != null) {
+            liveView.hideProgress();
+        }
+        liveView.loadMoreSuccess(list,hasmore);
+    }
+
+    @Override
+    public void onGetLiveListSuccess(List<ActivityInfo> list) {
+        if (liveView != null) {
+            liveView.hideProgress();
+        }
+        liveView.getLiveListSuccess(list);
     }
 }

@@ -1,5 +1,7 @@
 package com.kouchen.mininetlive.activity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import java.util.List;
  */
 public class HomeModel implements Serializable {
 
+    @SerializedName("hasmore")
     public boolean hasMore;
 
     public List<ActivityInfo> recommend;

@@ -146,7 +146,7 @@ public class MeFragment extends AbsTitlebarFragment {
                 intent = new Intent(getContext(), AppointmentRecordActivity.class);
                 break;
             case R.id.payRecord:
-                intent = new Intent(getContext(), PaidRecordActivity.class);
+                intent = new Intent(getContext(), PayRecordActivity.class);
                 break;
             case R.id.playRecord:
                 intent = new Intent(getContext(), PlayRecordActivity.class);

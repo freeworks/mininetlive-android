@@ -50,7 +50,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
         if (holder instanceof ActivityViewHolder1) {
             ((ActivityViewHolder1) holder).setActivity(homeModel.getRecommend(position));
         } else if (holder instanceof ActivityViewHolder2) {
-            ActivityInfo[] activityInfos = homeModel.getGeneral(position-homeModel.getRecommondCount());
+            ActivityInfo[] activityInfos = homeModel.getGeneral(position - homeModel.getRecommondCount());
             ((ActivityViewHolder2) holder).setActivity(activityInfos);
         }
     }
@@ -58,6 +58,20 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
     @Override
     public int getItemViewType(int position) {
         return position < homeModel.recommondItemSize() ? ITEM_TYPE.ITEM_TYPE_RECOMMEND.ordinal() : ITEM_TYPE.ITEM_TYPE_GENERAL.ordinal();
+    }
+
+    public String getLastItemId() {
+        if (homeModel == null) {
+            return null;
+        }
+        if (homeModel.general == null) {
+            if (homeModel.recommend != null) {
+                return homeModel.recommend.get(homeModel.getRecommondCount() - 1).getId();
+            }
+        } else {
+            return homeModel.general.get(homeModel.general.size() - 1).getId();
+        }
+        return null;
     }
 
 
@@ -71,6 +85,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
 
     public void setData(HomeModel homeModel) {
         this.homeModel = homeModel;
+        notifyDataSetChanged();
+    }
+
+    public void appendGeneralData(List<ActivityInfo> list) {
+        this.homeModel.general.addAll(list);
         notifyDataSetChanged();
     }
 
@@ -104,16 +123,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
         }
 
         public void setActivity(ActivityInfo[] infos) {
-            if(infos == null){
+            if (infos == null) {
                 itemView.setVisibility(View.INVISIBLE);
                 return;
-            }else{
+            } else {
                 itemView.setVisibility(View.VISIBLE);
             }
             final ActivityInfo info0 = infos[0];
-            if(info0 == null){
+            if (info0 == null) {
                 view0.setVisibility(View.INVISIBLE);
-            }else{
+            } else {
                 view0.setVisibility(View.VISIBLE);
                 Glide.with(itemView.getContext())
                         .load(info0.getFrontCover())
@@ -183,7 +202,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
         }
 
         public void setActivity(final ActivityInfo info) {
-            if(info == null){
+            if (info == null) {
                 itemView.setVisibility(View.INVISIBLE);
                 return;
             }
@@ -208,7 +227,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
                         appointCount.setText("预约：" + String.valueOf(info.getAppointmentCount()) + "人");
                         break;
                     case 1:
-                        state.setBackgroundResource(R.drawable.red_round_bg);
+                        state.setBackgroundResource(R.drawable.blue_round_bg);
                         state.setText("直播中");
                         onlineCount.setVisibility(View.VISIBLE);
                         onlineCount.setText(info.getOnlineCount() + "人在看");

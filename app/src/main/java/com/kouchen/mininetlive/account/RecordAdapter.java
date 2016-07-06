@@ -16,12 +16,12 @@ import butterknife.ButterKnife;
 /**
  * Created by cainli on 16/6/25.
  */
-public abstract class RecordAdapter<T extends RecordInfo> extends RecyclerView.Adapter<RecordAdapter.RecordViewHolder> {
+public abstract class RecordAdapter<T extends RecordInfo> extends RecyclerView.Adapter<RecordViewHolder> {
 
     private List<? extends RecordInfo> recordInfoList;
 
     @Override
-    public RecordAdapter.RecordViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecordViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutResId(), parent, false);
         return createViewHolder(view);
     }
@@ -42,7 +42,7 @@ public abstract class RecordAdapter<T extends RecordInfo> extends RecyclerView.A
         return recordInfoList.size();
     }
 
-    public void setData(List<? extends RecordInfo> recordInfoList) {
+    public void setData(List<T> recordInfoList) {
         this.recordInfoList = recordInfoList;
         notifyDataSetChanged();
     }
@@ -52,27 +52,6 @@ public abstract class RecordAdapter<T extends RecordInfo> extends RecyclerView.A
 
     protected abstract int getItemLayoutResId();
 
-    static abstract class RecordViewHolder<T extends RecordInfo> extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.title)
-        TextView title;
-        @BindView(R.id.nickname)
-        TextView nickname;
-        @BindView(R.id.date)
-        TextView date;
-
-        public RecordViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(itemView);
-        }
-
-        public void setData(T t) {
-            title.setText(t.getNickname());
-            nickname.setText(t.getNickname());
-            date.setText(t.getDate());
-        }
-    }
 
 }
-
 

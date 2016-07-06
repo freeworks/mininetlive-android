@@ -5,22 +5,13 @@ package com.kouchen.mininetlive.account;
  */
 public class PlayRecordInfo extends RecordInfo {
 
-    private int amount;
-    private int orderType;
+    private long playCount;
 
-    public int getOrderType() {
-        return orderType;
+    public long getPlayCount() {
+        return playCount;
     }
 
-    public void setOrderType(int orderType) {
-        this.orderType = orderType;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setPlayCount(long playCount) {
+        this.playCount = playCount;
     }
 }

@@ -139,7 +139,7 @@
 
 
         <activity
-            android:name=".account.PaidRecordActivity"
+            android:name=".account.PayRecordActivity"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustPan" />

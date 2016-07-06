@@ -23,6 +23,8 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
     private int mOrientation;//列表的方向：LinearLayoutManager.VERTICAL或LinearLayoutManager.HORIZONTAL
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
 
+    private int leftMargin,rightMargin;
+
     /**
      * 默认分割线：高度为2px，颜色为灰色
      *
@@ -61,6 +63,16 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
      * @param dividerHeight 分割线高度
      * @param dividerColor  分割线颜色
      */
+    public RecycleViewDivider(Context context, int orientation, int dividerHeight, int dividerColor,int leftMargin,int rightMargin) {
+        this(context, orientation);
+        mDividerHeight = dividerHeight;
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setColor(dividerColor);
+        mPaint.setStyle(Paint.Style.FILL);
+        this.leftMargin = leftMargin;
+        this.rightMargin = rightMargin;
+    }
+
     public RecycleViewDivider(Context context, int orientation, int dividerHeight, int dividerColor) {
         this(context, orientation);
         mDividerHeight = dividerHeight;
@@ -99,7 +111,7 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
             final int top = child.getBottom() + layoutParams.bottomMargin;
             final int bottom = top + mDividerHeight;
             if (mDivider != null) {
-                mDivider.setBounds(left, top, right, bottom);
+                mDivider.setBounds(left+leftMargin, top, right-rightMargin, bottom);
                 mDivider.draw(canvas);
             }
             if (mPaint != null) {
@@ -119,7 +131,7 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
             final int left = child.getRight() + layoutParams.rightMargin;
             final int right = left + mDividerHeight;
             if (mDivider != null) {
-                mDivider.setBounds(left, top, right, bottom);
+                mDivider.setBounds(left+leftMargin, top, right-rightMargin, bottom);
                 mDivider.draw(canvas);
             }
             if (mPaint != null) {
