@@ -62,4 +62,6 @@ dependencies {
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'cn.finalteam.loadingviewfinal:ultra-pull-to-refresh:1.0.1'
     compile 'cn.finalteam.loadingviewfinal:loading-more-view:1.0.1'
+    compile 'com.makeramen:roundedimageview:2.2.1'
+    compile project(':PushSDK')
 }

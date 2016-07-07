@@ -4,10 +4,12 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
+
 /**
  * Created by cainli on 16/6/30.
  */
-public class FrontCoverImageView extends ImageView {
+public class FrontCoverImageView extends RoundedImageView {
 
     public FrontCoverImageView(Context context) {
         super(context);

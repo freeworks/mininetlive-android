@@ -1,10 +1,13 @@
 package com.kouchen.mininetlive.base;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
 import com.google.gson.reflect.TypeToken;
 import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.auth.UserInfo;
+import com.umeng.message.PushAgent;
 
 import java.lang.reflect.Type;
 
@@ -13,6 +16,11 @@ import java.lang.reflect.Type;
  */
 public class BaseActivity extends FragmentActivity {
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        PushAgent.getInstance(this).onAppStart();
+    }
 
     public boolean isLogin() {
 
