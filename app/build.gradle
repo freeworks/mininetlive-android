@@ -64,4 +64,5 @@ dependencies {
     compile 'cn.finalteam.loadingviewfinal:loading-more-view:1.0.1'
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile project(':PushSDK')
+    compile files('libs/pldroid-player-1.3.0.jar')
 }

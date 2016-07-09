@@ -18,8 +18,6 @@ import com.kouchen.mininetlive.ui.VideoPlayer;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by cainli on 16/6/21.
@@ -67,20 +65,13 @@ public class ActivityDetailActivity extends PayActivity {
         int screenWidth = MNLApplication.getApplication().getScreenWidth();
         player.getLayoutParams().height = (int) (screenWidth * 9 / 16f);
         info = (ActivityInfo) getIntent().getSerializableExtra("activityInfo");
-        player.setUp(info.getVideoPath(), info.getTitle());
-        Glide.with(this)
-                .load(info.getFrontCover())
-                .centerCrop()
-                .placeholder(R.drawable.img_default)
-                .crossFade()
-                .into(player.thumbImageView);
-
-        JCVideoPlayerStandard.setJcBuriedPointStandard(new JCBuriedPointStandardAdapter() {
-            @Override
-            public void onClickStartIcon(String url, Object... objects) {
-                super.onClickStartIcon(url, objects);
-            }
-        });
+        player.setUp(info.getStreamType(), info.getStreamType() == 0 ? info.getLivePullPath() : info.getVideoPath(), info.getTitle());
+//        Glide.with(this)
+//                .load(info.getFrontCover())
+//                .centerCrop()
+//                .placeholder(R.drawable.img_default)
+//                .crossFade()
+//                .into(player.thumbImageView);
 
         title.setText(info.getTitle());
         nickname.setText(info.getOwner().getNickname());
@@ -172,14 +163,21 @@ public class ActivityDetailActivity extends PayActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onPause() {
+        super.onPause();
+        player.pause();
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        JCVideoPlayer.releaseAllVideos();
+    protected void onResume() {
+        super.onResume();
+        player.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        player.stopPlayback();
     }
 
     @Override

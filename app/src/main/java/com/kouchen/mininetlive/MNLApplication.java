@@ -13,7 +13,6 @@ import com.hyphenate.chat.EMOptions;
 import com.iainconnor.objectcache.CacheManager;
 import com.iainconnor.objectcache.DiskCache;
 import com.kouchen.mininetlive.rest.RestClient;
-import com.ucloud.live.UEasyStreaming;
 import com.umeng.message.PushAgent;
 
 import java.io.File;
@@ -45,8 +44,6 @@ public class MNLApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        UEasyStreaming.initStreaming("publish3-key");
-        UEasyStreaming.syncMobileConfig(this, 3600 * 24);
         restClient = new RestClient();
         ButterKnife.setDebug(true);
         String cachePath = getCacheDir().getPath();
