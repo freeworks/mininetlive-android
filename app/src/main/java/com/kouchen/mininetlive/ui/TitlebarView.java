@@ -9,12 +9,11 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.hyphenate.util.DensityUtil;
 import com.kouchen.mininetlive.R;
+import com.kouchen.mininetlive.utils.DisplayUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by cainli on 16/6/25.
@@ -54,7 +53,7 @@ public class TitlebarView extends FrameLayout {
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(0x8AB2B2B2);
-        paint.setStrokeWidth(DensityUtil.dip2px(getContext(), 1));
+        paint.setStrokeWidth(DisplayUtil.dip2px(getContext(), 1));
     }
 
 

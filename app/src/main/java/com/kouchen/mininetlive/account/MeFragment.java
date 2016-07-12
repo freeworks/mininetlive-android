@@ -9,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
 import com.kouchen.mininetlive.AboutActivity;
 import com.kouchen.mininetlive.AbsTitlebarFragment;
 import com.kouchen.mininetlive.MNLApplication;
@@ -113,21 +111,6 @@ public class MeFragment extends AbsTitlebarFragment {
     public void logout() {
         MNLApplication.getCacheManager().unset("user");
         setUserInfo(null);
-        EMClient.getInstance().logout(true, new EMCallBack() {
-            @Override
-            public void onSuccess() {
-                Log.d(TAG, "onSuccess: 退出成功");
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-            }
-
-            @Override
-            public void onError(int code, String message) {
-                Log.e(TAG, "onError: 退出失败", new Exception("code " + message));
-            }
-        });
         ((MainActivity) getActivity()).goHomeTab();
     }
 

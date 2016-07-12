@@ -9,9 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.hyphenate.util.DensityUtil;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.ui.GlideRoundTransform;
+import com.kouchen.mininetlive.utils.DisplayUtil;
 
 import java.util.List;
 
@@ -68,7 +68,7 @@ public class LiveAdapter extends RecyclerView.Adapter<LiveAdapter.ActivityViewHo
                     .centerCrop()
                     .placeholder(R.drawable.img_default)
                     .crossFade()
-                    .transform(new GlideRoundTransform(itemView.getContext(), DensityUtil.dip2px(itemView.getContext(),1f)))
+                    .transform(new GlideRoundTransform(itemView.getContext(), DisplayUtil.dip2px(itemView.getContext(),1f)))
                     .into(frontCover);
             title.setText(info.getTitle());
             onlineCount.setText("111111");

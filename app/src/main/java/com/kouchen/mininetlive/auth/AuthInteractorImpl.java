@@ -2,20 +2,17 @@ package com.kouchen.mininetlive.auth;
 
 import android.util.Log;
 
-import cn.sharesdk.framework.Platform;
-import cn.sharesdk.framework.PlatformActionListener;
-import cn.sharesdk.framework.ShareSDK;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
 import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.rest.service.AuthService;
 import com.kouchen.mininetlive.rest.service.HttpResponse;
 
 import java.util.HashMap;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,7 +54,6 @@ public class AuthInteractorImpl implements AuthInteractor {
                                     MNLApplication.getCacheManager().put("token", gson.fromJson(data.get("token"), String.class));
                                     UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                                     MNLApplication.getCacheManager().put("user", user);
-                                    easermobLogin(user.getUid());
                                     listener.onSuccess();
                                 } else {
                                     oauthRegister(plat, res, listener, accountService);
@@ -149,7 +145,6 @@ public class AuthInteractorImpl implements AuthInteractor {
                         MNLApplication.getCacheManager().put("token", gson.fromJson(data.get("token"), String.class));
                         UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                         MNLApplication.getCacheManager().put("user", user);
-                        easermobLogin(user.getUid());
                         listener.onSuccess();
                     } else {
                         listener.onError(httpResponse.msg);
@@ -182,7 +177,6 @@ public class AuthInteractorImpl implements AuthInteractor {
                         MNLApplication.getCacheManager().put("token", gson.fromJson(data.get("token"), String.class));
                         UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                         MNLApplication.getCacheManager().put("user", user);
-                        easermobLogin(user.getUid());
                         listener.onSuccess();
                     } else {
                         listener.onError(httpResponse.msg);
@@ -242,7 +236,6 @@ public class AuthInteractorImpl implements AuthInteractor {
                         MNLApplication.getCacheManager().put("token", gson.fromJson(data.get("token"), String.class));
                         UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                         MNLApplication.getCacheManager().put("user", user);
-                        easermobLogin(user.getUid());
                         listener.onSuccess();
                     } else {
                         listener.onError(httpResponse.msg);
@@ -256,26 +249,6 @@ public class AuthInteractorImpl implements AuthInteractor {
             public void onFailure(Call<HttpResponse> call, Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
                 listener.onError("注册失败");
-            }
-        });
-    }
-
-    public void easermobLogin(String userName) {
-        EMClient.getInstance().login(userName, "123456", new EMCallBack() {//回调
-            @Override
-            public void onSuccess() {
-//                EMClient.getInstance().groupManager().loadAllGroups();
-//                EMClient.getInstance().chatManager().loadAllConversations();
-                Log.d(TAG, "easermobLogin  login success！");
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-            }
-
-            @Override
-            public void onError(int code, String message) {
-                Log.e(TAG, "login error！" + code + " " + message);
             }
         });
     }

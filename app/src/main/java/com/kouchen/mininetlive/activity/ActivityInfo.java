@@ -14,7 +14,6 @@ public class ActivityInfo implements Serializable {
     private String title;
     private String date;
     private String desc;
-    @SerializedName("fontCover")
     private String frontCover;
     private int price;
     private String streamId;
@@ -98,6 +97,10 @@ public class ActivityInfo implements Serializable {
 
     public void setStreamType(int streamType) {
         this.streamType = streamType;
+    }
+
+    public boolean isLiveStream(){
+        return streamType == 0;
     }
 
     public String getLivePullPath() {

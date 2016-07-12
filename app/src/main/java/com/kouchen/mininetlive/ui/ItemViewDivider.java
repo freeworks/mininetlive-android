@@ -9,8 +9,8 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.hyphenate.util.DensityUtil;
 import com.kouchen.mininetlive.R;
+import com.kouchen.mininetlive.utils.DisplayUtil;
 
 /**
  * Created by cainli on 16/6/26.
@@ -25,7 +25,7 @@ public class ItemViewDivider extends View {
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(0xFFEEEEEE);
-        leftPading = DensityUtil.dip2px(context,40);
+        leftPading = DisplayUtil.dip2px(context,40);
         TypedArray tTypedArray = null;
         try {
             tTypedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemViewDivider);

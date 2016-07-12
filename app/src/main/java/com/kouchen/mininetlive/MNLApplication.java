@@ -8,8 +8,6 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMOptions;
 import com.iainconnor.objectcache.CacheManager;
 import com.iainconnor.objectcache.DiskCache;
 import com.kouchen.mininetlive.rest.RestClient;
@@ -65,14 +63,6 @@ public class MNLApplication extends Application {
 
         ShareSDK.initSDK(this);
         SMSSDK.initSDK(this, "13ad46f97ff34", "14c2f4b8f54c030c12b6ed47cb79f10e");
-        EMOptions options = new EMOptions();
-        options.allowChatroomOwnerLeave(true);
-        options.setAcceptInvitationAlways(true);
-        options.setAutoAcceptGroupInvitation(true);
-        options.setAcceptInvitationAlways(false);
-        EMClient.getInstance().init(this, options);
-        //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
-        EMClient.getInstance().setDebugMode(true);
 
         final PushAgent mPushAgent = PushAgent.getInstance(this);
         mPushAgent.enable();

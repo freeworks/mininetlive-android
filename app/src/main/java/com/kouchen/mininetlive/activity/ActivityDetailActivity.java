@@ -1,6 +1,7 @@
 package com.kouchen.mininetlive.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,10 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.pay.PayActivity;
 import com.kouchen.mininetlive.pay.PayChannel;
+import com.kouchen.mininetlive.ui.FullActiivty;
 import com.kouchen.mininetlive.ui.GlideCircleTransform;
 import com.kouchen.mininetlive.ui.VideoPlayer;
 
@@ -24,7 +25,7 @@ import butterknife.OnClick;
  */
 public class ActivityDetailActivity extends PayActivity {
     private static final String TAG = "ActivityDetailActivity";
-    @BindView(R.id.title)
+    @BindView(R.id.atitle)
     TextView title;
     @BindView(R.id.datetime)
     TextView date;
@@ -62,17 +63,32 @@ public class ActivityDetailActivity extends PayActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         titlebarView.setTransparentBackground(true);
-        int screenWidth = MNLApplication.getApplication().getScreenWidth();
-        player.getLayoutParams().height = (int) (screenWidth * 9 / 16f);
+        titlebarView.setVisibility(View.GONE);
+//        int screenWidth = MNLApplication.getApplication().getScreenWidth();
+//        player.getLayoutParams().height = (int) (screenWidth * 9 / 16f);
         info = (ActivityInfo) getIntent().getSerializableExtra("activityInfo");
-        player.setUp(info.getStreamType(), info.getStreamType() == 0 ? info.getLivePullPath() : info.getVideoPath(), info.getTitle());
-//        Glide.with(this)
-//                .load(info.getFrontCover())
-//                .centerCrop()
-//                .placeholder(R.drawable.img_default)
-//                .crossFade()
-//                .into(player.thumbImageView);
 
+        final String mVideoPath = info.isLiveStream() ? info.getLivePullPath() : info.getVideoPath();
+        player.setup(mVideoPath,null,info.isLiveStream(),false);
+        player.setFullScreenListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FullActiivty.startActivityFromNormal(ActivityDetailActivity.this,
+                        mVideoPath,info.getId(), info.isLiveStream(),player.isPlaying(),player.getCurrentPosition());
+            }
+        });
+        player.setOnBackListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        Glide.with(this)
+                .load(info.getFrontCover())
+                .centerCrop()
+                .placeholder(R.drawable.img_default)
+                .crossFade()
+                .into(player.getCover());
         title.setText(info.getTitle());
         nickname.setText(info.getOwner().getNickname());
         date.setText("时间：" + info.getDate());
@@ -83,7 +99,6 @@ public class ActivityDetailActivity extends PayActivity {
                 .crossFade()
                 .transform(new GlideCircleTransform(this))
                 .into(avatar);
-
 
         titlebarView.setBackLister(new View.OnClickListener() {
             @Override
@@ -245,5 +260,22 @@ public class ActivityDetailActivity extends PayActivity {
 
     private void reward() {
         pay(info.getId(), PayChannel.CHANNEL_WECHAT, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == VideoPlayer.FULLSCREEN_REQUESTCODE && resultCode == RESULT_OK){
+            boolean isPlaying = data.getBooleanExtra("isPlaying", false);
+            long currentPosition = data.getLongExtra("currentPosition", 0L);
+            if(isPlaying){
+                player.start();
+            }else{
+                player.pause();
+            }
+            if(!info.isLiveStream()){
+                player.setCurrentPosition(currentPosition);
+            }
+        }
     }
 }
