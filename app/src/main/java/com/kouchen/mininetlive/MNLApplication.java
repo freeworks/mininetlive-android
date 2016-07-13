@@ -3,24 +3,20 @@ package com.kouchen.mininetlive;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
-
+import butterknife.ButterKnife;
+import cn.sharesdk.framework.ShareSDK;
+import cn.smssdk.SMSSDK;
 import com.iainconnor.objectcache.CacheManager;
 import com.iainconnor.objectcache.DiskCache;
 import com.kouchen.mininetlive.rest.RestClient;
 import com.umeng.message.PushAgent;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-
-import butterknife.ButterKnife;
-import cn.sharesdk.framework.ShareSDK;
-import cn.smssdk.SMSSDK;
 
 /**
  * Created by cainli on 16/6/4.
@@ -66,18 +62,19 @@ public class MNLApplication extends Application {
 
         final PushAgent mPushAgent = PushAgent.getInstance(this);
         mPushAgent.enable();
-        new AsyncTask<Void,Void,Void>(){
 
-            @Override
-            protected Void doInBackground(Void... voids) {
-                try {
-                    mPushAgent.getTagManager().add("test1");
-                } catch (Exception e) {
-                    Log.e(TAG, "onCreate: ",e);
-                }
-                return null;
-            }
-        }.execute();
+        //Observable.create((Observable.OnSubscribe<String>) subscriber -> {
+        //    try {
+        //        mPushAgent.getTagManager().add("test1");
+        //    } catch (Exception e) {
+        //        e.printStackTrace();
+        //    }
+        //})
+        //    .subscribeOn(Schedulers.newThread())
+        //    .observeOn(AndroidSchedulers.mainThread())
+        //    .subscribe();
+        //
+
     }
 
     private String getAppName(int pID) {

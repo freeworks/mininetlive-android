@@ -90,7 +90,7 @@ public class AuthInteractorImpl implements AuthInteractor {
         boolean success = false;
         switch (plat.getName()) {
             case "QQ":
-                if (res.get("ret") == 0) {
+                if (res.get("ret") == Integer.valueOf(0)) {
                     success = true;
                     nickname = (String) res.get("nickname");
                     if ("男".equals(res.get("gender"))) {

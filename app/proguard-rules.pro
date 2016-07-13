@@ -21,3 +21,6 @@
 
 -keep class com.ucloud.**{*;}
 -keep class org.xbill.**{*;}
+
+
+-dontwarn java.lang.invoke.*
