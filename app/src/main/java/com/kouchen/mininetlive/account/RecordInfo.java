@@ -1,9 +1,11 @@
 package com.kouchen.mininetlive.account;
 
+import java.io.Serializable;
+
 /**
  * Created by cainli on 16/7/2.
  */
-public class RecordInfo {
+public class RecordInfo implements Serializable{
     /**
      * aid : 12scfjfgw3d12s
      * createTime : 1988-12-07 12:07
@@ -15,6 +17,7 @@ public class RecordInfo {
     private String createTime;
     private String title;
     private String nickname;
+    private String frontCover;
     private String date;
 
     public String getAid() {
@@ -55,5 +58,13 @@ public class RecordInfo {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getFrontCover() {
+        return frontCover;
+    }
+
+    public void setFrontCover(String frontCover) {
+        this.frontCover = frontCover;
     }
 }

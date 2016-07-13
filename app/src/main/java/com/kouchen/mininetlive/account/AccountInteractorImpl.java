@@ -106,6 +106,35 @@ public class AccountInteractorImpl implements AccountInteractor {
     }
 
     @Override
+    public void getWithdrawRecordList(final OnAccountFinishedListener listener) {
+        final AccountService accountService = MNLApplication.getRestClient().getAccountService();
+        Call<HttpResponse> call = accountService.GetWithdrawRecordList();
+        call.enqueue(new Callback<HttpResponse>() {
+            @Override
+            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                if (response.isSuccess()) {
+                    HttpResponse httpResponse = response.body();
+                    if (httpResponse.ret == 0) {
+                        Log.i(TAG, "onResponse: " + httpResponse.data);
+                        Gson gson = new Gson();
+                        WithdrawRecordInfo[] WithdrawRecordInfos = gson.fromJson(httpResponse.data, WithdrawRecordInfo[].class);
+                        listener.onSuccess(Arrays.asList(WithdrawRecordInfos));
+                    } else {
+                        listener.onError(httpResponse.msg);
+                    }
+                } else {
+                    listener.onError(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HttpResponse> call, Throwable t) {
+                listener.onError("获取失败");
+            }
+        });
+    }
+
+    @Override
     public void getAccountInfo(final OnAccountFinishedListener listener) {
 
     }

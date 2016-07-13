@@ -21,6 +21,8 @@ package com.kouchen.mininetlive.account;
 
 public interface AccountPresenter {
 
+    void getWithdrawRecordList();
+
     void getPlayRecordList();
 
     void getPayRecordList();

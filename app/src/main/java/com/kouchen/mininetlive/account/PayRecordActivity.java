@@ -27,7 +27,7 @@ public class PayRecordActivity extends RecordActivity {
     public static class PayRecordAdapter extends RecordAdapter<PayRecordInfo> {
         @Override
         protected RecordViewHolder createViewHolder(View view) {
-            return new RecordViewHolder(view);
+            return new PayRecordViewHolder(view);
         }
 
         @Override

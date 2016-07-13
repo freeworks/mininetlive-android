@@ -24,6 +24,9 @@ public interface AccountService {
     @GET("/account/record/appointment/list")
     Call<HttpResponse> GetAppointmentRecordList();
 
+    @GET("/account/record/withdraw/list")
+    Call<HttpResponse> GetWithdrawRecordList();
+
     @PUT("/account/nickname")
     Call<HttpResponse> UpdateNickname();
 

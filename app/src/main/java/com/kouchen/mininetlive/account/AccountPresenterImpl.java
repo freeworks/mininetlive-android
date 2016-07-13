@@ -17,6 +17,14 @@ public class AccountPresenterImpl implements AccountPresenter, AccountInteractor
     }
 
     @Override
+    public void getWithdrawRecordList() {
+        if (commonView != null) {
+            commonView.showProgress();
+        }
+        accountInteractor.getWithdrawRecordList(this);
+    }
+
+    @Override
     public void getPlayRecordList() {
         if (commonView != null) {
             commonView.showProgress();

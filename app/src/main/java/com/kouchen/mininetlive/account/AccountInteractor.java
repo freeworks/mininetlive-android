@@ -2,6 +2,8 @@ package com.kouchen.mininetlive.account;
 
 public interface AccountInteractor {
 
+
+
     interface OnAccountFinishedListener {
 
         void onSuccess(Object object);
@@ -15,6 +17,8 @@ public interface AccountInteractor {
 
     void getAppointRecordList(final OnAccountFinishedListener listener);
 
+    void getWithdrawRecordList(final OnAccountFinishedListener listener);
+    
     void getAccountInfo(final OnAccountFinishedListener listener);
 
 }

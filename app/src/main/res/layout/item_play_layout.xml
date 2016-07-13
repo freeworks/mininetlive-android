@@ -1,38 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#ffffff"
-    android:paddingTop="9dp"
-    android:paddingBottom="9dp"
-    android:paddingRight="12dp"
-    android:paddingLeft="12dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/title"
-        android:text="标题"
-        android:textColor="#4A4A4A"
-        android:textSize="16sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:layout_below="@+id/title"
-        android:id="@+id/nickname"
-        android:text="名称"
-        android:layout_marginTop="5dp"
-        android:textColor="#A0A0A0"
-        android:textSize="14sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+android:background="#ffffff"
+android:paddingTop="9dp"
+android:paddingBottom="9dp"
+android:paddingRight="12dp"
+android:paddingLeft="12dp"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/playCount"
-        android:text="0"
-        android:drawableLeft="@drawable/ic_play_small"
-        android:textColor="#A0A0A0"
-        android:layout_centerVertical="true"
-        android:layout_alignBottom="@+id/nickname"
-        android:layout_alignTop="@+id/nickname"
-        android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+<ImageView
+    android:id="@+id/frontCover"
+    android:layout_alignParentLeft="true"
+    android:src="@drawable/img_default"
+    android:layout_marginRight="9dp"
+    android:layout_centerVertical="true"
+    android:scaleType="centerCrop"
+    android:layout_width="100dp"
+    android:layout_height="60dp" />
+<TextView
+    android:id="@+id/title"
+    android:text="标题"
+    android:maxLines="1"
+    android:ellipsize="end"
+    android:layout_toRightOf="@id/frontCover"
+    android:textColor="#4A4A4A"
+    android:textSize="16sp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+<TextView
+    android:layout_below="@+id/title"
+    android:id="@+id/nickname"
+    android:text="名称"
+    android:layout_toRightOf="@id/frontCover"
+    android:layout_marginTop="5dp"
+    android:textColor="#A0A0A0"
+    android:textSize="14sp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+<TextView
+    android:layout_below="@id/nickname"
+    android:id="@+id/playCount"
+    android:drawableLeft="@drawable/ic_play_small"
+    android:text="100w"
+    android:layout_toRightOf="@id/frontCover"
+    android:textColor="#A0A0A0"
+    android:textSize="12sp"
+    android:layout_marginTop="4dp"
+    android:gravity="center_vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
 </RelativeLayout>
