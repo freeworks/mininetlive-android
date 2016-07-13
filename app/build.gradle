@@ -30,6 +30,12 @@ android {
         incremental true
         javaMaxHeapSize "4g"
     }
+    
+
+    packagingOptions {
+        exclude 'LICENSE'
+        exclude 'LICENSE.txt'
+    }
 
     useLibrary 'org.apache.http.legacy'
 }

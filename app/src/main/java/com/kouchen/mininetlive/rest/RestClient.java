@@ -23,8 +23,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by cainli on 16/6/4.
  */
 public class RestClient {
-    //    public static final String API_URL = "http://106.75.19.205:8080";
-    public static final String API_URL = "http://192.168.0.103:8080";
+        public static final String API_URL = "http://106.75.19.205:8080";
+    //public static final String API_URL = "http://192.168.0.103:8080";
 //    public static final String API_URL = "http://172.17.23.194:8080";
     private AuthService authService;
     private AccountService accountService;
