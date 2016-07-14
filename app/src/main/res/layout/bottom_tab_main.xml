@@ -7,7 +7,7 @@
         android:layout_weight="1"
         >
 
-        <com.kouchen.mininetlive.ui.RadioImageView
+        <com.kouchen.mininetlive.ui.widget.RadioImageView
             android:id="@id/tab_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             />
     </RelativeLayout>
 
-    <com.kouchen.mininetlive.ui.RadioTextView
+    <com.kouchen.mininetlive.ui.widget.RadioTextView
         android:id="@id/tab_title"
         android:gravity="center"
         android:layout_width="match_parent"

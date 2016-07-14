@@ -46,7 +46,7 @@
 
     </RelativeLayout>
 
-    <com.kouchen.mininetlive.ui.ItemView
+    <com.kouchen.mininetlive.ui.widget.ItemView
         android:id="@+id/reward"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,12 +55,12 @@
         app:ItemIcon="@drawable/ic_money"
         app:ItemText="分红奖励" />
 
-    <com.kouchen.mininetlive.ui.ItemViewDivider
+    <com.kouchen.mininetlive.ui.widget.ItemViewDivider
         app:LeftMargin="40dp"
         android:layout_width="match_parent"
         android:layout_height="1dp" />
 
-    <com.kouchen.mininetlive.ui.ItemView
+    <com.kouchen.mininetlive.ui.widget.ItemView
         android:id="@+id/appointmentRecord"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,12 +68,12 @@
         app:ItemIcon="@drawable/ic_reserva"
         app:ItemText="预约记录" />
 
-    <com.kouchen.mininetlive.ui.ItemViewDivider
+    <com.kouchen.mininetlive.ui.widget.ItemViewDivider
         app:LeftMargin="40dp"
         android:layout_width="match_parent"
         android:layout_height="1dp" />
 
-    <com.kouchen.mininetlive.ui.ItemView
+    <com.kouchen.mininetlive.ui.widget.ItemView
         android:id="@+id/payRecord"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -81,12 +81,12 @@
         app:ItemIcon="@drawable/ic_living"
         app:ItemText="购买记录" />
 
-    <com.kouchen.mininetlive.ui.ItemViewDivider
+    <com.kouchen.mininetlive.ui.widget.ItemViewDivider
         app:LeftMargin="40dp"
         android:layout_width="match_parent"
         android:layout_height="1dp" />
 
-    <com.kouchen.mininetlive.ui.ItemView
+    <com.kouchen.mininetlive.ui.widget.ItemView
         android:id="@+id/playRecord"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
         app:ItemIcon="@drawable/ic_play_history"
         app:ItemText="播放历史" />
 
-    <com.kouchen.mininetlive.ui.ItemView
+    <com.kouchen.mininetlive.ui.widget.ItemView
         android:id="@+id/about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

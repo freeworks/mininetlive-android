@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
 
-    <com.kouchen.mininetlive.ui.ItemView2
+    <com.kouchen.mininetlive.ui.widget.ItemView2
         android:id="@+id/femaleItem"
         android:onClick="onClick"
         android:layout_width="match_parent"
@@ -17,12 +17,12 @@
         app:IsShowArrow="false"
         app:ItemKey="男" />
 
-    <com.kouchen.mininetlive.ui.ItemViewDivider
+    <com.kouchen.mininetlive.ui.widget.ItemViewDivider
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:LeftMargin="15dp" />
 
-    <com.kouchen.mininetlive.ui.ItemView2
+    <com.kouchen.mininetlive.ui.widget.ItemView2
         android:id="@+id/maleItem"
         android:onClick="onClick"
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
         app:IsShowArrow="false"
         app:ItemKey="女" />
 
-    <com.kouchen.mininetlive.ui.ItemViewDivider
+    <com.kouchen.mininetlive.ui.widget.ItemViewDivider
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:IsShowArrow="false"

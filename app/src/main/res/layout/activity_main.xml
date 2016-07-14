@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".MainActivity"
+    tools:context=".ui.MainActivity"
     >
     <RelativeLayout
         android:id="@+id/container"
@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
 
     </RelativeLayout>
-    <com.kouchen.mininetlive.ui.BottomTabGroup
+    <com.kouchen.mininetlive.ui.widget.BottomTabGroup
         android:id="@+id/bottom_bar_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         android:paddingTop="5dp"
         >
 
-        <com.kouchen.mininetlive.ui.BottomTab
+        <com.kouchen.mininetlive.ui.widget.BottomTab
             android:id="@+id/tab_home"
             style="@style/bottomTab"
             app:hintEnable="false"
@@ -38,7 +38,7 @@
             app:verticalSpace="0dp"
             app:bottomTabText="首页"/>
 
-        <com.kouchen.mininetlive.ui.BottomTab
+        <com.kouchen.mininetlive.ui.widget.BottomTab
             android:id="@+id/tab_live"
             style="@style/bottomTab"
             android:layout_width="0dp"
@@ -50,7 +50,7 @@
             app:bottomTabTextSize="11dp"
             app:bottomTabText="直播"/>
 
-        <com.kouchen.mininetlive.ui.BottomTab
+        <com.kouchen.mininetlive.ui.widget.BottomTab
             android:id="@+id/tab_me"
             style="@style/bottomTab"
             app:hintEnable="false"
@@ -62,7 +62,7 @@
             app:bottomTabTextSize="11dp"
             app:bottomTabText="我的"/>
 
-    </com.kouchen.mininetlive.ui.BottomTabGroup>
+    </com.kouchen.mininetlive.ui.widget.BottomTabGroup>
 
 
 </RelativeLayout>

@@ -6,7 +6,7 @@
     android:background="@drawable/item_selector"
     android:padding="10dp">
 
-    <com.kouchen.mininetlive.ui.FrontCoverImageView
+    <com.kouchen.mininetlive.ui.widget.FrontCoverImageView
         android:id="@+id/frontCover"
         app:riv_corner_radius="4dip"
         app:riv_border_width="0dp"

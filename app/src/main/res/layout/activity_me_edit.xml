@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
 
-    <com.kouchen.mininetlive.ui.ItemView2
+    <com.kouchen.mininetlive.ui.widget.ItemView2
         android:id="@+id/avatarItem"
         android:onClick="onClick"
         android:layout_width="match_parent"
@@ -17,12 +17,12 @@
         app:ItemKey="头像"
         app:IsShowAvatar="true"/>
 
-    <com.kouchen.mininetlive.ui.ItemViewDivider
+    <com.kouchen.mininetlive.ui.widget.ItemViewDivider
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:LeftMargin="15dp" />
 
-    <com.kouchen.mininetlive.ui.ItemView2
+    <com.kouchen.mininetlive.ui.widget.ItemView2
         android:id="@+id/nicknameItem"
         android:onClick="onClick"
         android:layout_width="match_parent"
@@ -30,12 +30,12 @@
         android:background="#ffffff"
         app:ItemKey="昵称" />
 
-    <com.kouchen.mininetlive.ui.ItemViewDivider
+    <com.kouchen.mininetlive.ui.widget.ItemViewDivider
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:LeftMargin="15dp" />
 
-    <com.kouchen.mininetlive.ui.ItemView2
+    <com.kouchen.mininetlive.ui.widget.ItemView2
         android:id="@+id/genderItem"
         android:onClick="onClick"
         android:layout_width="match_parent"
@@ -43,12 +43,12 @@
         android:background="#ffffff"
         app:ItemKey="性别" />
 
-    <com.kouchen.mininetlive.ui.ItemViewDivider
+    <com.kouchen.mininetlive.ui.widget.ItemViewDivider
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:LeftMargin="15dp" />
 
-    <com.kouchen.mininetlive.ui.ItemView2
+    <com.kouchen.mininetlive.ui.widget.ItemView2
         android:id="@+id/phoneItem"
         android:onClick="onClick"
         android:layout_width="match_parent"

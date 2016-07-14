@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE">
 
-    <com.kouchen.mininetlive.ui.VideoPlayer
+    <com.kouchen.mininetlive.ui.widget.VideoPlayer
         android:id="@+id/player"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
@@ -200,7 +200,7 @@
         android:layout_alignParentBottom="true"
         android:background="#FAFAFA">
 
-        <com.kouchen.mininetlive.ui.ItemViewDivider
+        <com.kouchen.mininetlive.ui.widget.ItemViewDivider
             android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="1dp"

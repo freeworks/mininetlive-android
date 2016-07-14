@@ -108,7 +108,7 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <com.kouchen.mininetlive.ui.ItemViewDivider
+    <com.kouchen.mininetlive.ui.widget.ItemViewDivider
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -140,7 +140,7 @@
             android:text="支付宝"
             android:textColor="#4A90E2" />
 
-        <com.kouchen.mininetlive.ui.ItemViewDivider
+        <com.kouchen.mininetlive.ui.widget.ItemViewDivider
             android:layout_width="1dp"
             android:layout_height="match_parent" />
 

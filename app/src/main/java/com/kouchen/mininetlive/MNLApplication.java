@@ -11,7 +11,10 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.smssdk.SMSSDK;
 import com.iainconnor.objectcache.CacheManager;
 import com.iainconnor.objectcache.DiskCache;
-import com.kouchen.mininetlive.rest.RestClient;
+import com.kouchen.mininetlive.di.components.DaggerNetComponent;
+import com.kouchen.mininetlive.di.components.NetComponent;
+import com.kouchen.mininetlive.di.modules.AppModule;
+import com.kouchen.mininetlive.di.modules.NetModule;
 import com.umeng.message.PushAgent;
 import java.io.File;
 import java.io.IOException;
@@ -27,18 +30,18 @@ public class MNLApplication extends Application {
 
     protected static MNLApplication mInstance;
     private DisplayMetrics displayMetrics = null;
-    private static RestClient restClient;
     private static CacheManager cacheManager;
 
     public MNLApplication() {
         mInstance = this;
     }
 
+    private NetComponent mNetComponent;
+
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        restClient = new RestClient();
         ButterKnife.setDebug(true);
         String cachePath = getCacheDir().getPath();
         File cacheFile = new File(cachePath + File.separator + BuildConfig.APPLICATION_ID);
@@ -74,8 +77,19 @@ public class MNLApplication extends Application {
         //    .observeOn(AndroidSchedulers.mainThread())
         //    .subscribe();
         //
-
+        //bString API_URL = "http://106.75.19.205:8080";
+        //String API_URL = "http://192.168.0.103:8080";
+        String API_URL = "http://172.17.23.194:8080";
+        mNetComponent = DaggerNetComponent.builder()
+            .appModule(new AppModule(this))
+            .netModule(new NetModule(API_URL))
+            .build();
     }
+
+    public NetComponent getNetComponent() {
+        return mNetComponent;
+    }
+
 
     private String getAppName(int pID) {
         String processName = null;
@@ -95,10 +109,6 @@ public class MNLApplication extends Application {
             }
         }
         return processName;
-    }
-
-    public static RestClient getRestClient() {
-        return restClient;
     }
 
     public static CacheManager getCacheManager() {

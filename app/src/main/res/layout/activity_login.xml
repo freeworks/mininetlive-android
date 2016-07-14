@@ -40,7 +40,7 @@
         android:background="@null"
         android:textSize="14dp"
         android:hint="@string/user_name" />
-    <com.kouchen.mininetlive.ui.ItemViewDivider
+    <com.kouchen.mininetlive.ui.widget.ItemViewDivider
         android:id="@+id/d1"
         android:layout_below="@+id/username"
         android:layout_width="match_parent"
@@ -62,7 +62,7 @@
         android:background="@null"
         android:textSize="14dp"
         android:inputType="textPassword" />
-    <com.kouchen.mininetlive.ui.ItemViewDivider
+    <com.kouchen.mininetlive.ui.widget.ItemViewDivider
         android:id="@+id/d2"
         android:layout_below="@+id/password"
         android:layout_width="match_parent"
@@ -149,7 +149,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginTop="8dp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </RelativeLayout>
