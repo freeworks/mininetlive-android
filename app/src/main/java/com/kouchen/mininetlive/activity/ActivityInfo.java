@@ -1,8 +1,7 @@
 package com.kouchen.mininetlive.activity;
 
 import com.google.gson.annotations.SerializedName;
-import com.kouchen.mininetlive.model.UserInfo;
-
+import com.kouchen.mininetlive.auth.UserInfo;
 import java.io.Serializable;
 
 /**

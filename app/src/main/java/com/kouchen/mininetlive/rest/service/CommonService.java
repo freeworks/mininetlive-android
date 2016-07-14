@@ -1,7 +1,6 @@
 package com.kouchen.mininetlive.rest.service;
 
-import com.kouchen.mininetlive.model.UserInfo;
-
+import com.kouchen.mininetlive.auth.UserInfo;
 import retrofit2.Call;
 import retrofit2.http.POST;
 

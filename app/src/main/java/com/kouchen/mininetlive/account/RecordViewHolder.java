@@ -5,13 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.kouchen.mininetlive.R;
-import com.kouchen.mininetlive.ui.GlideCircleTransform;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
+import com.kouchen.mininetlive.R;
+import com.kouchen.mininetlive.ui.GlideRoundTransform;
+import com.kouchen.mininetlive.utils.DisplayUtil;
 
 /**
  * Created by cainli on 16/7/7.
@@ -38,6 +37,7 @@ public class RecordViewHolder extends RecyclerView.ViewHolder {
         nickname.setText(t.getNickname());
         Glide.with(itemView.getContext())
                 .load(t.getFrontCover())
+                .transform(new GlideRoundTransform(itemView.getContext(), DisplayUtil.dip2px(itemView.getContext(), 1.5f)))
                 .placeholder(R.drawable.img_default)
                 .into(frontCover);
         if (date != null) {
