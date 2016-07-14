@@ -54,6 +54,7 @@ public class ActivityPresenter implements ActivityContract.Presenter {
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
                 mActivityView.onError("获取失败");
+                Log.e(TAG, "onFailure: ", t);
             }
         });
     }
@@ -83,6 +84,7 @@ public class ActivityPresenter implements ActivityContract.Presenter {
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
                 mActivityView.onError("获取失败");
+                Log.e(TAG, "onFailure: ", t);
             }
         });
     }
@@ -112,6 +114,7 @@ public class ActivityPresenter implements ActivityContract.Presenter {
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
                 mActivityView.onError("获取失败");
+                Log.e(TAG, "onFailure: ", t);
             }
         });
     }

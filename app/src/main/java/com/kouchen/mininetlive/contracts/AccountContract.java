@@ -10,13 +10,6 @@ public interface AccountContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showProgress();
-
-        void hideProgress();
-
-        void onError(String msg);
-
-        void onSuccess(Object data);
     }
 
     interface Presenter extends BasePresenter {

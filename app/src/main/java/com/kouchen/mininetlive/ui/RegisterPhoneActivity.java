@@ -68,7 +68,8 @@ public class RegisterPhoneActivity extends AbsTitlebarActivity implements AuthCo
     }
 
     @Override
-    public void onSuccess() {
+    public void onSuccess(Object data) {
 
     }
+
 }

@@ -82,6 +82,11 @@ public class LiveFragment extends AbsTitlebarFragment implements ActivityContrac
     }
 
     @Override
+    public void onSuccess(Object data) {
+
+    }
+
+    @Override
     public void onInitLoadSuccess(Object data) {
         adapter.setData((List<ActivityInfo>)data);
     }

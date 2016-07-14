@@ -40,7 +40,7 @@ import javax.inject.Inject;
 
 public class LoginActivity extends BaseActivity implements AuthContract.View, View.OnClickListener {
 
-    private ProgressBar progressBar;
+    private View progressBar;
     private EditText username;
     private EditText password;
     private EditText vCode;
@@ -52,7 +52,7 @@ public class LoginActivity extends BaseActivity implements AuthContract.View, Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        progressBar = (ProgressBar) findViewById(R.id.progress);
+        progressBar = findViewById(R.id.progress);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         findViewById(R.id.tvWechat).setOnClickListener(this);
@@ -84,10 +84,11 @@ public class LoginActivity extends BaseActivity implements AuthContract.View, Vi
     }
 
     @Override
-    public void onSuccess() {
+    public void onSuccess(Object data) {
         setResult(RESULT_OK);
         finish();
     }
+
 
     @Override
     public void onClick(View v) {

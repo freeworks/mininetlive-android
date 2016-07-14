@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.di.components.DaggerAccountComponent;
@@ -20,7 +23,9 @@ import com.kouchen.mininetlive.models.WithdrawRecordInfo;
 import com.kouchen.mininetlive.ui.base.AbsTitlebarActivity;
 import com.kouchen.mininetlive.ui.widget.RecycleViewDivider;
 import com.kouchen.mininetlive.utils.DisplayUtil;
+
 import java.util.List;
+
 import javax.inject.Inject;
 
 /**
@@ -40,10 +45,10 @@ public class WithdrawRecordActivity extends AbsTitlebarActivity implements Accou
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DaggerAccountComponent.builder()
-            .accountModule(new AccountModule(this))
-            .netComponent(((MNLApplication) getApplication()).getNetComponent())
-            .build()
-            .inject(this);
+                .accountModule(new AccountModule(this))
+                .netComponent(((MNLApplication) getApplication()).getNetComponent())
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -75,17 +80,17 @@ public class WithdrawRecordActivity extends AbsTitlebarActivity implements Accou
 
     @Override
     public void showProgress() {
-
+        showProgressView();
     }
 
     @Override
     public void hideProgress() {
-
+        hideProgressView();
     }
 
     @Override
     public void onError(String msg) {
-
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

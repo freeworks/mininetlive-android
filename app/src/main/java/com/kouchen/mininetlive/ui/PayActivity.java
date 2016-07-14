@@ -14,7 +14,7 @@ import com.pingplusplus.android.PingppLog;
 /**
  * Created by cainli on 16/6/21.
  */
-public  class PayActivity extends AbsTitlebarActivity implements PayContract.View {
+public  class PayActivity extends AbsTitlebarActivity {
     private static final String TAG = PayActivity.class.getSimpleName();
 
     @Override
@@ -77,24 +77,5 @@ public  class PayActivity extends AbsTitlebarActivity implements PayContract.Vie
     public void onGetChargeSuccess(String data) {
         Pingpp.createPayment(this, data);
     }
-
-    @Override
-    public void showProgress() {
-
-    }
-
-    @Override
-    public void hideProgress() {
-
-    }
-
-    @Override
-    public void onError(String msg) {
-
-    }
-
-    @Override
-    public void onSuccess(String s) {
-        Pingpp.createPayment(this, s);
-    }
+    
 }

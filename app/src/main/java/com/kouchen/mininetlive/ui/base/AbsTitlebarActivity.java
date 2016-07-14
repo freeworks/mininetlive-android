@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.kouchen.mininetlive.R;
@@ -22,12 +23,15 @@ public abstract class AbsTitlebarActivity extends BaseActivity implements View.O
     @BindView(R.id.rootContainer)
     protected ViewGroup rootContainer;
 
+    protected ProgressBar mProgressbar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_titlebar);
         rootContainer = (ViewGroup) findViewById(R.id.rootContainer);
-        rootContainer.addView(getContentView());
+        mProgressbar = (ProgressBar) findViewById(R.id.progressBar);
+        rootContainer.addView(getContentView(),rootContainer.getChildCount()-2);
         ButterKnife.bind(this);
         titlebarView.setBackLister(new View.OnClickListener() {
             @Override
@@ -40,6 +44,14 @@ public abstract class AbsTitlebarActivity extends BaseActivity implements View.O
             ((RelativeLayout.LayoutParams) rootContainer.getLayoutParams()).topMargin =
                     (int) getResources().getDimension(R.dimen.titlebar_height);
         }
+    }
+
+    protected void showProgressView(){
+        mProgressbar.setVisibility(View.VISIBLE);
+    }
+
+    protected void hideProgressView(){
+        mProgressbar.setVisibility(View.INVISIBLE);
     }
 
     protected View getContentView() {

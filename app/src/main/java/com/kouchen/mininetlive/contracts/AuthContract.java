@@ -10,14 +10,6 @@ import com.kouchen.mininetlive.BaseView;
 public interface AuthContract {
 
     interface View extends BaseView<Presenter> {
-
-        void showProgress();
-
-        void hideProgress();
-
-        void onError(String msg);
-
-        void onSuccess();
     }
 
     interface Presenter extends BasePresenter {

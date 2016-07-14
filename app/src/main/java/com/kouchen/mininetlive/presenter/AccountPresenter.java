@@ -56,6 +56,7 @@ public class AccountPresenter implements AccountContract.Presenter {
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
                 mAccountView.onError("获取失败");
+                Log.e(TAG, "onFailure: ", t);
             }
         });
     }
@@ -84,6 +85,7 @@ public class AccountPresenter implements AccountContract.Presenter {
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
                 mAccountView.onError("获取失败");
+                Log.e(TAG, "onFailure: ", t);
             }
         });
     }
@@ -112,6 +114,7 @@ public class AccountPresenter implements AccountContract.Presenter {
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
                 mAccountView.onError("获取失败");
+                Log.e(TAG, "onFailure: ", t);
             }
         });
     }
@@ -140,6 +143,7 @@ public class AccountPresenter implements AccountContract.Presenter {
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
                 mAccountView.onError("获取失败");
+                Log.e(TAG, "onFailure: ", t);
             }
         });
     }

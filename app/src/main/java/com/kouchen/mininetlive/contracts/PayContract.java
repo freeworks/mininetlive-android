@@ -10,14 +10,6 @@ import com.kouchen.mininetlive.ui.PayChannel;
 public interface PayContract {
 
     interface View extends BaseView<Presenter> {
-
-        void showProgress();
-
-        void hideProgress();
-
-        void onError(String msg);
-
-        void onSuccess(String s);
     }
 
     interface Presenter extends BasePresenter {

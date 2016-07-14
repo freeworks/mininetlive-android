@@ -1,6 +1,7 @@
 package com.kouchen.mininetlive.ui;
 
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,21 +9,36 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.OnClick;
+
 import com.bumptech.glide.Glide;
+import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.R;
-import com.kouchen.mininetlive.presenter.PayPresenter;
+import com.kouchen.mininetlive.contracts.ActivityContract;
+import com.kouchen.mininetlive.contracts.PayContract;
+import com.kouchen.mininetlive.di.components.DaggerActivityComponent;
+import com.kouchen.mininetlive.di.components.DaggerPayComponent;
+import com.kouchen.mininetlive.di.modules.ActivityModule;
+import com.kouchen.mininetlive.di.modules.PayModule;
 import com.kouchen.mininetlive.models.ActivityInfo;
+import com.kouchen.mininetlive.presenter.ActivityPresenter;
+import com.kouchen.mininetlive.presenter.PayPresenter;
+import com.kouchen.mininetlive.ui.dialog.BuyDialog;
+import com.kouchen.mininetlive.ui.dialog.RewardDialog;
+import com.kouchen.mininetlive.ui.dialog.TipsDialog;
 import com.kouchen.mininetlive.ui.widget.FullActiivty;
 import com.kouchen.mininetlive.ui.widget.GlideCircleTransform;
 import com.kouchen.mininetlive.ui.widget.VideoPlayer;
+import com.pingplusplus.android.Pingpp;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by cainli on 16/6/21.
  */
-public class ActivityDetailActivity extends PayActivity {
+public class ActivityDetailActivity extends PayActivity implements PayContract.View {
     private static final String TAG = "ActivityDetailActivity";
     @BindView(R.id.atitle)
     TextView title;
@@ -64,6 +80,11 @@ public class ActivityDetailActivity extends PayActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DaggerPayComponent.builder()
+                .payModule(new PayModule(this))
+                .netComponent(((MNLApplication) getApplication()).getNetComponent())
+                .build()
+                .inject(this);
         titlebarView.setTransparentBackground(true);
         titlebarView.setVisibility(View.GONE);
 //        int screenWidth = MNLApplication.getApplication().getScreenWidth();
@@ -71,12 +92,12 @@ public class ActivityDetailActivity extends PayActivity {
         info = (ActivityInfo) getIntent().getSerializableExtra("activityInfo");
 
         final String mVideoPath = info.isLiveStream() ? info.getLivePullPath() : info.getVideoPath();
-        player.setup(mVideoPath,null,info.isLiveStream(),false);
+        player.setup(mVideoPath, null, info.isLiveStream(), false);
         player.setFullScreenListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FullActiivty.startActivityFromNormal(ActivityDetailActivity.this,
-                        mVideoPath,info.getId(), info.isLiveStream(),player.isPlaying(),player.getCurrentPosition());
+                        mVideoPath, info.getId(), info.isLiveStream(), player.isPlaying(), player.getCurrentPosition());
             }
         });
         player.setOnBackListener(new View.OnClickListener() {
@@ -125,9 +146,11 @@ public class ActivityDetailActivity extends PayActivity {
                     if (info.getAppointmentState() == 0) {
                         button.setBackgroundResource(R.drawable.blue_rect_selector);
                         button.setText("立即预约");
+                        button.setTag("appointment");
                     } else {
                         button.setBackgroundResource(R.drawable.grey_disable);
                         button.setText("已经预约");
+                        button.setTag("appointmented");
                     }
                     break;
                 case 1:
@@ -139,14 +162,17 @@ public class ActivityDetailActivity extends PayActivity {
                         price.setVisibility(View.VISIBLE);
                         button.setBackgroundResource(R.drawable.red_rect_selector);
                         button.setText("打赏红包");
+                        button.setTag("reward");
                     } else {
                         price.setVisibility(View.VISIBLE);
                         if (info.getPayState() == 0) {
                             button.setBackgroundResource(R.drawable.green_rect_selector);
                             button.setText("购买");
+                            button.setTag("buy");
                         } else {
                             button.setBackgroundResource(R.drawable.red_rect_selector);
                             button.setText("打赏红包");
+                            button.setTag("reward");
                         }
                     }
                     break;
@@ -158,6 +184,7 @@ public class ActivityDetailActivity extends PayActivity {
                     }
                     button.setBackgroundResource(R.drawable.red_rect_selector);
                     button.setText("打赏红包");
+                    button.setTag("reward");
                     break;
 
             }
@@ -167,13 +194,16 @@ public class ActivityDetailActivity extends PayActivity {
             if (info.getActivityType() == 0) {
                 button.setBackgroundResource(R.drawable.red_rect_selector);
                 button.setText("打赏红包");
+                button.setTag("reward");
             } else {
                 if (info.getPayState() == 0) {
                     button.setBackgroundResource(R.drawable.green_rect_selector);
                     button.setText("购买");
+                    button.setTag("buy");
                 } else {
                     button.setBackgroundResource(R.drawable.red_rect_selector);
                     button.setText("打赏红包");
+                    button.setTag("reward");
                 }
             }
         }
@@ -216,69 +246,63 @@ public class ActivityDetailActivity extends PayActivity {
     @OnClick({R.id.button})
     public void onClick(View view) {
         if (view.getId() == R.id.button) {
-            if (info.getStreamType() == 0) {
-                switch (info.getActivityState()) {
-                    case 0:
-                        appointment(info);
-                        break;
-                    case 1:
-                        if (info.getActivityType() == 0) { //免费
-                            reward();
-                        } else {
-                            if (info.getPayState() == 0) {
-                                buy();
-                            } else {
-                                reward();
-                            }
-                        }
-                        break;
-                    case 2:
-                        reward();
-                        break;
-
-                }
-            } else { //点播
-                if (info.getActivityType() == 0) {
-                    reward();
-                } else {
-                    if (info.getPayState() == 0) {
-                        buy();
-                    } else {
-                        reward();
-                    }
-                }
+            Dialog dialog;
+            switch (view.getTag().toString()) {
+                case "appointment":
+                    TipsDialog tdialog = new TipsDialog(this);
+                    tdialog.showAppointment();
+//                    activityPresenter.appointment(info.getId());
+                    break;
+                case "buy":
+                    new BuyDialog(this).show(info.getPrice(),this,this);
+//                    payPresenter.pay(info.getId(), PayChannel.CHANNEL_WECHAT, info.getPrice());
+                    break;
+                case "reward":
+                    new RewardDialog(this).show(this,this);
+//                    payPresenter.pay(info.getId(), PayChannel.CHANNEL_WECHAT, info.getPrice());
+                    break;
             }
+        }else if(view.getId() == R.id.wxpay){
+
+        }else if(view.getId() == R.id.alipay){
 
         }
-    }
-
-    private void appointment(ActivityInfo info) {
-        //activityPresenter.appointment(info.getId());
-    }
-
-    private void buy() {
-        payPresenter.pay(info.getId(), PayChannel.CHANNEL_WECHAT, info.getPrice());
-
-    }
-
-    private void reward() {
-        payPresenter.pay(info.getId(), PayChannel.CHANNEL_WECHAT, info.getPrice());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == VideoPlayer.FULLSCREEN_REQUESTCODE && resultCode == RESULT_OK){
+        if (requestCode == VideoPlayer.FULLSCREEN_REQUESTCODE && resultCode == RESULT_OK) {
             boolean isPlaying = data.getBooleanExtra("isPlaying", false);
             long currentPosition = data.getLongExtra("currentPosition", 0L);
-            if(isPlaying){
+            if (isPlaying) {
                 player.start();
-            }else{
+            } else {
                 player.pause();
             }
-            if(!info.isLiveStream()){
+            if (!info.isLiveStream()) {
                 player.setCurrentPosition(currentPosition);
             }
         }
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void onError(String msg) {
+
+    }
+
+    @Override
+    public void onSuccess(Object data) {
+        Pingpp.createPayment(this, (String) data);
     }
 }

@@ -12,12 +12,6 @@ public interface ActivityContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showProgress();
-
-        void hideProgress();
-
-        void onError(String msg);
-
         void onInitLoadSuccess(Object data);
 
         void onLoadMoreSuccess(List<ActivityInfo> activityInfos, boolean hasmore);

@@ -5,13 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.kouchen.mininetlive.MNLApplication;
+import com.kouchen.mininetlive.contracts.AccountContract;
+import com.kouchen.mininetlive.di.components.DaggerAccountComponent;
+import com.kouchen.mininetlive.di.components.DaggerAuthComponent;
+import com.kouchen.mininetlive.di.modules.AccountModule;
 import com.kouchen.mininetlive.ui.base.AbsTitlebarActivity;
 import com.kouchen.mininetlive.R;
 
 /**
  * Created by cainli on 16/6/26.
  */
-public class BalanceActivity extends AbsTitlebarActivity {
+public class BalanceActivity extends AbsTitlebarActivity implements AccountContract.View {
 
 
     @Override
@@ -34,5 +39,25 @@ public class BalanceActivity extends AbsTitlebarActivity {
     @Override
     public String getTitleString() {
         return "我的分红";
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void onError(String msg) {
+
+    }
+
+    @Override
+    public void onSuccess(Object data) {
+
     }
 }

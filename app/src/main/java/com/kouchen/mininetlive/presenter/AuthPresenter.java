@@ -66,7 +66,7 @@ public class AuthPresenter implements AuthContract.Presenter {
                                             gson.fromJson(data.get("token"), String.class));
                                     UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                                     MNLApplication.getCacheManager().put("user", user);
-                                    mAuthView.onSuccess();
+                                    mAuthView.onSuccess(user);
                                 } else {
                                     oauthRegister(plat, res, mAuthView, mAuthService);
                                 }
@@ -155,7 +155,7 @@ public class AuthPresenter implements AuthContract.Presenter {
                             .put("token", gson.fromJson(data.get("token"), String.class));
                         UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                         MNLApplication.getCacheManager().put("user", user);
-                        mAuthView.onSuccess();
+                        mAuthView.onSuccess(user);
                     } else {
                         mAuthView.onError(httpResponse.msg);
                     }
@@ -180,7 +180,7 @@ public class AuthPresenter implements AuthContract.Presenter {
                 if (response.isSuccess()) {
                     HttpResponse resp = response.body();
                     if (resp.ret == 0) {
-                        mAuthView.onSuccess();
+                        mAuthView.onSuccess(null);
                     } else {
                         mAuthView.onError(resp.msg);
                     }
@@ -216,7 +216,7 @@ public class AuthPresenter implements AuthContract.Presenter {
                             .put("token", gson.fromJson(data.get("token"), String.class));
                         UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                         MNLApplication.getCacheManager().put("user", user);
-                        mAuthView.onSuccess();
+                        mAuthView.onSuccess(null);
                     } else {
                         mAuthView.onError(httpResponse.msg);
                     }
@@ -253,7 +253,7 @@ public class AuthPresenter implements AuthContract.Presenter {
                             .put("token", gson.fromJson(data.get("token"), String.class));
                         UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                         MNLApplication.getCacheManager().put("user", user);
-                        mAuthView.onSuccess();
+                        mAuthView.onSuccess(user);
                     } else {
                         mAuthView.onError(httpResponse.msg);
                     }

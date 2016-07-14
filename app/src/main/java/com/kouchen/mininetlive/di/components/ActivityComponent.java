@@ -4,9 +4,11 @@ import com.kouchen.mininetlive.di.modules.ActivityModule;
 import com.kouchen.mininetlive.presenter.ActivityPresenter;
 import com.kouchen.mininetlive.di.scopes.ActivityScope;
 import com.kouchen.mininetlive.di.scopes.UserScope;
+import com.kouchen.mininetlive.ui.ActivityDetailActivity;
 import com.kouchen.mininetlive.ui.HomeFragment;
 import com.kouchen.mininetlive.ui.LiveFragment;
 import com.kouchen.mininetlive.ui.MainActivity;
+
 import dagger.Component;
 
 /**

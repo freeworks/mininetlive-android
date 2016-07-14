@@ -87,6 +87,7 @@ public class HomeFragment extends AbsTitlebarFragment implements ActivityContrac
     public void onStart() {
         super.onStart();
         presenter.getHomeList();
+        showProgress();
     }
 
     @Override
@@ -95,13 +96,16 @@ public class HomeFragment extends AbsTitlebarFragment implements ActivityContrac
 
     @Override
     public void hideProgress() {
-
     }
 
     @Override
     public void onError(String msg) {
         mPtrRvLayout.onRefreshComplete();//完成下拉刷新
         recyclerViewFinal.onLoadMoreComplete();
+    }
+
+    @Override
+    public void onSuccess(Object data) {
     }
 
     @Override

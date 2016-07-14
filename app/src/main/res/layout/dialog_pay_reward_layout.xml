@@ -127,17 +127,18 @@
         android:weightSum="2">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/alipay"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
+            android:paddingRight="20dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:paddingLeft="20dp"
             android:drawableLeft="@drawable/ic_pay_alipay"
-            android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:text="支付宝"
+            android:background="@drawable/item_selector"
             android:textColor="#4A90E2" />
 
         <com.kouchen.mininetlive.ui.widget.ItemViewDivider
@@ -145,17 +146,19 @@
             android:layout_height="match_parent" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/wxpay"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_pay_wechat"
             android:drawablePadding="8dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:drawableLeft="@drawable/ic_pay_wechat"
             android:gravity="center_vertical"
             android:text="微信"
+            android:background="@drawable/item_selector"
             android:textColor="#4A90E2" />
     </LinearLayout>
 </RelativeLayout>

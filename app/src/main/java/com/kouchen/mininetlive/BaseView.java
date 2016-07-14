@@ -5,4 +5,11 @@ package com.kouchen.mininetlive;
  */
 public interface BaseView<T> {
 
+    void showProgress();
+
+    void hideProgress();
+
+    void onError(String msg);
+
+    void onSuccess(Object data);
 }

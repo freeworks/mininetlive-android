@@ -13,6 +13,8 @@ import dagger.Module;
 import dagger.Provides;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Singleton;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
@@ -63,6 +65,9 @@ public class NetModule {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder client = new OkHttpClient.Builder();
+        client.connectTimeout(20, TimeUnit.SECONDS);
+        client.readTimeout(20,TimeUnit.SECONDS);
+        client.writeTimeout(20,TimeUnit.SECONDS);
         client.cache(cache).build();
         client.addInterceptor(loggingInterceptor);
         client.addInterceptor(new Interceptor() {

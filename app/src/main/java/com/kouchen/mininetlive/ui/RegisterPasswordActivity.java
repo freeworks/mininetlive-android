@@ -79,8 +79,9 @@ public class RegisterPasswordActivity extends AbsTitlebarActivity implements Aut
     }
 
     @Override
-    public void onSuccess() {
+    public void onSuccess(Object data) {
         Intent intent = new Intent(this, RegisterInfoActivity.class);
         startActivity(intent);
     }
+
 }

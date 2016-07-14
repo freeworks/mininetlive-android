@@ -67,7 +67,7 @@ public class RegisterInfoActivity extends BaseActivity implements AuthContract.V
     }
 
     @Override
-    public void onSuccess() {
+    public void onSuccess(Object data) {
 
     }
 
