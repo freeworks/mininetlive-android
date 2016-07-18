@@ -20,6 +20,8 @@ public interface AuthContract {
 
         void getVCode(String phone);
 
-        void register(String phone, String vcode, String password, String inviteCode);
+        void register(String mPhone, String mVCode, String mPassword, String mInviteCode, String name, int gender);
+
+        void checkPhone(String phone);
     }
 }

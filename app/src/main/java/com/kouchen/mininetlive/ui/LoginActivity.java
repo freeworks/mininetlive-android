@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
@@ -102,7 +101,7 @@ public class LoginActivity extends BaseActivity implements AuthContract.View, Vi
                         password.getText().toString());
                 break;
             case R.id.reigsterBtn:
-                Intent intent = new Intent(this,RegisterPhoneActivity.class);
+                Intent intent = new Intent(this,RegisterStep1Activity.class);
                 startActivity(intent);
                 break;
             case R.id.tvWeibo:

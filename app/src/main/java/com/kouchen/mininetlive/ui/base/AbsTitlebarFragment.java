@@ -1,61 +1,71 @@
 package com.kouchen.mininetlive.ui.base;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
+import com.kouchen.mininetlive.R;
+import com.kouchen.mininetlive.ui.widget.NetErrorView;
+import com.kouchen.mininetlive.ui.widget.NoDataView;
+import com.kouchen.mininetlive.ui.widget.ProgressView;
 import com.kouchen.mininetlive.ui.widget.TitlebarView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by cainli on 16/6/25.
  */
 public abstract class AbsTitlebarFragment extends BaseFragment {
 
-    protected TitlebarView titlebarView;
+    @BindView(R.id.titlebar)
+    protected TitlebarView titlebar;
+    @BindView(R.id.rootContainer)
+    protected FrameLayout rootContainer;
+    @BindView(R.id.netErrView)
+    protected NetErrorView netErrView;
+    @BindView(R.id.noDateView)
+    protected NoDataView noDateView;
+    @BindView(R.id.progressView)
+    protected ProgressView progressView;
 
-    private Unbinder bind;
 
     @Override
     public View getRootView() {
-        LinearLayout linearLayout = new LinearLayout(getContext());
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        titlebarView = new TitlebarView(getContext());
-        titlebarView.setTitle(getTitle());
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_base_titlebar, null);
+        ViewGroup container = (ViewGroup) view.findViewById(R.id.rootContainer);
+        container.addView(getContentView());
+        return view;
+    }
+
+    @Override
+    protected void initView(View rootView) {
+        titlebar.setTitle(getTitle());
         if (!canback()) {
-            titlebarView.setBackLister(null);
+            titlebar.setBackLister(null);
         } else {
-            titlebarView.setBackLister(new View.OnClickListener() {
+            titlebar.setBackLister(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     onback();
                 }
             });
         }
-        linearLayout.addView(titlebarView);
-        linearLayout.addView(getContentView());
-        linearLayout.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
-        bind = ButterKnife.bind(this, linearLayout);
-        initView(linearLayout);
-        return linearLayout;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        bind.unbind();
+    protected void showProgressView() {
+        progressView.setVisibility(View.VISIBLE);
+    }
+
+    protected void hideProgressView() {
+        progressView.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-    }
-
-    protected void initView(View view) {
-
     }
 
     protected abstract int getContentViewResId();
@@ -72,5 +82,13 @@ public abstract class AbsTitlebarFragment extends BaseFragment {
 
     protected void onback() {
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
     }
 }

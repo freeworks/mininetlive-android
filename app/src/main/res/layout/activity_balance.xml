@@ -49,22 +49,23 @@
           android:layout_height="wrap_content"
           android:layout_centerHorizontal="true"
           android:layout_marginBottom="10dp"
-          android:layout_marginTop="10dp"
+          android:layout_marginTop="6dp"
           android:text="888.00"
           android:textColor="#F67C15"
-          android:textSize="32sp"
-          android:textStyle="bold" />
+          android:textSize="40sp" />
   </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_below="@+id/balanceLayout"
         android:layout_marginTop="30dp"
         android:background="@drawable/blue_btn_selector"
         android:gravity="center"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text="提现"
         android:textColor="#ffffff"
         android:textSize="17sp" />
@@ -88,6 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textColor="#9B9B9B"
         android:text="关注公众号“微网”，发送消息“提现”就可以收到微信提现红包" />
 
 </RelativeLayout>

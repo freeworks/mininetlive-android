@@ -61,6 +61,7 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".ui.SplashActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"/>
         <activity
@@ -116,18 +117,24 @@
             android:launchMode="singleTop"/>
 
         <activity
-            android:name=".ui.RegisterPhoneActivity"
+            android:name=".ui.InviteCodeActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"/>
+
+        <activity
+            android:name=".ui.RegisterStep1Activity"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".ui.RegisterPasswordActivity"
+            android:name=".ui.RegisterStep2Activity"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
-            android:name=".ui.RegisterInfoActivity"
+            android:name=".ui.RegisterStep3Activity"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustPan" />

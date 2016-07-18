@@ -2,6 +2,7 @@ package com.kouchen.mininetlive.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.kouchen.mininetlive.ui.base.AbsTitlebarActivity;
 import com.kouchen.mininetlive.R;
@@ -15,6 +16,11 @@ public class InviteCodeActivity extends AbsTitlebarActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    protected void initView(View contentView) {
 
     }
 

@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.models.UserInfo;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * Created by cainli on 16/6/21.
  */
@@ -19,13 +22,24 @@ public abstract class BaseFragment extends Fragment implements View.OnTouchListe
 
     private View rootView;
 
+    private Unbinder bind;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = getRootView();
         rootView.setBackgroundResource(R.color.background);
         rootView.setOnTouchListener(this);
+        bind = ButterKnife.bind(this, rootView);
+        initView(rootView);
         return rootView;
+    }
+
+    protected abstract void initView(View rootView);
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        bind.unbind();
     }
 
     protected UserInfo getUserInfo() {

@@ -47,6 +47,11 @@ public class EditMeActivity extends AbsTitlebarActivity {
     }
 
     @Override
+    protected void initView(View contentView) {
+
+    }
+
+    @Override
     protected int getContentResId() {
         return R.layout.activity_me_edit;
     }

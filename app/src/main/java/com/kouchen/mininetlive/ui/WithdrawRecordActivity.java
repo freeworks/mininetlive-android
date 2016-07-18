@@ -52,6 +52,16 @@ public class WithdrawRecordActivity extends AbsTitlebarActivity implements Accou
     }
 
     @Override
+    protected void initView(View contentView) {
+        netErrView.setup(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.getWithdrawRecordList();
+            }
+        });
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         adapter = new WithdrawRecordAdapter();
@@ -91,8 +101,8 @@ public class WithdrawRecordActivity extends AbsTitlebarActivity implements Accou
     @Override
     public void onError(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        netErrView.setVisibility(View.VISIBLE);
     }
-
     @Override
     public void onSuccess(Object data) {
         if (adapter != null) {

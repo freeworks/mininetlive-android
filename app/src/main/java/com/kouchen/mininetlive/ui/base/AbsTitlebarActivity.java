@@ -5,10 +5,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.kouchen.mininetlive.R;
+import com.kouchen.mininetlive.ui.widget.NetErrorView;
+import com.kouchen.mininetlive.ui.widget.NoDataView;
+import com.kouchen.mininetlive.ui.widget.ProgressView;
 import com.kouchen.mininetlive.ui.widget.TitlebarView;
 
 import butterknife.BindView;
@@ -22,16 +24,19 @@ public abstract class AbsTitlebarActivity extends BaseActivity implements View.O
     protected TitlebarView titlebarView;
     @BindView(R.id.rootContainer)
     protected ViewGroup rootContainer;
-
-    protected ProgressBar mProgressbar;
+    @BindView(R.id.progressView)
+    protected ProgressView progressView;
+    @BindView(R.id.netErrView)
+    protected NetErrorView netErrView;
+    @BindView(R.id.noDateView)
+    protected NoDataView noDateView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_titlebar);
         rootContainer = (ViewGroup) findViewById(R.id.rootContainer);
-        mProgressbar = (ProgressBar) findViewById(R.id.progressBar);
-        rootContainer.addView(getContentView(),rootContainer.getChildCount()-2);
+        rootContainer.addView(getContentView(), rootContainer.getChildCount() - 2);
         ButterKnife.bind(this);
         titlebarView.setBackLister(new View.OnClickListener() {
             @Override
@@ -44,14 +49,17 @@ public abstract class AbsTitlebarActivity extends BaseActivity implements View.O
             ((RelativeLayout.LayoutParams) rootContainer.getLayoutParams()).topMargin =
                     (int) getResources().getDimension(R.dimen.titlebar_height);
         }
+        initView(getContentView());
     }
 
-    protected void showProgressView(){
-        mProgressbar.setVisibility(View.VISIBLE);
+    protected abstract void initView(View contentView);
+
+    protected void showProgressView() {
+        progressView.setVisibility(View.VISIBLE);
     }
 
-    protected void hideProgressView(){
-        mProgressbar.setVisibility(View.INVISIBLE);
+    protected void hideProgressView() {
+        progressView.setVisibility(View.INVISIBLE);
     }
 
     protected View getContentView() {

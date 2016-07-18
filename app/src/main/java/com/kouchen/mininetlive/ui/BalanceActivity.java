@@ -32,6 +32,11 @@ public class BalanceActivity extends AbsTitlebarActivity implements AccountContr
     }
 
     @Override
+    protected void initView(View contentView) {
+
+    }
+
+    @Override
     protected int getContentResId() {
         return R.layout.activity_balance;
     }

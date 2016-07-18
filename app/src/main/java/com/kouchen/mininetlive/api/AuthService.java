@@ -25,7 +25,9 @@ public interface AuthService {
     Call<HttpResponse> register(@Field("phone") String phone,
                                 @Field("vode") String vcode,
                                 @Field("password") String password,
-                                @Field("inviteCode") String inviteCode);
+                                @Field("inviteCode") String inviteCode,
+                                @Field("nickname")String nickname,
+                                @Field("gender")int gender);
 
     @FormUrlEncoded
     @POST("/oauth/login")
@@ -44,6 +46,10 @@ public interface AuthService {
     @FormUrlEncoded
     @POST("/auth/logout")
     Call<HttpResponse> logout();
+
+    @FormUrlEncoded
+    @POST("/oauth/phonecheck")
+    Call<HttpResponse> checkPhone(@Field("phone")String phone);
 
 
 //    // POST form encoded with form field params

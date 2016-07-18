@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/progressBar2"
-    style="@style/mProgress_circle"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="130dp"
+    android:layout_height="50dp"
     android:layout_centerInParent="true"
-    android:indeterminateDuration="1200" />
+    android:layout_marginBottom="200dp"
+    android:background="@drawable/grey_round_bg2"
+    android:gravity="center_horizontal">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/mProgress_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:indeterminateDuration="1200" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/progressBar"
+        android:text="正在登陆..."
+        android:textColor="#F8F8F8" />
+
+</RelativeLayout>

@@ -1,13 +1,14 @@
 package com.kouchen.mininetlive.di.components;
 
 import com.kouchen.mininetlive.ui.LoginActivity;
-import com.kouchen.mininetlive.ui.RegisterInfoActivity;
-import com.kouchen.mininetlive.ui.RegisterPasswordActivity;
-import com.kouchen.mininetlive.ui.RegisterPhoneActivity;
+import com.kouchen.mininetlive.ui.RegisterStep3Activity;
+import com.kouchen.mininetlive.ui.RegisterStep2Activity;
+import com.kouchen.mininetlive.ui.RegisterStep1Activity;
 import com.kouchen.mininetlive.di.modules.AuthModule;
 import com.kouchen.mininetlive.presenter.AuthPresenter;
 import com.kouchen.mininetlive.di.scopes.ActivityScope;
 import com.kouchen.mininetlive.di.scopes.UserScope;
+
 import dagger.Component;
 
 /**
@@ -20,11 +21,11 @@ public interface AuthComponent {
 
     void inject(LoginActivity activity);
 
-    void inject(RegisterInfoActivity activity);
+    void inject(RegisterStep3Activity activity);
 
-    void inject(RegisterPasswordActivity activity);
+    void inject(RegisterStep2Activity activity);
 
-    void inject(RegisterPhoneActivity activity);
+    void inject(RegisterStep1Activity activity);
 
     AuthPresenter presenter();
 }

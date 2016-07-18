@@ -1,5 +1,7 @@
 package com.kouchen.mininetlive.ui;
 
+import android.view.View;
+
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.ui.base.AbsTitlebarActivity;
 
@@ -8,6 +10,11 @@ import com.kouchen.mininetlive.ui.base.AbsTitlebarActivity;
  */
 public class AboutActivity extends AbsTitlebarActivity {
 
+
+    @Override
+    protected void initView(View contentView) {
+
+    }
 
     @Override
     protected int getContentResId() {

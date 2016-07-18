@@ -53,6 +53,7 @@
         android:layout_marginRight="70dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
+        android:textColor="#9B9B9B"
         android:text="分享邀请码给朋友注册时使用你们将获得奖励分红"
         android:textSize="12sp" />
 

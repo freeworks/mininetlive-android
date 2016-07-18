@@ -36,6 +36,7 @@ public class ActivityPresenter implements ActivityContract.Presenter {
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                mActivityView.hideProgress();
                 if (response.isSuccess()) {
                     HttpResponse httpResponse = response.body();
                     if (httpResponse.ret == 0) {
@@ -53,6 +54,7 @@ public class ActivityPresenter implements ActivityContract.Presenter {
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
+                mActivityView.hideProgress();
                 mActivityView.onError("获取失败");
                 Log.e(TAG, "onFailure: ", t);
             }
@@ -65,6 +67,7 @@ public class ActivityPresenter implements ActivityContract.Presenter {
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                mActivityView.hideProgress();
                 if (response.isSuccess()) {
                     HttpResponse httpResponse = response.body();
                     if (httpResponse.ret == 0) {
@@ -83,6 +86,7 @@ public class ActivityPresenter implements ActivityContract.Presenter {
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
+                mActivityView.hideProgress();
                 mActivityView.onError("获取失败");
                 Log.e(TAG, "onFailure: ", t);
             }

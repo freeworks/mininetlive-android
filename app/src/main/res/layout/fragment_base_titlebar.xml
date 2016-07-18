@@ -1,17 +1,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
     android:background="#ffffff">
-
-    <FrameLayout
-        android:id="@+id/rootContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <com.kouchen.mininetlive.ui.widget.TitlebarView
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:id="@+id/rootContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/titlebar" />
 
     <com.kouchen.mininetlive.ui.widget.NetErrorView
         android:id="@+id/netErrView"
@@ -33,8 +35,10 @@
 
     <com.kouchen.mininetlive.ui.widget.ProgressView
         android:id="@+id/progressView"
-        android:visibility="invisible"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:layout_alignBottom="@+id/rootContainer"
+        android:layout_alignTop="@+id/rootContainer" />
 
 </RelativeLayout>

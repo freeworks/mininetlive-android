@@ -1,11 +1,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:clickable="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/live_recyclerview"
+    <!--使用PtrClassicFrameLayout套RecyclerViewFinal-->
+    <cn.finalteam.loadingviewfinal.PtrClassicFrameLayout
+        android:id="@+id/ptr_rv_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EEEEEE"/>
+        app:ptr_duration_to_close="300"
+        app:ptr_duration_to_close_header="2000"
+        app:ptr_keep_header_when_refresh="true"
+        app:ptr_ratio_of_header_height_to_refresh="1.2"
+        app:ptr_resistance="1.7">
+
+        <cn.finalteam.loadingviewfinal.RecyclerViewFinal
+            android:id="@+id/live_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="#00000000"
+            android:background="#EEEEEE"
+            app:loadMoreMode="click|scroll"
+            app:loadMoreView="cn.finalteam.loadingviewfinal.DefaultLoadMoreView"
+            app:noLoadMoreHideView="false" />
+
+    </cn.finalteam.loadingviewfinal.PtrClassicFrameLayout>
 </RelativeLayout>

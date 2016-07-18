@@ -80,6 +80,7 @@ public class MeFragment extends AbsTitlebarFragment {
 
     @Override
     protected void initView(View view) {
+        super.initView(view);
     }
 
     @Override
@@ -110,7 +111,7 @@ public class MeFragment extends AbsTitlebarFragment {
     }
 
     @OnClick({R.id.avatar, R.id.reward, R.id.appointmentRecord, R.id.payRecord,
-            R.id.playRecord, R.id.about})
+            R.id.playRecord,  R.id.inviteCode, R.id.about})
     public void onClick(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -128,6 +129,9 @@ public class MeFragment extends AbsTitlebarFragment {
                 break;
             case R.id.playRecord:
                 intent = new Intent(getContext(), PlayRecordActivity.class);
+                break;
+            case R.id.inviteCode:
+                intent = new Intent(getContext(), InviteCodeActivity.class);
                 break;
             case R.id.about:
                 intent = new Intent(getContext(), AboutActivity.class);

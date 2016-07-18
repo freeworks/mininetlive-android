@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true">
-
     <!--使用PtrClassicFrameLayout套RecyclerViewFinal-->
     <cn.finalteam.loadingviewfinal.PtrClassicFrameLayout
         android:id="@+id/ptr_rv_layout"
@@ -26,6 +25,4 @@
             app:noLoadMoreHideView="false" />
 
     </cn.finalteam.loadingviewfinal.PtrClassicFrameLayout>
-
-    <include layout="@layout/layout_empty_view" />
 </RelativeLayout>

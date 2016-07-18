@@ -197,12 +197,13 @@ public class AuthPresenter implements AuthContract.Presenter {
         });
     }
 
+
     @Override
-    public void register(String phone, String vcode, String password, String inviteCode) {
+    public void register(String phone, String vcode, String password, String inviteCode, String nickname, int gender) {
         if (mAuthView != null) {
             mAuthView.showProgress();
         }
-        Call<HttpResponse> call = mAuthService.register(phone, vcode, password, inviteCode);
+        Call<HttpResponse> call = mAuthService.register(phone, vcode, password, inviteCode,nickname,gender);
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
@@ -213,7 +214,7 @@ public class AuthPresenter implements AuthContract.Presenter {
                         JsonObject data = httpResponse.data.getAsJsonObject();
                         Gson gson = new Gson();
                         MNLApplication.getCacheManager()
-                            .put("token", gson.fromJson(data.get("token"), String.class));
+                                .put("token", gson.fromJson(data.get("token"), String.class));
                         UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                         MNLApplication.getCacheManager().put("user", user);
                         mAuthView.onSuccess(null);
@@ -232,6 +233,37 @@ public class AuthPresenter implements AuthContract.Presenter {
                 mAuthView.onError("注册失败");
             }
         });
+    }
+
+    @Override
+    public void checkPhone(String phone) {
+        if (mAuthView != null) {
+            mAuthView.showProgress();
+        }
+        mAuthView.onSuccess(null);
+//        Call<HttpResponse> call = mAuthService.checkPhone(phone);
+//        call.enqueue(new Callback<HttpResponse>() {
+//            @Override
+//            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+//                mAuthView.hideProgress();
+//                if (response.isSuccess()) {
+//                    HttpResponse httpResponse = response.body();
+//                    if (httpResponse.ret == 0) {
+//                        mAuthView.onSuccess(null);
+//                    } else {
+//                        mAuthView.onError(httpResponse.msg);
+//                    }
+//                } else {
+//                    mAuthView.onError("手机号校验失败");
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<HttpResponse> call, Throwable t) {
+//                Log.e(TAG, "onFailure: ", t);
+//                mAuthView.hideProgress();
+//                mAuthView.onError("手机号校验失败");
+//            }
+//        });
     }
 
     @Override

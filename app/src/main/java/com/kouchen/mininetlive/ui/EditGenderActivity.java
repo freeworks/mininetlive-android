@@ -20,6 +20,11 @@ public class EditGenderActivity extends AbsTitlebarActivity {
     ItemView2 maleItem;
 
     @Override
+    protected void initView(View contentView) {
+
+    }
+
+    @Override
     protected int getContentResId() {
         return R.layout.activity_me_edit_gender;
     }

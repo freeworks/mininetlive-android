@@ -18,6 +18,11 @@ public class EditNickActivity extends AbsTitlebarActivity{
     EditText nickname;
 
     @Override
+    protected void initView(View contentView) {
+
+    }
+
+    @Override
     protected int getContentResId() {
         return R.layout.activity_me_edit_nickname;
     }

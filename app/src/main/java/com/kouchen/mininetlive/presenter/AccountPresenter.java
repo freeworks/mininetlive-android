@@ -34,10 +34,12 @@ public class AccountPresenter implements AccountContract.Presenter {
 
     @Override
     public void getPlayRecordList() {
+        mAccountView.showProgress();
         Call<HttpResponse> call = mAccountService.GetPlayRecordList();
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                mAccountView.hideProgress();
                 if (response.isSuccess()) {
                     HttpResponse httpResponse = response.body();
                     if (httpResponse.ret == 0) {
@@ -55,6 +57,7 @@ public class AccountPresenter implements AccountContract.Presenter {
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
+                mAccountView.hideProgress();
                 mAccountView.onError("获取失败");
                 Log.e(TAG, "onFailure: ", t);
             }
@@ -63,10 +66,12 @@ public class AccountPresenter implements AccountContract.Presenter {
 
     @Override
     public void getPayRecordList() {
+        mAccountView.showProgress();
         Call<HttpResponse> call = mAccountService.GetPayRecordList();
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                mAccountView.hideProgress();
                 if (response.isSuccess()) {
                     HttpResponse httpResponse = response.body();
                     if (httpResponse.ret == 0) {
@@ -84,6 +89,7 @@ public class AccountPresenter implements AccountContract.Presenter {
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
+                mAccountView.hideProgress();
                 mAccountView.onError("获取失败");
                 Log.e(TAG, "onFailure: ", t);
             }
@@ -92,10 +98,12 @@ public class AccountPresenter implements AccountContract.Presenter {
 
     @Override
     public void getAppointRecordList() {
+        mAccountView.showProgress();
         Call<HttpResponse> call = mAccountService.GetAppointmentRecordList();
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                mAccountView.hideProgress();
                 if (response.isSuccess()) {
                     HttpResponse httpResponse = response.body();
                     if (httpResponse.ret == 0) {
@@ -113,6 +121,7 @@ public class AccountPresenter implements AccountContract.Presenter {
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
+                mAccountView.hideProgress();
                 mAccountView.onError("获取失败");
                 Log.e(TAG, "onFailure: ", t);
             }
@@ -121,10 +130,12 @@ public class AccountPresenter implements AccountContract.Presenter {
 
     @Override
     public void getWithdrawRecordList() {
+        mAccountView.showProgress();
         Call<HttpResponse> call = mAccountService.GetWithdrawRecordList();
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                mAccountView.hideProgress();
                 if (response.isSuccess()) {
                     HttpResponse httpResponse = response.body();
                     if (httpResponse.ret == 0) {
@@ -142,6 +153,7 @@ public class AccountPresenter implements AccountContract.Presenter {
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
+                mAccountView.hideProgress();
                 mAccountView.onError("获取失败");
                 Log.e(TAG, "onFailure: ", t);
             }

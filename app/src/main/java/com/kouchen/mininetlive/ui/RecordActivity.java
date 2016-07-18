@@ -2,6 +2,7 @@ package com.kouchen.mininetlive.ui;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -56,6 +57,17 @@ public abstract class RecordActivity<T extends RecordInfo> extends AbsTitlebarAc
         }
     }
 
+    @Override
+    protected void initView(View contentView) {
+        netErrView.setup(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadData();
+            }
+        });
+        noDateView.setup("暂无记录");
+    }
+
     protected abstract RecordAdapter getAdapter();
 
 
@@ -71,14 +83,18 @@ public abstract class RecordActivity<T extends RecordInfo> extends AbsTitlebarAc
 
     @Override
     public void onError(String msg) {
-        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        netErrView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onSuccess(Object list) {
-        hideProgressView();
+        List<T> data = (List<T>) list;
         if (adapter != null) {
-            adapter.setData((List<T>) list);
+            adapter.setData(data);
+        }
+        if (data == null || data.isEmpty()) {
+            noDateView.setVisibility(View.VISIBLE);
         }
     }
 
