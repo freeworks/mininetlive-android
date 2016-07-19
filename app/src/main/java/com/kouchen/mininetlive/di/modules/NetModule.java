@@ -3,19 +3,28 @@ package com.kouchen.mininetlive.di.modules;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.iainconnor.objectcache.CacheManager;
+import com.iainconnor.objectcache.DiskCache;
+import com.kouchen.mininetlive.BuildConfig;
 import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.models.UserInfo;
+
 import dagger.Module;
 import dagger.Provides;
+
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
+
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -31,6 +40,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetModule {
 
+    private static final String TAG = "NetModule";
+
     String mBaseUrl;
 
     public NetModule(String baseUrl) {
@@ -42,6 +53,20 @@ public class NetModule {
     SharedPreferences providesSharedPreferences(Application application) {
         return PreferenceManager.getDefaultSharedPreferences(application);
     }
+
+//    @Provides
+//    @Singleton
+//    CacheManager providesCacheManager(Application application) {
+//        String cachePath = application.getCacheDir().getPath();
+//        File cacheFile = new File(cachePath + File.separator + BuildConfig.APPLICATION_ID);
+//        DiskCache diskCache = null;
+//        try {
+//            diskCache = new DiskCache(cacheFile, BuildConfig.VERSION_CODE, 1024 * 1024 * 10);
+//        } catch (IOException e) {
+//            Log.e(TAG, "", e);
+//        }
+//        return CacheManager.getInstance(diskCache);
+//    }
 
     @Provides
     @Singleton
@@ -66,8 +91,8 @@ public class NetModule {
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.connectTimeout(20, TimeUnit.SECONDS);
-        client.readTimeout(20,TimeUnit.SECONDS);
-        client.writeTimeout(20,TimeUnit.SECONDS);
+        client.readTimeout(20, TimeUnit.SECONDS);
+        client.writeTimeout(20, TimeUnit.SECONDS);
         client.cache(cache).build();
         client.addInterceptor(loggingInterceptor);
         client.addInterceptor(new Interceptor() {
@@ -76,17 +101,17 @@ public class NetModule {
                 Type userType = new TypeToken<UserInfo>() {
                 }.getType();
                 UserInfo userInfo = (UserInfo) MNLApplication.getCacheManager()
-                    .get("user", UserInfo.class, userType);
+                        .get("user", UserInfo.class, userType);
                 Request original = chain.request();
                 Request.Builder builder = original.newBuilder();
                 if (userInfo != null) {
                     builder.header("uid", userInfo.getUid());
                 }
                 Request request =
-                    builder.header("Content-Type", "application/x-www-form-urlencoded")
-                        .header("Accept", "application/vnd.yourapi.v1.full+json")
-                        .method(original.method(), original.body())
-                        .build();
+                        builder.header("Content-Type", "application/x-www-form-urlencoded")
+                                .header("Accept", "application/vnd.yourapi.v1.full+json")
+                                .method(original.method(), original.body())
+                                .build();
                 return chain.proceed(request);
             }
         });
@@ -97,10 +122,10 @@ public class NetModule {
     @Singleton
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         Retrofit retrofit =
-            new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(mBaseUrl)
-                .client(okHttpClient)
-                .build();
+                new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(gson))
+                        .baseUrl(mBaseUrl)
+                        .client(okHttpClient)
+                        .build();
         return retrofit;
     }
 }

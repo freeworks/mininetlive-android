@@ -121,6 +121,7 @@ public class HomeFragment extends AbsTitlebarFragment implements ActivityContrac
 
     @Override
     public void onError(String msg) {
+        adapter.setData(null);
         mPtrRvLayout.onRefreshComplete();//完成下拉刷新
         recyclerViewFinal.onLoadMoreComplete();
         //TODO 判断是否是刷新

@@ -1,18 +1,28 @@
 package com.kouchen.mininetlive.presenter;
 
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import com.iainconnor.objectcache.CacheManager;
 import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.contracts.AuthContract;
 import com.kouchen.mininetlive.models.UserInfo;
 import com.kouchen.mininetlive.api.AuthService;
 import com.kouchen.mininetlive.models.HttpResponse;
+
+import java.lang.reflect.Type;
 import java.util.HashMap;
+
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,13 +38,19 @@ public class AuthPresenter implements AuthContract.Presenter {
 
     private AuthService mAuthService;
 
-    public AuthPresenter(@NonNull AuthService authService,@NonNull AuthContract.View authView) {
+    private SharedPreferences mSp;
+
+    public AuthPresenter(@NonNull AuthService authService,
+                         @NonNull AuthContract.View authView,
+                         @NonNull SharedPreferences sp) {
         this.mAuthView = authView;
         this.mAuthService = authService;
+        this.mSp = sp;
     }
 
     @Override
     public void validateCredentials(Platform platform, String... args) {
+        mAuthView.showProgress("正在验证...");
         Platform plat = ShareSDK.getPlatform(platform.getName());
         if (plat == null) {
             return;
@@ -47,7 +63,7 @@ public class AuthPresenter implements AuthContract.Presenter {
         plat.SSOSetting(false);
         plat.setPlatformActionListener(new PlatformActionListener() {
             public void onComplete(final Platform plat, int action,
-                final HashMap<String, Object> res) {
+                                   final HashMap<String, Object> res) {
                 if (action == Platform.ACTION_USER_INFOR) {
                     Call<HttpResponse> call = mAuthService.oauthLogin(plat.getName(), plat.getDb().getUserId(),
                             plat.getDb().getToken(), plat.getDb().getExpiresIn());
@@ -55,15 +71,16 @@ public class AuthPresenter implements AuthContract.Presenter {
 
                         @Override
                         public void onResponse(Call<HttpResponse> call,
-                            Response<HttpResponse> response) {
+                                               Response<HttpResponse> response) {
                             if (response.isSuccess()) {
                                 HttpResponse httpResponse = response.body();
                                 if (httpResponse.ret == 0) {
+                                    mAuthView.hideProgress();
                                     JsonObject data = httpResponse.data.getAsJsonObject();
                                     Gson gson = new Gson();
                                     MNLApplication.getCacheManager()
-                                        .put("token",
-                                            gson.fromJson(data.get("token"), String.class));
+                                            .put("token",
+                                                    gson.fromJson(data.get("token"), String.class));
                                     UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                                     MNLApplication.getCacheManager().put("user", user);
                                     mAuthView.onSuccess(user);
@@ -76,6 +93,7 @@ public class AuthPresenter implements AuthContract.Presenter {
                         @Override
                         public void onFailure(Call<HttpResponse> call, Throwable t) {
                             Log.e(TAG, "onFailure: ", t);
+                            mAuthView.hideProgress();
                             mAuthView.onError("登陆失败");
                         }
                     });
@@ -94,7 +112,7 @@ public class AuthPresenter implements AuthContract.Presenter {
     }
 
     private void oauthRegister(Platform plat, HashMap<String, Object> res,
-        final AuthContract.View mAuthView, AuthService accountService) {
+                               final AuthContract.View mAuthView, AuthService accountService) {
         Call<HttpResponse> call;
         String nickname = null;
         int gender = 2;
@@ -140,22 +158,28 @@ public class AuthPresenter implements AuthContract.Presenter {
             mAuthView.onError("第三方那个登陆失败，请检查" + plat.getName() + "是否安装正常");
             return;
         }
-        mAuthView.showProgress();
+        mAuthView.showProgress("注册中...");
         call = accountService.oauthRegister(plat.getName(), plat.getDb().getUserId(),
-            plat.getDb().getToken(), plat.getDb().getExpiresIn(), city, nickname, gender, avatar);
+                plat.getDb().getToken(), plat.getDb().getExpiresIn(), city, nickname, gender, avatar);
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                mAuthView.hideProgress();
                 if (response.isSuccess()) {
                     HttpResponse httpResponse = response.body();
                     if (httpResponse.ret == 0) {
                         JsonObject data = httpResponse.data.getAsJsonObject();
                         Gson gson = new Gson();
                         MNLApplication.getCacheManager()
-                            .put("token", gson.fromJson(data.get("token"), String.class));
+                                .put("token", gson.fromJson(data.get("token"), String.class));
+                        Boolean showInvited = gson.fromJson(data.get("showInvited"), Boolean.class);
                         UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                         MNLApplication.getCacheManager().put("user", user);
-                        mAuthView.onSuccess(user);
+                        if (showInvited) {
+                            mAuthView.showInviteView();
+                        } else {
+                            mAuthView.onSuccess(user);
+                        }
                     } else {
                         mAuthView.onError(httpResponse.msg);
                     }
@@ -166,21 +190,29 @@ public class AuthPresenter implements AuthContract.Presenter {
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
+                mAuthView.hideProgress();
                 mAuthView.onError("登陆失败");
+
             }
         });
     }
 
     @Override
-    public void getVCode(String phone) {
+    public void getVCode(String phone, final boolean noprogress) {
+        if (!noprogress) {
+            mAuthView.showProgress();
+        }
         Call<HttpResponse> call = mAuthService.getVCode(phone);
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                if (!noprogress) {
+                    mAuthView.hideProgress();
+                }
                 if (response.isSuccess()) {
                     HttpResponse resp = response.body();
                     if (resp.ret == 0) {
-                        mAuthView.onSuccess(null);
+                        mAuthView.onSuccess("getVCode");
                     } else {
                         mAuthView.onError(resp.msg);
                     }
@@ -191,6 +223,9 @@ public class AuthPresenter implements AuthContract.Presenter {
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
+                if (!noprogress) {
+                    mAuthView.hideProgress();
+                }
                 mAuthView.onError("获取验证码失败");
                 Log.e(TAG, "onFailure: ", t);
             }
@@ -203,7 +238,7 @@ public class AuthPresenter implements AuthContract.Presenter {
         if (mAuthView != null) {
             mAuthView.showProgress();
         }
-        Call<HttpResponse> call = mAuthService.register(phone, vcode, password, inviteCode,nickname,gender);
+        Call<HttpResponse> call = mAuthService.register(phone, vcode, password, inviteCode, nickname, gender);
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
@@ -236,41 +271,39 @@ public class AuthPresenter implements AuthContract.Presenter {
     }
 
     @Override
-    public void checkPhone(String phone) {
+    public void checkPhone(String phone, String vcode) {
         if (mAuthView != null) {
             mAuthView.showProgress();
         }
-        mAuthView.onSuccess(null);
-//        Call<HttpResponse> call = mAuthService.checkPhone(phone);
-//        call.enqueue(new Callback<HttpResponse>() {
-//            @Override
-//            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-//                mAuthView.hideProgress();
-//                if (response.isSuccess()) {
-//                    HttpResponse httpResponse = response.body();
-//                    if (httpResponse.ret == 0) {
-//                        mAuthView.onSuccess(null);
-//                    } else {
-//                        mAuthView.onError(httpResponse.msg);
-//                    }
-//                } else {
-//                    mAuthView.onError("手机号校验失败");
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<HttpResponse> call, Throwable t) {
-//                Log.e(TAG, "onFailure: ", t);
-//                mAuthView.hideProgress();
-//                mAuthView.onError("手机号校验失败");
-//            }
-//        });
+        Call<HttpResponse> call = mAuthService.checkPhone(phone, vcode);
+        call.enqueue(new Callback<HttpResponse>() {
+            @Override
+            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                mAuthView.hideProgress();
+                if (response.isSuccess()) {
+                    HttpResponse httpResponse = response.body();
+                    if (httpResponse.ret == 0) {
+                        mAuthView.onSuccess("checkPhone");
+                    } else {
+                        mAuthView.onError(httpResponse.msg);
+                    }
+                } else {
+                    mAuthView.onError("手机号校验失败");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HttpResponse> call, Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+                mAuthView.hideProgress();
+                mAuthView.onError("手机号校验失败");
+            }
+        });
     }
 
     @Override
     public void login(String phone, String password) {
-        if (mAuthView != null) {
-            mAuthView.showProgress();
-        }
+        mAuthView.showProgress();
         Call<HttpResponse> call = mAuthService.login(phone, password);
         call.enqueue(new Callback<HttpResponse>() {
             @Override
@@ -282,7 +315,7 @@ public class AuthPresenter implements AuthContract.Presenter {
                         JsonObject data = httpResponse.data.getAsJsonObject();
                         Gson gson = new Gson();
                         MNLApplication.getCacheManager()
-                            .put("token", gson.fromJson(data.get("token"), String.class));
+                                .put("token", gson.fromJson(data.get("token"), String.class));
                         UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                         MNLApplication.getCacheManager().put("user", user);
                         mAuthView.onSuccess(user);
@@ -303,6 +336,38 @@ public class AuthPresenter implements AuthContract.Presenter {
         });
     }
 
+    @Override
+    public void postInviteCode(String inviteCode) {
+        Type userType = new TypeToken<UserInfo>() {
+        }.getType();
+        UserInfo userInfo = (UserInfo) MNLApplication.getCacheManager().get("user", UserInfo.class, userType);
+        mSp.edit().putBoolean("postInviteCode_" + userInfo.getUid(), true).apply();
+        mAuthView.showProgress();
+        Call<HttpResponse> call = mAuthService.postInviteCode(inviteCode);
+        call.enqueue(new Callback<HttpResponse>() {
+            @Override
+            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                mAuthView.hideProgress();
+                if (response.isSuccess()) {
+                    HttpResponse httpResponse = response.body();
+                    if (httpResponse.ret == 0) {
+                        mAuthView.onSuccess(null);
+                    } else {
+                        mAuthView.onError(httpResponse.msg);
+                    }
+                } else {
+                    mAuthView.onError("提交邀请码失败");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HttpResponse> call, Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+                mAuthView.hideProgress();
+                mAuthView.onError("提交邀请码失败");
+            }
+        });
+    }
 }
 
 

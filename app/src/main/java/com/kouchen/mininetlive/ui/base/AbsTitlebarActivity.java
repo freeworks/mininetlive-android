@@ -54,7 +54,8 @@ public abstract class AbsTitlebarActivity extends BaseActivity implements View.O
 
     protected abstract void initView(View contentView);
 
-    protected void showProgressView() {
+    protected void showProgressView(String msg) {
+        progressView.setText(msg);
         progressView.setVisibility(View.VISIBLE);
     }
 

@@ -73,7 +73,7 @@ public abstract class RecordActivity<T extends RecordInfo> extends AbsTitlebarAc
 
     @Override
     public void showProgress() {
-        showProgressView();
+        showProgressView("获取中...");
     }
 
     @Override

@@ -90,7 +90,7 @@ public class WithdrawRecordActivity extends AbsTitlebarActivity implements Accou
 
     @Override
     public void showProgress() {
-        showProgressView();
+        showProgressView("获取中...");
     }
 
     @Override

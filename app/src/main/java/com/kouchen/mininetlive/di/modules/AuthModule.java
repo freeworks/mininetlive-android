@@ -1,10 +1,14 @@
 package com.kouchen.mininetlive.di.modules;
 
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+
+import com.iainconnor.objectcache.CacheManager;
 import com.kouchen.mininetlive.contracts.AuthContract;
 import com.kouchen.mininetlive.presenter.AuthPresenter;
 import com.kouchen.mininetlive.di.scopes.ActivityScope;
 import com.kouchen.mininetlive.api.AuthService;
+
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
@@ -31,8 +35,9 @@ public class AuthModule {
     @Provides
     @ActivityScope
     AuthPresenter providesAuthPresenter(@NonNull AuthService authService,
-        @NonNull AuthContract.View view) {
-        return new AuthPresenter(authService, view);
+                                        @NonNull AuthContract.View view,
+                                        @NonNull SharedPreferences sp) {
+        return new AuthPresenter(authService, view, sp);
     }
 
     @Provides

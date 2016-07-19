@@ -105,6 +105,8 @@ public class LiveFragment extends AbsTitlebarFragment implements ActivityContrac
 
     @Override
     public void onError(String msg) {
+        adapter.setData(null);
+        mPtrRvLayout.onRefreshComplete();//完成下拉刷新
         netErrView.setVisibility(View.VISIBLE);
     }
 

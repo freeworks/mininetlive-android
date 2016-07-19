@@ -186,34 +186,10 @@
         android:textSize="14dp" />
 
 
-    <RelativeLayout
-        android:id="@+id/progress"
+    <com.kouchen.mininetlive.ui.widget.ProgressView
+        android:id="@+id/progressView"
         android:visibility="invisible"
-        android:background="@drawable/grey_round_bg2"
-        android:layout_centerInParent="true"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="200dp"
-        android:layout_width="130dp"
-        android:layout_height="50dp">
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="@style/mProgress_circle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:indeterminateDuration="1200" />
-
-        <TextView
-            android:textColor="#F8F8F8"
-            android:text="正在登陆..."
-            android:layout_marginLeft="8dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </RelativeLayout>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

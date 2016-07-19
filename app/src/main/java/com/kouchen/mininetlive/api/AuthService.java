@@ -48,8 +48,13 @@ public interface AuthService {
     Call<HttpResponse> logout();
 
     @FormUrlEncoded
-    @POST("/oauth/phonecheck")
-    Call<HttpResponse> checkPhone(@Field("phone")String phone);
+    @POST("/auth/verify/phone")
+    Call<HttpResponse> checkPhone(@Field("phone")String phone, @Field("vcode")String vcode);
+
+
+    @FormUrlEncoded
+    @POST("/common/inviteCode")
+    Call<HttpResponse> postInviteCode(@Field("inviteCode")String inviteCode);
 
 
 //    // POST form encoded with form field params

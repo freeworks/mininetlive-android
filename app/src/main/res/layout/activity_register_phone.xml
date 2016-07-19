@@ -16,6 +16,8 @@
         android:paddingBottom="7dp"
         android:hint="请输入手机号"
         android:textColorHint="#C1C1C1"
+        android:inputType="phone"
+        android:maxLength="11"
         android:textSize="15sp"
         android:paddingTop="7dp" />
 

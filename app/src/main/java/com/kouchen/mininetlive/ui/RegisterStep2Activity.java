@@ -31,17 +31,21 @@ public class RegisterStep2Activity extends AbsTitlebarActivity implements AuthCo
     @BindView(R.id.phone)
     TextView phone;
     @BindView(R.id.vCode)
-    EditText vcode;
+    EditText vcodeEt;
     @BindView(R.id.password)
-    EditText password;
+    EditText passwordEt;
     @BindView(R.id.inviteCode)
-    EditText inviteCode;
+    EditText inviteCodeEt;
     @BindView(R.id.sendVCode)
     TextView sendVCode;
 
     private String mPhone;
 
     private CountDownTimer downTimer;
+
+    private  String vcode;
+    private String password;
+    private  String inviteCode;
 
     @Inject
     AuthPresenter presenter;
@@ -66,10 +70,9 @@ public class RegisterStep2Activity extends AbsTitlebarActivity implements AuthCo
             @Override
             public void onFinish() {
                 sendVCode.setClickable(true);
-                sendVCode.setText("再次获取验证码");
+                sendVCode.setText("再次获取");
             }
         };
-        getVCode();
     }
 
     @Override
@@ -90,17 +93,12 @@ public class RegisterStep2Activity extends AbsTitlebarActivity implements AuthCo
 
     @OnClick(R.id.registerBtn)
     public void onClick(View view) {
-        String vcode = this.vcode.getText().toString();
-        String password = this.password.getText().toString();
-        String inviteCode = this.inviteCode.getText().toString();
+        vcode = this.vcodeEt.getText().toString();
+        password = passwordEt.getText().toString();
+        inviteCode = inviteCodeEt.getText().toString();
         if (ValidateUtil.checkVCode(vcode)) {
             if (ValidateUtil.checkPassword(password)) {
-                Intent intent = new Intent(this, RegisterStep3Activity.class);
-                intent.putExtra("phone", mPhone);
-                intent.putExtra("vcode", inviteCode);
-                intent.putExtra("password", password);
-                intent.putExtra("inviteCode", inviteCode);
-                startActivity(intent);
+                presenter.checkPhone(mPhone,vcode);
             } else {
                 Toast.makeText(this, "输入的密码格式错误", Toast.LENGTH_SHORT).show();
             }
@@ -111,7 +109,7 @@ public class RegisterStep2Activity extends AbsTitlebarActivity implements AuthCo
 
     @Override
     public void showProgress() {
-        showProgressView();
+        showProgressView("验证中...");
     }
 
     @Override
@@ -128,11 +126,28 @@ public class RegisterStep2Activity extends AbsTitlebarActivity implements AuthCo
     public void getVCode() {
         downTimer.cancel();
         downTimer.start();
-        presenter.getVCode(mPhone);
+        presenter.getVCode(mPhone,true);
     }
 
     @Override
     public void onSuccess(Object data) {
-        Toast.makeText(this, "获取验证码成功!", Toast.LENGTH_SHORT).show();
+        if("checkPhone".equals(data)){
+            Intent intent = new Intent(this, RegisterStep3Activity.class);
+            intent.putExtra("phone", mPhone);
+            intent.putExtra("vcode", inviteCode);
+            intent.putExtra("password", password);
+            intent.putExtra("inviteCode", inviteCode);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void showInviteView() {
+
+    }
+
+    @Override
+    public void showProgress(String msg) {
+
     }
 }

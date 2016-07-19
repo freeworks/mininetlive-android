@@ -3,6 +3,7 @@ package com.kouchen.mininetlive.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -63,8 +64,12 @@ public class RegisterStep1Activity extends AbsTitlebarActivity implements AuthCo
     public void onClick(View view) {
         if (R.id.next == view.getId()) {
             mPhone = this.phone.getText().toString().trim();
+            if(TextUtils.isEmpty(mPhone)){
+                Toast.makeText(this,"手机号不能为空!",Toast.LENGTH_SHORT).show();
+                return;
+            }
             if(ValidateUtil.checkPhone(mPhone)){
-                presenter.checkPhone(mPhone);
+                presenter.getVCode(mPhone,false);
             }else{
                 Toast.makeText(this,"请输入正确的手机号码",Toast.LENGTH_SHORT).show();
             }
@@ -73,7 +78,7 @@ public class RegisterStep1Activity extends AbsTitlebarActivity implements AuthCo
 
     @Override
     public void showProgress() {
-        showProgressView();
+        showProgressView("获取验证码中...");
     }
 
     @Override
@@ -93,4 +98,13 @@ public class RegisterStep1Activity extends AbsTitlebarActivity implements AuthCo
         startActivity(intent);
     }
 
+    @Override
+    public void showInviteView() {
+
+    }
+
+    @Override
+    public void showProgress(String msg) {
+
+    }
 }

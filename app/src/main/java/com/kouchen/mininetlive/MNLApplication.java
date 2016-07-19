@@ -77,8 +77,8 @@ public class MNLApplication extends Application {
         //    .observeOn(AndroidSchedulers.mainThread())
         //    .subscribe();
 
-        String API_URL = "http://106.75.19.205:8080";
-//        String API_URL = "http://192.168.0.103:8080";
+//        String API_URL = "http://106.75.19.205:8080";
+        String API_URL = "http://192.168.0.103:8080";
 //        String API_URL = "http://172.17.23.194:8080";
         mNetComponent = DaggerNetComponent.builder()
             .appModule(new AppModule(this))

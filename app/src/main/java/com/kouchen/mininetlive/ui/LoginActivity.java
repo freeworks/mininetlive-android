@@ -23,58 +23,70 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.kouchen.mininetlive.MNLApplication;
+import com.kouchen.mininetlive.R;
+import com.kouchen.mininetlive.contracts.AuthContract;
+import com.kouchen.mininetlive.di.components.DaggerAuthComponent;
+import com.kouchen.mininetlive.di.modules.AuthModule;
+import com.kouchen.mininetlive.presenter.AuthPresenter;
+import com.kouchen.mininetlive.ui.base.BaseActivity;
+import com.kouchen.mininetlive.ui.widget.ProgressView;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
-import com.kouchen.mininetlive.MNLApplication;
-import com.kouchen.mininetlive.R;
-import com.kouchen.mininetlive.ui.base.BaseActivity;
-import com.kouchen.mininetlive.di.components.DaggerAuthComponent;
-import com.kouchen.mininetlive.contracts.AuthContract;
-import com.kouchen.mininetlive.di.modules.AuthModule;
-import com.kouchen.mininetlive.presenter.AuthPresenter;
-import javax.inject.Inject;
 
 public class LoginActivity extends BaseActivity implements AuthContract.View, View.OnClickListener {
 
-    private View progressBar;
-    private EditText username;
-    private EditText password;
-    private EditText vCode;
 
     @Inject
     AuthPresenter presenter;
+    @BindView(R.id.username)
+    EditText username;
+    @BindView(R.id.password)
+    EditText password;
+    @BindView(R.id.progressView)
+    ProgressView progressView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        progressBar = findViewById(R.id.progress);
-        username = (EditText) findViewById(R.id.username);
-        password = (EditText) findViewById(R.id.password);
+        ButterKnife.bind(this);
         findViewById(R.id.tvWechat).setOnClickListener(this);
         findViewById(R.id.tvWeibo).setOnClickListener(this);
         findViewById(R.id.tvQQ).setOnClickListener(this);
         findViewById(R.id.loginBtn).setOnClickListener(this);
 
         DaggerAuthComponent.builder()
-            .authModule(new AuthModule(this))
-            .netComponent(((MNLApplication) getApplication()).getNetComponent())
-            .build()
-            .inject(this);
+                .authModule(new AuthModule(this))
+                .netComponent(((MNLApplication) getApplication()).getNetComponent())
+                .build()
+                .inject(this);
 
     }
 
     @Override
     public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
+        progressView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showProgress(String msg) {
+        progressView.setText(msg);
+        progressView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        progressBar.setVisibility(View.GONE);
+        progressView.setVisibility(View.GONE);
     }
 
     @Override
@@ -101,7 +113,7 @@ public class LoginActivity extends BaseActivity implements AuthContract.View, Vi
                         password.getText().toString());
                 break;
             case R.id.reigsterBtn:
-                Intent intent = new Intent(this,RegisterStep1Activity.class);
+                Intent intent = new Intent(this, RegisterStep1Activity.class);
                 startActivity(intent);
                 break;
             case R.id.tvWeibo:
@@ -117,5 +129,12 @@ public class LoginActivity extends BaseActivity implements AuthContract.View, Vi
                 presenter.validateCredentials(platform);
                 break;
         }
+    }
+
+    @Override
+    public void showInviteView() {
+        Intent intent = new Intent(this,InputInviteCodeActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

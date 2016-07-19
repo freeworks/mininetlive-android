@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kouchen.mininetlive.MNLApplication;
@@ -81,7 +80,7 @@ public class RegisterStep3Activity extends AbsTitlebarActivity implements AuthCo
 
     @Override
     public void showProgress() {
-        showProgressView();
+        showProgressView("注册中...");
     }
 
     @Override
@@ -102,4 +101,12 @@ public class RegisterStep3Activity extends AbsTitlebarActivity implements AuthCo
         finish();
     }
 
+    @Override
+    public void showInviteView() {
+    }
+
+    @Override
+    public void showProgress(String msg) {
+
+    }
 }

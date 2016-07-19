@@ -1,5 +1,6 @@
 package com.kouchen.mininetlive.di.components;
 
+import com.kouchen.mininetlive.ui.InputInviteCodeActivity;
 import com.kouchen.mininetlive.ui.LoginActivity;
 import com.kouchen.mininetlive.ui.RegisterStep3Activity;
 import com.kouchen.mininetlive.ui.RegisterStep2Activity;
@@ -18,6 +19,9 @@ import dagger.Component;
 @ActivityScope
 @Component(dependencies = NetComponent.class, modules = AuthModule.class)
 public interface AuthComponent {
+
+
+    void inject(InputInviteCodeActivity activity);
 
     void inject(LoginActivity activity);
 
