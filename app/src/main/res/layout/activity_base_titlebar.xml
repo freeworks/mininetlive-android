@@ -31,10 +31,16 @@
         android:layout_alignBottom="@+id/rootContainer"
         android:layout_alignTop="@+id/rootContainer" />
 
+    <com.kouchen.mininetlive.ui.widget.PanelView
+        android:id="@+id/panelView"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
     <com.kouchen.mininetlive.ui.widget.ProgressView
         android:id="@+id/progressView"
         android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 
 </RelativeLayout>

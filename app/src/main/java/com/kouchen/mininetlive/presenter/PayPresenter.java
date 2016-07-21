@@ -29,10 +29,12 @@ public class PayPresenter implements PayContract.Presenter {
 
     @Override
     public void pay(String aid, PayChannel channel, int count) {
+        mPayView.showProgress();
         Call<HttpResponse> call = mPayService.GetCharge(aid, channel.getChannelName(), count, 1);
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                mPayView.hideProgress();
                 if (response.isSuccess()) {
                     HttpResponse httpResponse = response.body();
                     if (httpResponse.ret == 0) {
@@ -49,6 +51,7 @@ public class PayPresenter implements PayContract.Presenter {
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
+                mPayView.hideProgress();
                 mPayView.onError(t != null? t.getMessage():"");
             }
         });

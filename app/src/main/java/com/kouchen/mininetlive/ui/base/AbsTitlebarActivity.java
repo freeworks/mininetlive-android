@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.ui.widget.NetErrorView;
 import com.kouchen.mininetlive.ui.widget.NoDataView;
+import com.kouchen.mininetlive.ui.widget.PanelView;
 import com.kouchen.mininetlive.ui.widget.ProgressView;
 import com.kouchen.mininetlive.ui.widget.TitlebarView;
 
@@ -30,6 +31,8 @@ public abstract class AbsTitlebarActivity extends BaseActivity implements View.O
     protected NetErrorView netErrView;
     @BindView(R.id.noDateView)
     protected NoDataView noDateView;
+    @BindView(R.id.panelView)
+    protected PanelView panelView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

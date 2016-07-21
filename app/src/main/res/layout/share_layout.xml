@@ -1,0 +1,74 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:paddingBottom="10dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|center_vertical"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="20dp"
+        android:textColor="#555555"
+        android:text="分享到"
+        android:textSize="15dp" />
+
+    <com.kouchen.mininetlive.ui.widget.ItemViewDivider
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp" />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:paddingRight="12dp"
+        android:paddingLeft="12dp"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ssdk_oks_classic_wechat"
+            android:text="微信"
+            android:gravity="center"
+            android:textColor="#555555"
+            android:textSize="11sp"
+            android:background="@drawable/item_selector"/>
+
+
+        <TextView
+            android:id="@+id/moment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/item_selector"
+            android:gravity="center"
+            android:textSize="11sp"
+            android:textColor="#555555"
+            android:drawableTop="@drawable/ssdk_oks_classic_wechatmoments"
+            android:text="朋友圈" />
+
+
+        <TextView
+            android:id="@+id/weibo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="11sp"
+            android:textColor="#555555"
+            android:background="@drawable/item_selector"
+            android:drawableTop="@drawable/ssdk_oks_classic_sinaweibo"
+            android:text="微博" />
+    </LinearLayout>
+</LinearLayout>

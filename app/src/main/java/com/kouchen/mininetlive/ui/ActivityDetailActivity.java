@@ -13,17 +13,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.R;
-import com.kouchen.mininetlive.contracts.ActivityContract;
 import com.kouchen.mininetlive.contracts.PayContract;
-import com.kouchen.mininetlive.di.components.DaggerActivityComponent;
 import com.kouchen.mininetlive.di.components.DaggerPayComponent;
-import com.kouchen.mininetlive.di.modules.ActivityModule;
 import com.kouchen.mininetlive.di.modules.PayModule;
 import com.kouchen.mininetlive.models.ActivityInfo;
-import com.kouchen.mininetlive.presenter.ActivityPresenter;
 import com.kouchen.mininetlive.presenter.PayPresenter;
 import com.kouchen.mininetlive.ui.dialog.BuyDialog;
 import com.kouchen.mininetlive.ui.dialog.RewardDialog;
+import com.kouchen.mininetlive.ui.dialog.ShareDialog;
 import com.kouchen.mininetlive.ui.dialog.TipsDialog;
 import com.kouchen.mininetlive.ui.widget.FullActiivty;
 import com.kouchen.mininetlive.ui.widget.GlideCircleTransform;
@@ -70,6 +67,8 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
     TextView price;
     @BindView(R.id.player)
     VideoPlayer player;
+
+    ShareDialog shareDialog;
 
     private ActivityInfo info;
 
@@ -251,21 +250,18 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                 case "appointment":
                     TipsDialog tdialog = new TipsDialog(this);
                     tdialog.showAppointment();
-//                    activityPresenter.appointment(info.getId());
                     break;
                 case "buy":
-                    new BuyDialog(this).show(info.getPrice(),this,this);
-//                    payPresenter.pay(info.getId(), PayChannel.CHANNEL_WECHAT, info.getPrice());
+                    new BuyDialog(this).show(info.getPrice(), this, this);
                     break;
                 case "reward":
-                    new RewardDialog(this).show(this,this);
-//                    payPresenter.pay(info.getId(), PayChannel.CHANNEL_WECHAT, info.getPrice());
+                    new RewardDialog(this).show(this, this);
                     break;
             }
-        }else if(view.getId() == R.id.wxpay){
-
-        }else if(view.getId() == R.id.alipay){
-
+        } else if (view.getId() == R.id.wxpay) {
+            payPresenter.pay(info.getId(), PayChannel.CHANNEL_WECHAT, info.getPrice());
+        } else if (view.getId() == R.id.alipay) {
+            payPresenter.pay(info.getId(), PayChannel.CHANNEL_ALIPAY, info.getPrice());
         }
     }
 
@@ -286,14 +282,34 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
         }
     }
 
+    @OnClick(R.id.share)
+    protected void share() {
+        if (shareDialog == null) {
+            shareDialog = new ShareDialog(this);
+        }
+        if (shareDialog.isShowing()) {
+            return;
+        }
+        shareDialog.show(info.getId(), info.getTitle(), info.getDesc(), info.getFrontCover());
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (panelView.isShowing()) {
+            panelView.hide();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     @Override
     public void showProgress() {
-
+        showProgressView("正在获取订单...");
     }
 
     @Override
     public void hideProgress() {
-
+        hideProgressView();
     }
 
     @Override

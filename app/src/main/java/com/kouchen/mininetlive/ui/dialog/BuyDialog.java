@@ -18,13 +18,16 @@ import butterknife.ButterKnife;
 public class BuyDialog extends Dialog {
 
     private static final String TAG = "BuyDialog";
-
     @BindView(R.id.amount)
     TextView amountTv;
     @BindView(R.id.alipay)
     TextView alipay;
     @BindView(R.id.wxpay)
     TextView wxpay;
+    private int amount;
+    private View.OnClickListener alipayOnclickListener;
+    private View.OnClickListener wxOnclickListener;
+
 
     public BuyDialog(Context context) {
         super(context, R.style.payDialog);
@@ -36,9 +39,6 @@ public class BuyDialog extends Dialog {
         this.setContentView(R.layout.dialog_buy_layout);
         ButterKnife.bind(this);
         setCancelable(true);
-    }
-
-    public void show(int amount, final View.OnClickListener alipayOnclickListener, final View.OnClickListener wxOnclickListener) {
         amountTv.setText(String.valueOf(amount));
         wxpay.setOnClickListener(new View.OnClickListener() {
 
@@ -55,6 +55,13 @@ public class BuyDialog extends Dialog {
                 dismiss();
             }
         });
+    }
+
+    public void show(int amount, final View.OnClickListener alipayOnclickListener, final View.OnClickListener wxOnclickListener) {
+        this.amount = amount;
+        this.alipayOnclickListener = alipayOnclickListener;
+        this.wxOnclickListener = wxOnclickListener;
+        show();
     }
 
     @Override

@@ -31,6 +31,8 @@ public class RewardDialog extends Dialog {
     TextView alipay;
     @BindView(R.id.wxpay)
     TextView wxpay;
+    private View.OnClickListener alipayOnclickListener;
+    private View.OnClickListener wxOnclickListener;
 
     public RewardDialog(Context context) {
         super(context, R.style.payDialog);
@@ -42,12 +44,15 @@ public class RewardDialog extends Dialog {
         this.setContentView(R.layout.dialog_pay_reward_layout);
         ButterKnife.bind(this);
         setCancelable(true);
-    }
-
-    public void show(View.OnClickListener alipayOnclickListener, View.OnClickListener wxOnclickListener) {
         wxpay.setOnClickListener(wxOnclickListener);
         alipay.setOnClickListener(alipayOnclickListener);
     }
+
+    public void show(View.OnClickListener alipayOnclickListener, View.OnClickListener wxOnclickListener) {
+        this.alipayOnclickListener = alipayOnclickListener;
+        this.wxOnclickListener = wxOnclickListener;
+    }
+
 
     @Override
     public void onBackPressed() {
