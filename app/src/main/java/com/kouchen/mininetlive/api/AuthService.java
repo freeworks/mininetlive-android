@@ -57,6 +57,11 @@ public interface AuthService {
     Call<HttpResponse> postInviteCode(@Field("inviteCode")String inviteCode);
 
 
+    @FormUrlEncoded
+    @POST("/auth/password/reset")
+    Call<HttpResponse> resetPassword(String phone, String vcode, String password);
+
+
 //    // POST form encoded with form field params
 //    @FormUrlEncoded
 //    @POST("/post")

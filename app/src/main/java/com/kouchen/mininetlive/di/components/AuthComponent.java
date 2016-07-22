@@ -9,6 +9,7 @@ import com.kouchen.mininetlive.di.modules.AuthModule;
 import com.kouchen.mininetlive.presenter.AuthPresenter;
 import com.kouchen.mininetlive.di.scopes.ActivityScope;
 import com.kouchen.mininetlive.di.scopes.UserScope;
+import com.kouchen.mininetlive.ui.ResetPasswordActivity;
 
 import dagger.Component;
 
@@ -30,6 +31,8 @@ public interface AuthComponent {
     void inject(RegisterStep2Activity activity);
 
     void inject(RegisterStep1Activity activity);
+
+    void inject(ResetPasswordActivity activity);
 
     AuthPresenter presenter();
 }

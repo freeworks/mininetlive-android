@@ -368,6 +368,35 @@ public class AuthPresenter implements AuthContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void resetPassword(String phone, String vcode, String password) {
+        mAuthView.showProgress();
+        Call<HttpResponse> call = mAuthService.resetPassword(phone,vcode, password);
+        call.enqueue(new Callback<HttpResponse>() {
+            @Override
+            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                mAuthView.hideProgress();
+                if (response.isSuccess()) {
+                    HttpResponse httpResponse = response.body();
+                    if (httpResponse.ret == 0) {
+                        mAuthView.onSuccess(null);
+                    } else {
+                        mAuthView.onError(httpResponse.msg);
+                    }
+                } else {
+                    mAuthView.onError("重置密码失败");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HttpResponse> call, Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+                mAuthView.hideProgress();
+                mAuthView.onError("重置密码失败");
+            }
+        });
+    }
 }
 
 

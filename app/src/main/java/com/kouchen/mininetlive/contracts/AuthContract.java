@@ -29,5 +29,7 @@ public interface AuthContract {
         void checkPhone(String mPhone, String phone);
 
         void postInviteCode(String inviteCode);
+
+        void resetPassword(String p, String vcode, String pwd);
     }
 }
