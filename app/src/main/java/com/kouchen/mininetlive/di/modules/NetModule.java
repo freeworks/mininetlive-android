@@ -88,11 +88,11 @@ public class NetModule {
     @Singleton
     OkHttpClient provideOkHttpClient(Cache cache) {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
         OkHttpClient.Builder client = new OkHttpClient.Builder();
-        client.connectTimeout(20, TimeUnit.SECONDS);
-        client.readTimeout(20, TimeUnit.SECONDS);
-        client.writeTimeout(20, TimeUnit.SECONDS);
+        client.connectTimeout(30, TimeUnit.SECONDS);
+        client.readTimeout(30, TimeUnit.SECONDS);
+        client.writeTimeout(30, TimeUnit.SECONDS);
         client.cache(cache).build();
         client.addInterceptor(loggingInterceptor);
         client.addInterceptor(new Interceptor() {
@@ -107,9 +107,7 @@ public class NetModule {
                 if (userInfo != null) {
                     builder.header("uid", userInfo.getUid());
                 }
-                Request request =
-                        builder.header("Content-Type", "application/x-www-form-urlencoded")
-                                .header("Accept", "application/vnd.yourapi.v1.full+json")
+                Request request = builder.header("Accept", "application/vnd.yourapi.v1.full+json")
                                 .method(original.method(), original.body())
                                 .build();
                 return chain.proceed(request);

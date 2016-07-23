@@ -62,14 +62,8 @@ public interface AuthService {
     Call<HttpResponse> resetPassword(String phone, String vcode, String password);
 
 
-//    // POST form encoded with form field params
-//    @FormUrlEncoded
-//    @POST("/post")
-//    Call<HttpResponse> postWithFormParams(@Field("field1") String field1
-//    );
-// request /get?testArg=...
-//@GET("/get")
-//Call<HttpResponse> getWithArg(@Field("testArg") String arg
-//);
+    @FormUrlEncoded
+    @POST("/auth/phone/bind")
+    Call<HttpResponse> bindPhone(String phone, String vcode);
 
 }

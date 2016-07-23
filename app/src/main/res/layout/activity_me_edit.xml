@@ -37,10 +37,10 @@
 
     <com.kouchen.mininetlive.ui.widget.ItemView2
         android:id="@+id/genderItem"
-        android:onClick="onClick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
+        app:IsShowArrow="false"
         app:ItemKey="性别" />
 
     <com.kouchen.mininetlive.ui.widget.ItemViewDivider

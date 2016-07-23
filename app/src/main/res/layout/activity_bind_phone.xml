@@ -104,54 +104,9 @@
         android:layout_width="match_parent"
         android:layout_height="1dp" />
 
-    <RelativeLayout
-        android:id="@+id/passwordLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/d2"
-        android:layout_marginTop="5dp"
-        android:paddingRight="60dp">
-
-        <TextView
-            android:id="@+id/labelPassword"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:textColor="#FF4A4A4A"
-            android:textSize="15sp"
-            android:textColorHint="#C1C1C1"
-            android:text="新密码" />
-
-        <EditText
-            android:id="@+id/password"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@null"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:inputType="textPassword"
-            android:textSize="15sp"
-            android:maxLength="16"
-            android:textColor="#FF4A4A4A"
-            android:layout_toRightOf="@+id/labelPassword"
-            android:textColorHint="#C1C1C1"
-            android:hint="请输入新密码" />
-    </RelativeLayout>
-    <com.kouchen.mininetlive.ui.widget.ItemViewDivider
-        android:id="@+id/d3"
-        android:layout_below="@+id/passwordLayout"
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
-
     <TextView
         android:layout_marginTop="30dp"
-        android:layout_below="@+id/d3"
+        android:layout_below="@+id/d2"
         android:id="@+id/okbtn"
         android:text="确 定"
         android:gravity="center"

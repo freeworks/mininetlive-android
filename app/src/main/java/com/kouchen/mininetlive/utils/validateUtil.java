@@ -15,4 +15,8 @@ public class ValidateUtil {
     public static boolean checkVCode(String vcode) {
         return true;
     }
+
+    public static boolean checkNickname(String name) {
+        return true;
+    }
 }

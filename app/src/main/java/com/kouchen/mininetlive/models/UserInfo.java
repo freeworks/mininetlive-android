@@ -52,7 +52,7 @@ public class UserInfo implements Serializable {
     }
 
     public String getAvatar() {
-        return avatar;
+        return avatar+"?iopcmd=thumbnail&type=8&width=200&height=200";
     }
 
     public void setAvatar(String avatar) {
