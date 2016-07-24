@@ -43,21 +43,7 @@ public class MeFragment extends AbsTitlebarFragment {
     @BindView(R.id.phone)
     TextView phone;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        UserInfo userInfo = getUserInfo();
-        if (userInfo == null) {
-            return;
-        } else {
-            setUserInfo(userInfo);
-        }
-    }
+    private UserInfo userInfo;
 
     private void setUserInfo(UserInfo userInfo) {
         if (userInfo == null) {
@@ -81,6 +67,12 @@ public class MeFragment extends AbsTitlebarFragment {
     @Override
     protected void initView(View view) {
         super.initView(view);
+        userInfo = getUserInfo();
+        if (userInfo == null) {
+            return;
+        } else {
+            setUserInfo(userInfo);
+        }
     }
 
     @Override
@@ -132,6 +124,7 @@ public class MeFragment extends AbsTitlebarFragment {
                 break;
             case R.id.inviteCode:
                 intent = new Intent(getContext(), InviteCodeActivity.class);
+                intent.putExtra("inviteCode",userInfo.getInviteCode());
                 break;
             case R.id.about:
                 intent = new Intent(getContext(), AboutActivity.class);
