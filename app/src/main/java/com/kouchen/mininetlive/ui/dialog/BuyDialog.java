@@ -39,29 +39,40 @@ public class BuyDialog extends Dialog {
         this.setContentView(R.layout.dialog_buy_layout);
         ButterKnife.bind(this);
         setCancelable(true);
-        amountTv.setText(String.valueOf(amount));
-        wxpay.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                wxOnclickListener.onClick(view);
-                dismiss();
-            }
-        });
-        alipay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alipayOnclickListener.onClick(view);
-                dismiss();
-            }
-        });
+        setData(amount, alipayOnclickListener, wxOnclickListener);
     }
 
     public void show(int amount, final View.OnClickListener alipayOnclickListener, final View.OnClickListener wxOnclickListener) {
         this.amount = amount;
         this.alipayOnclickListener = alipayOnclickListener;
         this.wxOnclickListener = wxOnclickListener;
+        setData(amount, alipayOnclickListener, wxOnclickListener);
         show();
+    }
+
+    private void setData(int amount, final View.OnClickListener alipayOnclickListener, final View.OnClickListener wxOnclickListener) {
+        if(amountTv!= null){
+            amountTv.setText(String.valueOf(amount));
+        }
+        if (wxpay!=null){
+            wxpay.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    wxOnclickListener.onClick(view);
+                    dismiss();
+                }
+            });
+        }
+        if(alipay!=null){
+            alipay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alipayOnclickListener.onClick(view);
+                    dismiss();
+                }
+            });
+        }
     }
 
     @Override

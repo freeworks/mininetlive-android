@@ -52,20 +52,17 @@ public  class PayActivity extends AbsTitlebarActivity {
                 String msg = null;
                 switch (result) {
                     case "success":
-                        msg = "支付成功!";
+                        Toast.makeText(PayActivity.this, "支付成功!", Toast.LENGTH_SHORT).show();
                         break;
                     case "fail":
-                        msg = "支付失败，请重新支付!";
+                        Toast.makeText(PayActivity.this, "支付失败，请重新支付!", Toast.LENGTH_SHORT).show();
                         break;
                     case "cancel":
-                        msg = "取消支付成功!";
+//                        msg = "取消支付成功!";
                         break;
                     case "invalid":
-                        msg = "请检查是安装微信/支付宝客户端!";
+                        Toast.makeText(PayActivity.this, "请检查是安装微信/支付宝客户端!", Toast.LENGTH_SHORT).show();
                         break;
-                }
-                if (msg != null) {
-                    Toast.makeText(PayActivity.this, msg, Toast.LENGTH_SHORT).show();
                 }
                 // 处理返回值
                 // "success" - 支付成功
@@ -79,9 +76,4 @@ public  class PayActivity extends AbsTitlebarActivity {
             }
         }
     }
-
-    public void onGetChargeSuccess(String data) {
-        Pingpp.createPayment(this, data);
-    }
-    
 }

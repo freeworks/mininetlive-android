@@ -69,6 +69,8 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
     VideoPlayer player;
 
     ShareDialog shareDialog;
+    BuyDialog  buyDialog;
+    RewardDialog rewardDialog;
 
     private ActivityInfo info;
 
@@ -252,16 +254,42 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                     tdialog.showAppointment();
                     break;
                 case "buy":
-                    new BuyDialog(this).show(info.getPrice(), this, this);
+                    if(buyDialog == null){
+                        buyDialog = new BuyDialog(this);
+                    }
+                    if(!buyDialog.isShowing()){
+                        new BuyDialog(this).show(info.getPrice(), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                payPresenter.pay(info.getId(), PayChannel.CHANNEL_ALIPAY, info.getPrice(),1);
+                            }
+                        }, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                payPresenter.pay(info.getId(), PayChannel.CHANNEL_WECHAT, info.getPrice(),1);
+                            }
+                        });
+                    }
                     break;
                 case "reward":
-                    new RewardDialog(this).show(this, this);
+                    if(rewardDialog == null){
+                        rewardDialog = new RewardDialog(this);
+                    }
+                    if(!rewardDialog.isShowing()){
+                        rewardDialog.show(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                payPresenter.pay(info.getId(), PayChannel.CHANNEL_ALIPAY, rewardDialog.getAmount(),0);
+                            }
+                        }, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                payPresenter.pay(info.getId(), PayChannel.CHANNEL_WECHAT, rewardDialog.getAmount(),0);
+                            }
+                        });
+                    }
                     break;
             }
-        } else if (view.getId() == R.id.wxpay) {
-            payPresenter.pay(info.getId(), PayChannel.CHANNEL_WECHAT, info.getPrice());
-        } else if (view.getId() == R.id.alipay) {
-            payPresenter.pay(info.getId(), PayChannel.CHANNEL_ALIPAY, info.getPrice());
         }
     }
 

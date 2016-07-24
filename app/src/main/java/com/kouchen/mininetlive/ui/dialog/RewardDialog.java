@@ -3,21 +3,14 @@ package com.kouchen.mininetlive.ui.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kouchen.mininetlive.R;
-
-import java.util.concurrent.TimeUnit;
+import com.kouchen.mininetlive.ui.widget.RewardView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 
 
 /**
@@ -31,6 +24,9 @@ public class RewardDialog extends Dialog {
     TextView alipay;
     @BindView(R.id.wxpay)
     TextView wxpay;
+    @BindView(R.id.amountLayout)
+    RewardView rewardView;
+
     private View.OnClickListener alipayOnclickListener;
     private View.OnClickListener wxOnclickListener;
 
@@ -51,6 +47,7 @@ public class RewardDialog extends Dialog {
     public void show(View.OnClickListener alipayOnclickListener, View.OnClickListener wxOnclickListener) {
         this.alipayOnclickListener = alipayOnclickListener;
         this.wxOnclickListener = wxOnclickListener;
+        show();
     }
 
 
@@ -58,5 +55,9 @@ public class RewardDialog extends Dialog {
     public void onBackPressed() {
         super.onBackPressed();
         dismiss();
+    }
+
+    public int getAmount() {
+        return rewardView.getAmount();
     }
 }

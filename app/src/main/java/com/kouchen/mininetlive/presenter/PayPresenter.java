@@ -28,9 +28,9 @@ public class PayPresenter implements PayContract.Presenter {
     }
 
     @Override
-    public void pay(String aid, PayChannel channel, int count) {
+    public void pay(String aid, PayChannel channel, int count,int payType) {
         mPayView.showProgress();
-        Call<HttpResponse> call = mPayService.GetCharge(aid, channel.getChannelName(), count, 1);
+        Call<HttpResponse> call = mPayService.GetCharge(aid, channel.getChannelName(), count, payType);
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {

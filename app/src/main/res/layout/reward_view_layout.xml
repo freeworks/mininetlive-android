@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/amountLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/buttonLayout"
+    android:layout_alignRight="@+id/buttonLayout"
+    android:layout_below="@+id/title"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="20dp"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/amountLayout0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/amount0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/reward_amount_unselected"
+            android:gravity="center"
+            android:paddingBottom="6dp"
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp"
+            android:paddingTop="6dp"
+            android:textColor="#FFE97512"
+            android:text="￥1.88" />
+
+        <TextView
+            android:id="@+id/amount1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/amount0"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/reward_amount_unselected"
+            android:gravity="center"
+            android:paddingBottom="6dp"
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp"
+            android:paddingTop="6dp"
+            android:textColor="#FFE97512"
+            android:text="￥8.88" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amountLayout0"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/amount2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/reward_amount_unselected"
+            android:gravity="center"
+            android:paddingBottom="6dp"
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp"
+            android:paddingTop="6dp"
+            android:textColor="#FFE97512"
+            android:text="￥68.88" />
+
+        <TextView
+            android:id="@+id/amount3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/reward_amount_unselected"
+            android:gravity="center"
+            android:paddingBottom="6dp"
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp"
+            android:paddingTop="6dp"
+            android:textColor="#FFE97512"
+            android:text="￥88.88" />
+    </LinearLayout>
+</RelativeLayout>

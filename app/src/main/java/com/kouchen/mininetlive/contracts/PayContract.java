@@ -14,7 +14,7 @@ public interface PayContract {
 
     interface Presenter extends BasePresenter {
 
-        void pay(String aid, PayChannel channel, int count);
+        void pay(String aid, PayChannel channel, int count,int payType);
 
         void withdraw(int count);
     }
