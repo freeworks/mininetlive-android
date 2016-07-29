@@ -72,6 +72,7 @@
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
             android:paddingLeft="20dp"
+            android:drawablePadding="8dp"
             android:drawableLeft="@drawable/ic_pay_alipay"
             android:gravity="center_vertical"
             android:text="支付宝"
