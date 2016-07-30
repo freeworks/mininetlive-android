@@ -51,8 +51,7 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.tab_me:
                         if (!isLogin()) {
-                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                            startActivityForResult(intent, Constants.RequestCode.LOGIN);
+                           showLoginActivity();
                         }
                         switchContent(currentFragemnt, meFragment);
                         break;
@@ -76,12 +75,9 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.RequestCode.LOGIN) {
-            if (resultCode == RESULT_CANCELED) {
-                homeTab.setChecked(true);
-            }
+    protected void handleLogin(int resultCode, Intent data) {
+        if (resultCode == RESULT_CANCELED) {
+            homeTab.setChecked(true);
         }
     }
 

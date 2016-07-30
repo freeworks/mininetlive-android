@@ -50,6 +50,14 @@ public class BuyDialog extends Dialog {
         show();
     }
 
+    public void show(int amount, final View.OnClickListener payOnclickListener) {
+        this.amount = amount;
+        this.alipayOnclickListener = payOnclickListener;
+        this.wxOnclickListener = payOnclickListener;
+        setData(amount, alipayOnclickListener, wxOnclickListener);
+        show();
+    }
+
     private void setData(int amount, final View.OnClickListener alipayOnclickListener, final View.OnClickListener wxOnclickListener) {
         if(amountTv!= null){
             amountTv.setText(String.valueOf(amount));

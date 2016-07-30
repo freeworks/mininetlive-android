@@ -69,7 +69,7 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
     VideoPlayer player;
 
     ShareDialog shareDialog;
-    BuyDialog  buyDialog;
+    BuyDialog buyDialog;
     RewardDialog rewardDialog;
 
     private ActivityInfo info;
@@ -90,7 +90,7 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
         titlebarView.setVisibility(View.GONE);
 //        int screenWidth = MNLApplication.getApplication().getScreenWidth();
 //        player.getLayoutParams().height = (int) (screenWidth * 9 / 16f);
-        info = (ActivityInfo) getIntent().getSerializableExtra("activityInfo");
+        info = (ActivityInfo) getIntent().getSerializableExtra("activityInfo" );
 
         final String mVideoPath = info.isLiveStream() ? info.getLivePullPath() : info.getVideoPath();
         player.setup(mVideoPath, null, info.isLiveStream(), false);
@@ -146,34 +146,34 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                     appointmentCount.setText(String.valueOf(info.getAppointmentCount()));
                     if (info.getAppointmentState() == 0) {
                         button.setBackgroundResource(R.drawable.blue_rect_selector);
-                        button.setText("立即预约");
-                        button.setTag("appointment");
+                        button.setText("立即预约" );
+                        button.setTag("appointment" );
                     } else {
                         button.setBackgroundResource(R.drawable.grey_disable);
-                        button.setText("已经预约");
-                        button.setTag("appointmented");
+                        button.setText("已经预约" );
+                        button.setTag("appointmented" );
                     }
                     break;
                 case 1:
                     onlineUserListLayout.setVisibility(View.VISIBLE);
                     onlineCount1.setVisibility(View.VISIBLE);
-                    onlineCount1.setText(info.getOnlineCount() + "人在线观看");
-                    onlineCount2.setText("在线人数:10002");
+                    onlineCount1.setText(info.getOnlineCount() + "人在线观看" );
+                    onlineCount2.setText("在线人数:10002" );
                     if (info.getActivityType() == 0) { //免费
                         price.setVisibility(View.VISIBLE);
                         button.setBackgroundResource(R.drawable.red_rect_selector);
-                        button.setText("打赏红包");
-                        button.setTag("reward");
+                        button.setText("打赏红包" );
+                        button.setTag("reward" );
                     } else {
                         price.setVisibility(View.VISIBLE);
                         if (info.getPayState() == 0) {
                             button.setBackgroundResource(R.drawable.green_rect_selector);
-                            button.setText("购买");
-                            button.setTag("buy");
+                            button.setText("购买" );
+                            button.setTag("buy" );
                         } else {
                             button.setBackgroundResource(R.drawable.red_rect_selector);
-                            button.setText("打赏红包");
-                            button.setTag("reward");
+                            button.setText("打赏红包" );
+                            button.setTag("reward" );
                         }
                     }
                     break;
@@ -184,27 +184,27 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                         price.setVisibility(View.VISIBLE);
                     }
                     button.setBackgroundResource(R.drawable.red_rect_selector);
-                    button.setText("打赏红包");
-                    button.setTag("reward");
+                    button.setText("打赏红包" );
+                    button.setTag("reward" );
                     break;
 
             }
         } else { //点播
             playCount.setVisibility(View.VISIBLE);
-            playCount.setText("播放：" + info.getPlayCount() + "次");
+            playCount.setText("播放：" + info.getPlayCount() + "次" );
             if (info.getActivityType() == 0) {
                 button.setBackgroundResource(R.drawable.red_rect_selector);
-                button.setText("打赏红包");
-                button.setTag("reward");
+                button.setText("打赏红包" );
+                button.setTag("reward" );
             } else {
                 if (info.getPayState() == 0) {
                     button.setBackgroundResource(R.drawable.green_rect_selector);
-                    button.setText("购买");
-                    button.setTag("buy");
+                    button.setText("购买" );
+                    button.setTag("buy" );
                 } else {
                     button.setBackgroundResource(R.drawable.red_rect_selector);
-                    button.setText("打赏红包");
-                    button.setTag("reward");
+                    button.setText("打赏红包" );
+                    button.setTag("reward" );
                 }
             }
         }
@@ -247,52 +247,61 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
     @OnClick({R.id.button})
     public void onClick(View view) {
         if (view.getId() == R.id.button) {
-            Dialog dialog;
             switch (view.getTag().toString()) {
                 case "appointment":
+                    if (!isLogin()) {
+                        showLoginActivity();
+                        return;
+                    }
                     TipsDialog tdialog = new TipsDialog(this);
                     tdialog.showAppointment();
                     break;
                 case "buy":
-                    if(buyDialog == null){
+                    if (buyDialog == null) {
                         buyDialog = new BuyDialog(this);
                     }
-                    if(!buyDialog.isShowing()){
+                    if (!buyDialog.isShowing()) {
                         buyDialog.show(info.getPrice(), new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                if (!isLogin()) {
+                                    showLoginActivity();
+                                    return;
+                                }
+                                PayChannel channel;
+                                if (view.getId() == R.id.wxpay) {
+                                    channel = PayChannel.CHANNEL_WECHAT;
+                                } else {
+                                    channel = PayChannel.CHANNEL_ALIPAY;
+                                }
                                 buyDialog.dismiss();
-                                showProgressView("获取支付信息...");
-                                payPresenter.pay(info.getId(), PayChannel.CHANNEL_ALIPAY, info.getPrice(),1);
-                            }
-                        }, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                buyDialog.dismiss();
-                                showProgressView("获取支付信息...");
-                                payPresenter.pay(info.getId(), PayChannel.CHANNEL_WECHAT, info.getPrice(),1);
+                                showProgressView("获取支付信息..." );
+                                payPresenter.pay(info.getId(), channel, info.getPrice(), 1);
                             }
                         });
                     }
                     break;
                 case "reward":
-                    if(rewardDialog == null){
+                    if (rewardDialog == null) {
                         rewardDialog = new RewardDialog(this);
                     }
-                    if(!rewardDialog.isShowing()){
+                    if (!rewardDialog.isShowing()) {
                         rewardDialog.show(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                if (!isLogin()) {
+                                    showLoginActivity();
+                                    return;
+                                }
+                                PayChannel channel;
+                                if (view.getId() == R.id.wxpay) {
+                                    channel = PayChannel.CHANNEL_WECHAT;
+                                } else {
+                                    channel = PayChannel.CHANNEL_ALIPAY;
+                                }
                                 rewardDialog.dismiss();
-                                showProgressView("获取支付信息...");
-                                payPresenter.pay(info.getId(), PayChannel.CHANNEL_ALIPAY, rewardDialog.getAmount(),0);
-                            }
-                        }, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                rewardDialog.dismiss();
-                                showProgressView("获取支付信息...");
-                                payPresenter.pay(info.getId(), PayChannel.CHANNEL_WECHAT, rewardDialog.getAmount(),0);
+                                showProgressView("获取支付信息..." );
+                                payPresenter.pay(info.getId(), channel, rewardDialog.getAmount(), 0);
                             }
                         });
                     }
@@ -340,7 +349,7 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
 
     @Override
     public void showProgress() {
-        showProgressView("正在获取订单...");
+        showProgressView("正在获取订单..." );
     }
 
     @Override
@@ -355,7 +364,7 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
 
     @Override
     public void onSuccess(Object data) {
-        hideProgress();
+        showProgressView("正在支付...");
         Pingpp.createPayment(this, (String) data);
     }
 }

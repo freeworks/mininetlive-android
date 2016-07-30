@@ -50,6 +50,12 @@ public class RewardDialog extends Dialog {
         show();
     }
 
+    public void show(View.OnClickListener payOnclickListener) {
+        this.alipayOnclickListener = payOnclickListener;
+        this.wxOnclickListener = payOnclickListener;
+        show();
+    }
+
 
     @Override
     public void onBackPressed() {
