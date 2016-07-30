@@ -2,7 +2,9 @@ package com.kouchen.mininetlive.ui.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -79,9 +81,50 @@ public abstract class AbsTitlebarActivity extends BaseActivity implements View.O
     }
 
     @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(progressView != null && progressView.getVisibility() == View.VISIBLE){
+            progressView.setVisibility(View.GONE);
+            cancelRequest();
+            return true;
+        }
+        return super.onTouchEvent(event);
+    }
+
+    @Override
     public void onClick(View view) {
         if (view.getId() == R.id.back) {
-            finish();
+            if(progressView != null && progressView.getVisibility() == View.VISIBLE){
+                progressView.setVisibility(View.GONE);
+                cancelRequest();
+            }else{
+                finish();
+            }
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            if(progressView != null && progressView.getVisibility() == View.VISIBLE){
+                progressView.setVisibility(View.GONE);
+                cancelRequest();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(progressView!= null && progressView.getVisibility() == View.VISIBLE){
+            progressView.setVisibility(View.GONE);
+            cancelRequest();
+        }else{
+            super.onBackPressed();
+        }
+    }
+
+    public void cancelRequest(){
+
     }
 }

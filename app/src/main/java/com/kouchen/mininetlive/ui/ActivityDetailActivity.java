@@ -258,14 +258,18 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                         buyDialog = new BuyDialog(this);
                     }
                     if(!buyDialog.isShowing()){
-                        new BuyDialog(this).show(info.getPrice(), new View.OnClickListener() {
+                        buyDialog.show(info.getPrice(), new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                buyDialog.dismiss();
+                                showProgressView("获取支付信息...");
                                 payPresenter.pay(info.getId(), PayChannel.CHANNEL_ALIPAY, info.getPrice(),1);
                             }
                         }, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                buyDialog.dismiss();
+                                showProgressView("获取支付信息...");
                                 payPresenter.pay(info.getId(), PayChannel.CHANNEL_WECHAT, info.getPrice(),1);
                             }
                         });
@@ -279,11 +283,15 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                         rewardDialog.show(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                rewardDialog.dismiss();
+                                showProgressView("获取支付信息...");
                                 payPresenter.pay(info.getId(), PayChannel.CHANNEL_ALIPAY, rewardDialog.getAmount(),0);
                             }
                         }, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                rewardDialog.dismiss();
+                                showProgressView("获取支付信息...");
                                 payPresenter.pay(info.getId(), PayChannel.CHANNEL_WECHAT, rewardDialog.getAmount(),0);
                             }
                         });
@@ -342,11 +350,12 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
 
     @Override
     public void onError(String msg) {
-
+        hideProgress();
     }
 
     @Override
     public void onSuccess(Object data) {
+        hideProgress();
         Pingpp.createPayment(this, (String) data);
     }
 }

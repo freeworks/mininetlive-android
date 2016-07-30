@@ -81,7 +81,9 @@ public abstract class AbsTitlebarFragment extends BaseFragment {
     }
 
     protected void onback() {
-
+        if(progressView != null && progressView.getVisibility() == View.VISIBLE){
+            progressView.setVisibility(View.GONE);
+        }
     }
 
     @Override

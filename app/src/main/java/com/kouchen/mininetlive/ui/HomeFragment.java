@@ -88,6 +88,8 @@ public class HomeFragment extends AbsTitlebarFragment implements ActivityContrac
                 showProgress();
             }
         });
+        showProgress();
+        presenter.getHomeList();
     }
 
     @Override
@@ -100,12 +102,6 @@ public class HomeFragment extends AbsTitlebarFragment implements ActivityContrac
         return "首页";
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        presenter.getHomeList();
-        showProgress();
-    }
 
     @Override
     public void showProgress() {

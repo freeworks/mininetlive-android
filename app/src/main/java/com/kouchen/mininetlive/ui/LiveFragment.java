@@ -54,8 +54,6 @@ public class LiveFragment extends AbsTitlebarFragment implements ActivityContrac
                 .netComponent(((MNLApplication) getActivity().getApplication()).getNetComponent())
                 .build()
                 .inject(this);
-        adapter = new LiveAdapter();
-        presenter.getLiveList();
     }
 
     @Override
@@ -66,6 +64,7 @@ public class LiveFragment extends AbsTitlebarFragment implements ActivityContrac
         recyclerView.addItemDecoration(new RecycleViewDivider(
                 getContext(), LinearLayoutManager.VERTICAL, DisplayUtil.dip2px(getContext(), 8), getResources().getColor(R.color.divide_gray_color)));
         recyclerView.setHasFixedSize(true);
+        adapter = new LiveAdapter();
         recyclerView.setAdapter(adapter);
         mPtrRvLayout.setOnRefreshListener(new OnDefaultRefreshListener() {
             @Override
@@ -76,10 +75,12 @@ public class LiveFragment extends AbsTitlebarFragment implements ActivityContrac
         netErrView.setup(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.getLiveList();
                 showProgress();
+                presenter.getLiveList();
             }
         });
+        showProgress();
+        presenter.getLiveList();
     }
 
     @Override
