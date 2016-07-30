@@ -6,8 +6,13 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+
 import com.bumptech.glide.Glide;
 import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.R;
@@ -15,6 +20,8 @@ import com.kouchen.mininetlive.models.UserInfo;
 import com.kouchen.mininetlive.ui.base.AbsTitlebarFragment;
 import com.kouchen.mininetlive.ui.widget.GlideCircleTransform;
 import com.kouchen.mininetlive.ui.widget.ItemView;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by cainli on 16/6/24.
@@ -48,8 +55,8 @@ public class MeFragment extends AbsTitlebarFragment {
     private void setUserInfo(UserInfo userInfo) {
         if (userInfo == null) {
             avatar.setBackgroundResource(R.drawable.ic_avatar_default);
-            nickName.setText("未知");
-            phone.setText("");
+            nickName.setText("未知" );
+            phone.setText("" );
         } else {
             Glide.with(this)
                     .load(userInfo.getAvatar())
@@ -97,13 +104,23 @@ public class MeFragment extends AbsTitlebarFragment {
 
     @OnClick(R.id.logout)
     public void logout() {
-        MNLApplication.getCacheManager().unset("user");
+        MNLApplication.getCacheManager().unset("user" );
         setUserInfo(null);
-        ((MainActivity) getActivity()).goHomeTab();
+        progressView.setText("正在退出...");
+        showProgressView();
+        Observable.timer(800, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        hideProgressView();
+                        ((MainActivity) getActivity()).goHomeTab();
+                    }
+                });
     }
 
     @OnClick({R.id.avatar, R.id.reward, R.id.appointmentRecord, R.id.payRecord,
-            R.id.playRecord,  R.id.inviteCode, R.id.about})
+            R.id.playRecord, R.id.inviteCode, R.id.about})
     public void onClick(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -124,7 +141,7 @@ public class MeFragment extends AbsTitlebarFragment {
                 break;
             case R.id.inviteCode:
                 intent = new Intent(getContext(), InviteCodeActivity.class);
-                intent.putExtra("inviteCode",userInfo.getInviteCode());
+                intent.putExtra("inviteCode", userInfo.getInviteCode());
                 break;
             case R.id.about:
                 intent = new Intent(getContext(), AboutActivity.class);
