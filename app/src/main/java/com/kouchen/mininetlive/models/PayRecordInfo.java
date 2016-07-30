@@ -1,6 +1,7 @@
 package com.kouchen.mininetlive.models;
 
-import com.kouchen.mininetlive.models.RecordInfo;
+
+import java.text.DecimalFormat;
 
 /**
  * Created by cainli on 16/7/5.
@@ -11,8 +12,10 @@ public class PayRecordInfo extends RecordInfo {
     private String channel;
     private int state;
 
-    public int getAmount() {
-        return amount;
+    public String getAmount() {
+        DecimalFormat myformat = new DecimalFormat();
+        myformat.applyPattern("##,##0.00" );
+        return myformat.format(amount);
     }
 
     public void setAmount(int amount) {

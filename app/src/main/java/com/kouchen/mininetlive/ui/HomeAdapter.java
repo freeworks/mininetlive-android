@@ -139,7 +139,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
                         .transform(new GlideRoundTransform(itemView.getContext(), DisplayUtil.dip2px(itemView.getContext(), 1.5f)))
                         .into(frontCover0);
                 title0.setText(info0.getTitle());
-                playCount0.setText(String.valueOf(info0.getPlayCount()));
+                playCount0.setText(info0.getPlayCount());
                 view0.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -162,7 +162,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
                         .transform(new GlideRoundTransform(itemView.getContext(), DisplayUtil.dip2px(itemView.getContext(), 1.5f)))
                         .into(frontCover1);
                 title1.setText(info1.getTitle());
-                playCount1.setText(String.valueOf(info1.getPlayCount()));
+                playCount1.setText(info1.getPlayCount());
                 view1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -216,7 +216,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
                         state.setBackgroundResource(R.drawable.blue_round_bg);
                         state.setText("预告");
                         appointCount.setVisibility(View.VISIBLE);
-                        appointCount.setText("预约：" + String.valueOf(info.getAppointmentCount()) + "人");
+                        appointCount.setText("预约：" + info.getAppointmentCount() + "人");
                         break;
                     case 1:
                         state.setBackgroundResource(R.drawable.blue_round_bg);

@@ -54,6 +54,9 @@ public class MeFragment extends AbsTitlebarFragment {
 
     private void setUserInfo(UserInfo userInfo) {
         if (userInfo == null) {
+            if (avatar == null) {
+                return;
+            }
             avatar.setBackgroundResource(R.drawable.ic_avatar_default);
             nickName.setText("未知" );
             phone.setText("" );
@@ -74,12 +77,7 @@ public class MeFragment extends AbsTitlebarFragment {
     @Override
     protected void initView(View view) {
         super.initView(view);
-        userInfo = getUserInfo();
-        if (userInfo == null) {
-            return;
-        } else {
-            setUserInfo(userInfo);
-        }
+        setUserInfo(getUserInfo());
     }
 
     @Override
@@ -102,11 +100,17 @@ public class MeFragment extends AbsTitlebarFragment {
         super.onStart();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUserInfo(getUserInfo());
+    }
+
     @OnClick(R.id.logout)
     public void logout() {
         MNLApplication.getCacheManager().unset("user" );
         setUserInfo(null);
-        progressView.setText("正在退出...");
+        progressView.setText("正在退出..." );
         showProgressView();
         Observable.timer(800, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())

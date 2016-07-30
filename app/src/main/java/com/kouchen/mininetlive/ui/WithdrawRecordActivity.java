@@ -155,7 +155,7 @@ public class WithdrawRecordActivity extends AbsTitlebarActivity implements Accou
         }
 
         public void setData(WithdrawRecordInfo r) {
-            amount.setText(String.valueOf(r.getAmount()));
+            amount.setText(r.getAmount());
             assert date != null;
             date.setText(r.getCreateTime());
         }

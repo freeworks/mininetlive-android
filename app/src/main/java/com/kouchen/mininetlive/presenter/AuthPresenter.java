@@ -398,7 +398,7 @@ public class AuthPresenter implements AuthContract.Presenter {
         });
     }
 
-    public void resetOrBindPhone(String phone, String vcode) {
+    public void resetOrBindPhone(final String phone, String vcode) {
         mAuthView.showProgress();
         Call<HttpResponse> call = mAuthService.bindPhone(phone,vcode);
         call.enqueue(new Callback<HttpResponse>() {
@@ -408,6 +408,11 @@ public class AuthPresenter implements AuthContract.Presenter {
                 if (response.isSuccess()) {
                     HttpResponse httpResponse = response.body();
                     if (httpResponse.ret == 0) {
+                        Type userType = new TypeToken<UserInfo>() {
+                        }.getType();
+                        UserInfo userInfo = (UserInfo) MNLApplication.getCacheManager().get("user", UserInfo.class, userType);
+                        userInfo.setPhone(phone);
+                        MNLApplication.getCacheManager().put("user",userInfo);
                         mAuthView.onSuccess(null);
                     } else {
                         mAuthView.onError(httpResponse.msg);

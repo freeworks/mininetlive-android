@@ -1,13 +1,15 @@
 package com.kouchen.mininetlive.models;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 /**
  * Created by cainli on 16/6/25.
  */
 public class ActivityInfo implements Serializable {
-    @SerializedName("aid")
+    @SerializedName("aid" )
     private String id;
     private String title;
     private String date;
@@ -26,8 +28,8 @@ public class ActivityInfo implements Serializable {
     private int payState; //0.未开播，1.正在直播，2已经结束
     private int appoinState;
     private String groupId;
-    private String onlineCount;
-    @SerializedName("owner")
+    private int onlineCount;
+    @SerializedName("owner" )
     private UserInfo owner;
 
     public ActivityInfo() {
@@ -77,6 +79,13 @@ public class ActivityInfo implements Serializable {
         return price;
     }
 
+    public String getPriceStr() {
+        DecimalFormat myformat = new DecimalFormat();
+        myformat.applyPattern("##,##0.00" );
+        return myformat.format(price);
+    }
+
+
     public void setPrice(int price) {
         this.price = price;
     }
@@ -97,7 +106,7 @@ public class ActivityInfo implements Serializable {
         this.streamType = streamType;
     }
 
-    public boolean isLiveStream(){
+    public boolean isLiveStream() {
         return streamType == 0;
     }
 
@@ -133,16 +142,20 @@ public class ActivityInfo implements Serializable {
         this.activityType = activityType;
     }
 
-    public int getPlayCount() {
-        return playCount;
+    public String getPlayCount() {
+        DecimalFormat myformat = new DecimalFormat();
+        myformat.applyPattern("##,##0");
+        return myformat.format(playCount);
     }
 
     public void setPlayCount(int playCount) {
         this.playCount = playCount;
     }
 
-    public int getAppointmentCount() {
-        return appointmentCount;
+    public String getAppointmentCount() {
+        DecimalFormat myformat = new DecimalFormat();
+        myformat.applyPattern("##,##0");
+        return myformat.format(appointmentCount);
     }
 
     public void setAppointmentCount(int appointmentCount) {
@@ -182,10 +195,12 @@ public class ActivityInfo implements Serializable {
     }
 
     public String getOnlineCount() {
-        return onlineCount;
+        DecimalFormat myformat = new DecimalFormat();
+        myformat.applyPattern("##,##0");
+        return myformat.format(onlineCount);
     }
 
-    public void setOnlineCount(String onlineCount) {
+    public void setOnlineCount(int onlineCount) {
         this.onlineCount = onlineCount;
     }
 

@@ -219,7 +219,7 @@ public class AccountPresenter implements AccountContract.Presenter {
     }
 
     @Override
-    public void updateNickname(String name) {
+    public void updateNickname(final String name) {
         mAccountView.showProgress();
         Call<HttpResponse> call = mAccountService.updateNickname(name);
         call.enqueue(new Callback<HttpResponse>() {
@@ -230,7 +230,42 @@ public class AccountPresenter implements AccountContract.Presenter {
                     HttpResponse httpResponse = response.body();
                     if (httpResponse.ret == 0) {
                         Log.i(TAG, "onResponse: " + httpResponse.data);
+                        Type userType = new TypeToken<UserInfo>() {
+                        }.getType();
+                        UserInfo userInfo = (UserInfo) MNLApplication.getCacheManager().get("user", UserInfo.class, userType);
+                        userInfo.setNickname(name);
+                        MNLApplication.getCacheManager().put("user",userInfo);
                         mAccountView.onSuccess(null);
+                    } else {
+                        mAccountView.onError(httpResponse.msg);
+                    }
+                } else {
+                    mAccountView.onError(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HttpResponse> call, Throwable t) {
+                mAccountView.hideProgress();
+                mAccountView.onError("更改昵称失败");
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
+    }
+
+    @Override
+    public void getBalance() {
+        Call<HttpResponse> call = mAccountService.getBalance();
+        call.enqueue(new Callback<HttpResponse>() {
+            @Override
+            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                mAccountView.hideProgress();
+                if (response.isSuccess()) {
+                    HttpResponse httpResponse = response.body();
+                    if (httpResponse.ret == 0) {
+                        Log.i(TAG, "onResponse: " + httpResponse.data);
+                        long balance = httpResponse.data.getAsJsonObject().get("balance").getAsLong();
+                        mAccountView.onSuccess(balance);
                     } else {
                         mAccountView.onError(httpResponse.msg);
                     }

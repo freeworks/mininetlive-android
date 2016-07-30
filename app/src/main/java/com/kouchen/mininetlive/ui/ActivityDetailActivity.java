@@ -138,12 +138,12 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
         onlineUserListLayout.setVisibility(View.GONE);
         onlineCount1.setVisibility(View.GONE);
         price.setVisibility(View.GONE);
-        price.setText("￥" + info.getPrice());
+        price.setText("￥" + info.getPriceStr());
         if (info.getStreamType() == 1) {
             switch (info.getActivityState()) {
                 case 0:
                     appointCountLayout.setVisibility(View.VISIBLE);
-                    appointmentCount.setText(String.valueOf(info.getAppointmentCount()));
+                    appointmentCount.setText(info.getAppointmentCount());
                     if (info.getAppointmentState() == 0) {
                         button.setBackgroundResource(R.drawable.blue_rect_selector);
                         button.setText("立即预约" );
@@ -197,6 +197,7 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                 button.setText("打赏红包" );
                 button.setTag("reward" );
             } else {
+                price.setVisibility(View.VISIBLE);
                 if (info.getPayState() == 0) {
                     button.setBackgroundResource(R.drawable.green_rect_selector);
                     button.setText("购买" );

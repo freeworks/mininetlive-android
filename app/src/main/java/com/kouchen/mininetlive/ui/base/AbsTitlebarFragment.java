@@ -93,4 +93,8 @@ public abstract class AbsTitlebarFragment extends BaseFragment {
         ButterKnife.bind(this, rootView);
         return rootView;
     }
+
+    public BaseActivity getBaseActivity(){
+        return (BaseActivity) getActivity();
+    }
 }

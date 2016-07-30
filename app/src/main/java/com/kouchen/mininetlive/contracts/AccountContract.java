@@ -24,6 +24,8 @@ public interface AccountContract {
 
         void getAccountInfo();
 
+        void getBalance();
+
         void uploadAvatar(String filepath);
 
         void updateNickname(String name);

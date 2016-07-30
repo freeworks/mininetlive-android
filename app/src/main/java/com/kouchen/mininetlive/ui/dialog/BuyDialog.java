@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.kouchen.mininetlive.R;
 
+import java.text.DecimalFormat;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -60,7 +62,9 @@ public class BuyDialog extends Dialog {
 
     private void setData(int amount, final View.OnClickListener alipayOnclickListener, final View.OnClickListener wxOnclickListener) {
         if(amountTv!= null){
-            amountTv.setText(String.valueOf(amount));
+            DecimalFormat myformat = new DecimalFormat();
+            myformat.applyPattern("##,##0.00");
+            amountTv.setText(myformat.format(amount));
         }
         if (wxpay!=null){
             wxpay.setOnClickListener(new View.OnClickListener() {

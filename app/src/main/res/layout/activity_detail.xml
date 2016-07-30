@@ -95,10 +95,9 @@
             android:layout_alignTop="@+id/owner"
             android:layout_marginRight="14dp"
             android:gravity="center_vertical"
-            android:text="¥666"
+            android:text="¥0.00"
             android:textColor="@color/green"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="20sp" />
 
         <LinearLayout
             android:id="@+id/appointmentCountLayout"

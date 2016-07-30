@@ -21,46 +21,49 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="账户余额"
-        android:textSize="17sp"
-        android:textColor="#4A4A4A" />
+        android:textColor="#4A4A4A"
+        android:textSize="17sp" />
 
-  <LinearLayout
-      android:id="@+id/balanceLayout"
-      android:layout_below="@+id/label"
-      android:orientation="horizontal"
-      android:layout_centerHorizontal="true"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content">
-      <TextView
-          android:id="@+id/balanceIcon"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_below="@+id/label"
-          android:layout_centerHorizontal="true"
-          android:layout_marginBottom="10dp"
-          android:layout_marginTop="10dp"
-          android:text="￥"
-          android:textColor="#F67C15"
-          android:textSize="17sp"
-          android:textStyle="bold" />
-      <TextView
-          android:id="@+id/balance"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_centerHorizontal="true"
-          android:layout_marginBottom="10dp"
-          android:layout_marginTop="6dp"
-          android:text="888.00"
-          android:textColor="#F67C15"
-          android:textSize="40sp" />
-  </LinearLayout>
+    <LinearLayout
+        android:id="@+id/balanceLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/label"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/balanceIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="￥"
+            android:textColor="#F67C15"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="6dp"
+            android:text="--.--"
+            android:textColor="#F67C15"
+            android:textSize="40sp" />
+    </LinearLayout>
 
     <TextView
+        android:id="@+id/withdrawBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/balanceLayout"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_below="@+id/balanceLayout"
         android:layout_marginTop="30dp"
         android:background="@drawable/blue_btn_selector"
         android:gravity="center"
@@ -71,25 +74,25 @@
         android:textSize="17sp" />
 
     <ImageView
-        android:src="@drawable/ic_smile"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/desc"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/desc"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_smile" />
 
     <TextView
         android:id="@+id/desc"
-        android:textSize="12sp"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
+        android:text="关注公众号“微网”，发送消息“提现”就可以收到微信提现红包"
         android:textColor="#9B9B9B"
-        android:text="关注公众号“微网”，发送消息“提现”就可以收到微信提现红包" />
+        android:textSize="12sp" />
 
 </RelativeLayout>

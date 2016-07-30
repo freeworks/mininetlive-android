@@ -48,4 +48,7 @@ public interface AccountService {
     @Multipart
     @POST("/account/avatar")
     Call<HttpResponse> uploadAvatar(@PartMap Map<String, RequestBody> params);
+
+    @GET("/account/balance")
+    Call<HttpResponse> getBalance();
 }

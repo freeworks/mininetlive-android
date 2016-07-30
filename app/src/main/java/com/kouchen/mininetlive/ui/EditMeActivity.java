@@ -201,6 +201,11 @@ public class EditMeActivity extends AbsTitlebarActivity implements ActionSheet.A
                     String nickname = data.getStringExtra("nickname");
                     nickanmeItem.setValue(nickname);
                     break;
+
+                case REQUEST_BIND_PHONE:
+                    String phone = data.getStringExtra("phone");
+                    phoneItem.setValue(phone);
+                    break;
             }
         }
     }
