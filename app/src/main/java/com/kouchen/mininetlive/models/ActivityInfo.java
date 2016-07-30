@@ -110,6 +110,10 @@ public class ActivityInfo implements Serializable {
         return streamType == 0;
     }
 
+    public boolean isFree(){
+        return activityType == 0;
+    }
+
     public String getLivePullPath() {
         return livePullPath;
     }

@@ -139,7 +139,7 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
         onlineCount1.setVisibility(View.GONE);
         price.setVisibility(View.GONE);
         price.setText("￥" + info.getPriceStr());
-        if (info.getStreamType() == 1) {
+        if (info.isLiveStream()) {
             switch (info.getActivityState()) {
                 case 0:
                     appointCountLayout.setVisibility(View.VISIBLE);
@@ -159,7 +159,7 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                     onlineCount1.setVisibility(View.VISIBLE);
                     onlineCount1.setText(info.getOnlineCount() + "人在线观看" );
                     onlineCount2.setText("在线人数:10002" );
-                    if (info.getActivityType() == 0) { //免费
+                    if (info.isFree()) { //免费
                         price.setVisibility(View.VISIBLE);
                         button.setBackgroundResource(R.drawable.red_rect_selector);
                         button.setText("打赏红包" );
@@ -178,7 +178,7 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                     }
                     break;
                 case 2:
-                    if (info.getActivityType() == 0) {
+                    if (info.isFree()) {
                         price.setVisibility(View.INVISIBLE);
                     } else {
                         price.setVisibility(View.VISIBLE);
@@ -192,7 +192,7 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
         } else { //点播
             playCount.setVisibility(View.VISIBLE);
             playCount.setText("播放：" + info.getPlayCount() + "次" );
-            if (info.getActivityType() == 0) {
+            if (info.isFree()) {
                 button.setBackgroundResource(R.drawable.red_rect_selector);
                 button.setText("打赏红包" );
                 button.setTag("reward" );

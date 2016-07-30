@@ -209,7 +209,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
             nickname.setText(info.getOwner().getNickname());
             appointCount.setVisibility(View.INVISIBLE);
             onlineCount.setVisibility(View.INVISIBLE);
-            if (info.getStreamType() == 0) {
+            if (info.isLiveStream()) {
                 state.setVisibility(View.VISIBLE);
                 switch (info.getActivityState()) {
                     case 0:
