@@ -1,13 +1,13 @@
 package com.kouchen.mininetlive.ui;
 
 import android.annotation.TargetApi;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -67,10 +67,13 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
     TextView price;
     @BindView(R.id.player)
     VideoPlayer player;
+    @BindView(R.id.pricelayout)
+    RelativeLayout pricelayout;
 
     ShareDialog shareDialog;
     BuyDialog buyDialog;
     RewardDialog rewardDialog;
+
 
     private ActivityInfo info;
 
@@ -137,8 +140,8 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
         appointCountLayout.setVisibility(View.GONE);
         onlineUserListLayout.setVisibility(View.GONE);
         onlineCount1.setVisibility(View.GONE);
-        price.setVisibility(View.GONE);
-        price.setText("￥" + info.getPriceStr());
+        pricelayout.setVisibility(View.GONE);
+        price.setText(info.getPriceStr());
         if (info.isLiveStream()) {
             switch (info.getActivityState()) {
                 case 0:
@@ -160,12 +163,12 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                     onlineCount1.setText(info.getOnlineCount() + "人在线观看" );
                     onlineCount2.setText("在线人数:10002" );
                     if (info.isFree()) { //免费
-                        price.setVisibility(View.VISIBLE);
+                        pricelayout.setVisibility(View.VISIBLE);
                         button.setBackgroundResource(R.drawable.red_rect_selector);
                         button.setText("打赏红包" );
                         button.setTag("reward" );
                     } else {
-                        price.setVisibility(View.VISIBLE);
+                        pricelayout.setVisibility(View.VISIBLE);
                         if (info.getPayState() == 0) {
                             button.setBackgroundResource(R.drawable.green_rect_selector);
                             button.setText("购买" );
@@ -179,9 +182,9 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                     break;
                 case 2:
                     if (info.isFree()) {
-                        price.setVisibility(View.INVISIBLE);
+                        pricelayout.setVisibility(View.INVISIBLE);
                     } else {
-                        price.setVisibility(View.VISIBLE);
+                        pricelayout.setVisibility(View.VISIBLE);
                     }
                     button.setBackgroundResource(R.drawable.red_rect_selector);
                     button.setText("打赏红包" );
@@ -197,7 +200,7 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                 button.setText("打赏红包" );
                 button.setTag("reward" );
             } else {
-                price.setVisibility(View.VISIBLE);
+                pricelayout.setVisibility(View.VISIBLE);
                 if (info.getPayState() == 0) {
                     button.setBackgroundResource(R.drawable.green_rect_selector);
                     button.setText("购买" );
@@ -365,7 +368,7 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
 
     @Override
     public void onSuccess(Object data) {
-        showProgressView("正在支付...");
+        showProgressView("正在支付..." );
         Pingpp.createPayment(this, (String) data);
     }
 }

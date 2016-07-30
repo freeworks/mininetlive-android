@@ -63,8 +63,8 @@ public class HomeFragment extends AbsTitlebarFragment implements ActivityContrac
     protected void initView(View view) {
         super.initView(view);
         recyclerViewFinal.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerViewFinal.addItemDecoration(new RecycleViewDivider(
-                getContext(), LinearLayoutManager.VERTICAL, DisplayUtil.dip2px(getContext(), 8), getResources().getColor(R.color.divide_gray_color)));
+//        recyclerViewFinal.addItemDecoration(new RecycleViewDivider(
+//                getContext(), LinearLayoutManager.VERTICAL, DisplayUtil.dip2px(getContext(), 8), getResources().getColor(R.color.divide_gray_color)));
         recyclerViewFinal.setHasFixedSize(true);
         recyclerViewFinal.setAdapter(adapter);
 

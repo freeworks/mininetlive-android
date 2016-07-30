@@ -61,8 +61,8 @@ public class LiveFragment extends AbsTitlebarFragment implements ActivityContrac
         super.initView(view);
         recyclerView = (RecyclerViewFinal) view.findViewById(R.id.live_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new RecycleViewDivider(
-                getContext(), LinearLayoutManager.VERTICAL, DisplayUtil.dip2px(getContext(), 8), getResources().getColor(R.color.divide_gray_color)));
+//        recyclerView.addItemDecoration(new RecycleViewDivider(
+//                getContext(), LinearLayoutManager.VERTICAL, DisplayUtil.dip2px(getContext(), 8), getResources().getColor(R.color.divide_gray_color)));
         recyclerView.setHasFixedSize(true);
         adapter = new LiveAdapter();
         recyclerView.setAdapter(adapter);

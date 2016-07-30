@@ -50,8 +50,6 @@ public class MeFragment extends AbsTitlebarFragment {
     @BindView(R.id.phone)
     TextView phone;
 
-    private UserInfo userInfo;
-
     private void setUserInfo(UserInfo userInfo) {
         if (userInfo == null) {
             if (avatar == null) {
@@ -145,7 +143,7 @@ public class MeFragment extends AbsTitlebarFragment {
                 break;
             case R.id.inviteCode:
                 intent = new Intent(getContext(), InviteCodeActivity.class);
-                intent.putExtra("inviteCode", userInfo.getInviteCode());
+                intent.putExtra("inviteCode", getUserInfo().getInviteCode());
                 break;
             case R.id.about:
                 intent = new Intent(getContext(), AboutActivity.class);
