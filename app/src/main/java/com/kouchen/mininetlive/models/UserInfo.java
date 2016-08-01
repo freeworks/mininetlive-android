@@ -18,7 +18,6 @@ public class UserInfo implements Serializable {
      * phone : 18689490100
      */
     private String uid;
-    private String easemobUuid;
     private String nickname;
     private String avatar;
     private int gender;
@@ -33,14 +32,6 @@ public class UserInfo implements Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
-    }
-
-    public String getEasemobUuid() {
-        return easemobUuid;
-    }
-
-    public void setEasemobUuid(String easemobUuid) {
-        this.easemobUuid = easemobUuid;
     }
 
     public String getNickname() {

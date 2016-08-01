@@ -27,7 +27,6 @@ public class ActivityInfo implements Serializable {
     private int appointmentCount;
     private int payState; //0.未开播，1.正在直播，2已经结束
     private int appoinState;
-    private String groupId;
     private int onlineCount;
     @SerializedName("owner" )
     private UserInfo owner;
@@ -180,14 +179,6 @@ public class ActivityInfo implements Serializable {
 
     public void setAppoinState(int appoinState) {
         this.appoinState = appoinState;
-    }
-
-    public String getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
     }
 
     public UserInfo getOwner() {

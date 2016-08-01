@@ -1,23 +1,28 @@
 package com.kouchen.mininetlive.ui;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import android.widget.Toast;
+import butterknife.BindView;
+import butterknife.OnClick;
 import com.bumptech.glide.Glide;
 import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.R;
-import com.kouchen.mininetlive.contracts.PayContract;
-import com.kouchen.mininetlive.di.components.DaggerPayComponent;
-import com.kouchen.mininetlive.di.modules.PayModule;
+import com.kouchen.mininetlive.contracts.ActivityDetailContract;
+import com.kouchen.mininetlive.di.components.DaggerActivityDetailComponent;
+import com.kouchen.mininetlive.di.modules.ActivityDetailModule;
 import com.kouchen.mininetlive.models.ActivityInfo;
-import com.kouchen.mininetlive.presenter.PayPresenter;
+import com.kouchen.mininetlive.presenter.ActivityDetailPresenter;
+import com.kouchen.mininetlive.ui.base.AbsTitlebarActivity;
 import com.kouchen.mininetlive.ui.dialog.BuyDialog;
 import com.kouchen.mininetlive.ui.dialog.RewardDialog;
 import com.kouchen.mininetlive.ui.dialog.ShareDialog;
@@ -26,16 +31,14 @@ import com.kouchen.mininetlive.ui.widget.FullActiivty;
 import com.kouchen.mininetlive.ui.widget.GlideCircleTransform;
 import com.kouchen.mininetlive.ui.widget.VideoPlayer;
 import com.pingplusplus.android.Pingpp;
-
+import java.util.List;
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by cainli on 16/6/21.
  */
-public class ActivityDetailActivity extends PayActivity implements PayContract.View {
+public class ActivityDetailActivity extends AbsTitlebarActivity
+    implements ActivityDetailContract.View {
     private static final String TAG = "ActivityDetailActivity";
     @BindView(R.id.atitle)
     TextView title;
@@ -78,30 +81,37 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
     private ActivityInfo info;
 
     @Inject
-    PayPresenter payPresenter;
+    ActivityDetailPresenter presenter;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DaggerPayComponent.builder()
-                .payModule(new PayModule(this))
-                .netComponent(((MNLApplication) getApplication()).getNetComponent())
-                .build()
-                .inject(this);
+        DaggerActivityDetailComponent.builder()
+            .netComponent(((MNLApplication) getApplication()).getNetComponent())
+            .activityDetailModule(new ActivityDetailModule(this))
+            .build()
+            .inject(this);
+
+    }
+
+    @Override
+    protected void initView(View contentView) {
         titlebarView.setTransparentBackground(true);
         titlebarView.setVisibility(View.GONE);
-//        int screenWidth = MNLApplication.getApplication().getScreenWidth();
-//        player.getLayoutParams().height = (int) (screenWidth * 9 / 16f);
-        info = (ActivityInfo) getIntent().getSerializableExtra("activityInfo" );
+        //        int screenWidth = MNLApplication.getApplication().getScreenWidth();
+        //        player.getLayoutParams().height = (int) (screenWidth * 9 / 16f);
+        info = (ActivityInfo) getIntent().getSerializableExtra("activityInfo");
 
-        final String mVideoPath = info.isLiveStream() ? info.getLivePullPath() : info.getVideoPath();
+        final String mVideoPath =
+            info.isLiveStream() ? info.getLivePullPath() : info.getVideoPath();
         player.setup(mVideoPath, null, info.isLiveStream(), false);
         player.setFullScreenListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FullActiivty.startActivityFromNormal(ActivityDetailActivity.this,
-                        mVideoPath, info.getId(), info.isLiveStream(), player.isPlaying(), player.getCurrentPosition());
+                FullActiivty.startActivityFromNormal(ActivityDetailActivity.this, mVideoPath,
+                    info.getId(), info.isLiveStream(), player.isPlaying(),
+                    player.getCurrentPosition());
             }
         });
         player.setOnBackListener(new View.OnClickListener() {
@@ -111,21 +121,21 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
             }
         });
         Glide.with(this)
-                .load(info.getFrontCover())
-                .centerCrop()
-                .placeholder(R.drawable.img_default)
-                .crossFade()
-                .into(player.getCover());
+            .load(info.getFrontCover())
+            .centerCrop()
+            .placeholder(R.drawable.img_default)
+            .crossFade()
+            .into(player.getCover());
         title.setText(info.getTitle());
         nickname.setText(info.getOwner().getNickname());
         date.setText("时间：" + info.getDate());
         Glide.with(this)
-                .load(info.getOwner().getAvatar())
-                .centerCrop()
-                .placeholder(R.drawable.ic_avatar_default)
-                .crossFade()
-                .transform(new GlideCircleTransform(this))
-                .into(avatar);
+            .load(info.getOwner().getAvatar())
+            .centerCrop()
+            .placeholder(R.drawable.ic_avatar_default)
+            .crossFade()
+            .transform(new GlideCircleTransform(this))
+            .into(avatar);
 
         titlebarView.setBackLister(new View.OnClickListener() {
             @Override
@@ -149,34 +159,35 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                     appointmentCount.setText(info.getAppointmentCount());
                     if (info.getAppointmentState() == 0) {
                         button.setBackgroundResource(R.drawable.blue_rect_selector);
-                        button.setText("立即预约" );
-                        button.setTag("appointment" );
+                        button.setText("立即预约");
+                        button.setTag("appointment");
                     } else {
                         button.setBackgroundResource(R.drawable.grey_disable);
-                        button.setText("已经预约" );
-                        button.setTag("appointmented" );
+                        button.setText("已经预约");
+                        button.setTag("appointmented");
                     }
                     break;
                 case 1:
+                    presenter.getOnlineMemberList(info.getId());
                     onlineUserListLayout.setVisibility(View.VISIBLE);
                     onlineCount1.setVisibility(View.VISIBLE);
-                    onlineCount1.setText(info.getOnlineCount() + "人在线观看" );
-                    onlineCount2.setText("在线人数:10002" );
+                    onlineCount1.setText(info.getOnlineCount() + "人在线观看");
+                    onlineCount2.setText("在线人数:10002");
                     if (info.isFree()) { //免费
                         pricelayout.setVisibility(View.VISIBLE);
                         button.setBackgroundResource(R.drawable.red_rect_selector);
-                        button.setText("打赏红包" );
-                        button.setTag("reward" );
+                        button.setText("打赏红包");
+                        button.setTag("reward");
                     } else {
                         pricelayout.setVisibility(View.VISIBLE);
                         if (info.getPayState() == 0) {
                             button.setBackgroundResource(R.drawable.green_rect_selector);
-                            button.setText("购买" );
-                            button.setTag("buy" );
+                            button.setText("购买");
+                            button.setTag("buy");
                         } else {
                             button.setBackgroundResource(R.drawable.red_rect_selector);
-                            button.setText("打赏红包" );
-                            button.setTag("reward" );
+                            button.setText("打赏红包");
+                            button.setTag("reward");
                         }
                     }
                     break;
@@ -187,32 +198,34 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                         pricelayout.setVisibility(View.VISIBLE);
                     }
                     button.setBackgroundResource(R.drawable.red_rect_selector);
-                    button.setText("打赏红包" );
-                    button.setTag("reward" );
+                    button.setText("打赏红包");
+                    button.setTag("reward");
                     break;
-
             }
         } else { //点播
             playCount.setVisibility(View.VISIBLE);
-            playCount.setText("播放：" + info.getPlayCount() + "次" );
+            playCount.setText("播放：" + info.getPlayCount() + "次");
             if (info.isFree()) {
                 button.setBackgroundResource(R.drawable.red_rect_selector);
-                button.setText("打赏红包" );
-                button.setTag("reward" );
+                button.setText("打赏红包");
+                button.setTag("reward");
             } else {
                 pricelayout.setVisibility(View.VISIBLE);
                 if (info.getPayState() == 0) {
                     button.setBackgroundResource(R.drawable.green_rect_selector);
-                    button.setText("购买" );
-                    button.setTag("buy" );
+                    button.setText("购买");
+                    button.setTag("buy");
                 } else {
                     button.setBackgroundResource(R.drawable.red_rect_selector);
-                    button.setText("打赏红包" );
-                    button.setTag("reward" );
+                    button.setText("打赏红包");
+                    button.setTag("reward");
                 }
             }
         }
+
     }
+
+
 
     @Override
     protected void onPause() {
@@ -280,7 +293,7 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                                 }
                                 buyDialog.dismiss();
                                 showProgressView("获取支付信息..." );
-                                payPresenter.pay(info.getId(), channel, info.getPrice(), 1);
+                                presenter.pay(info.getId(), channel, info.getPrice(), 1);
                             }
                         });
                     }
@@ -305,7 +318,7 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
                                 }
                                 rewardDialog.dismiss();
                                 showProgressView("获取支付信息..." );
-                                payPresenter.pay(info.getId(), channel, rewardDialog.getAmount(), 0);
+                                presenter.pay(info.getId(), channel, rewardDialog.getAmount(), 0);
                             }
                         });
                     }
@@ -316,8 +329,40 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == VideoPlayer.FULLSCREEN_REQUESTCODE && resultCode == RESULT_OK) {
+        //支付页面返回处理
+        if (requestCode == Pingpp.REQUEST_CODE_PAYMENT) {
+            hideProgressView();
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getExtras().getString("pay_result");
+                if (result == null) {
+                    Toast.makeText(this, "支付失败!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                switch (result) {
+                    case "success":
+                        Toast.makeText(this, "支付成功!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "fail":
+                        Toast.makeText(this, "支付失败，请重新支付!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "cancel":
+                        //                        msg = "取消支付成功!";
+                        break;
+                    case "invalid":
+                        Toast.makeText(this, "请检查是安装微信/支付宝客户端!", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                // 处理返回值
+                // "success" - 支付成功
+                // "fail"    - 支付失败
+                // "cancel"  - 取消支付
+                // "invalid" - 支付插件未安装（一般是微信客户端未安装的情况）
+                String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
+                String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
+                Log.i(TAG, "errorMsg:" + errorMsg);
+                Log.i(TAG, "extraMsg:" + extraMsg);
+            }
+        } else if (requestCode == VideoPlayer.FULLSCREEN_REQUESTCODE && resultCode == RESULT_OK) {
             boolean isPlaying = data.getBooleanExtra("isPlaying", false);
             long currentPosition = data.getLongExtra("currentPosition", 0L);
             if (isPlaying) {
@@ -370,5 +415,10 @@ public class ActivityDetailActivity extends PayActivity implements PayContract.V
     public void onSuccess(Object data) {
         showProgressView("正在支付..." );
         Pingpp.createPayment(this, (String) data);
+    }
+
+    @Override
+    public void onGetMemberListSuccess(List<String> uid) {
+
     }
 }

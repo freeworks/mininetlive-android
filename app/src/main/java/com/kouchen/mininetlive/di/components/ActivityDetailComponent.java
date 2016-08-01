@@ -1,9 +1,9 @@
 package com.kouchen.mininetlive.di.components;
 
-import com.kouchen.mininetlive.di.modules.PayModule;
-import com.kouchen.mininetlive.presenter.PayPresenter;
+import com.kouchen.mininetlive.di.modules.ActivityDetailModule;
 import com.kouchen.mininetlive.di.scopes.ActivityScope;
 import com.kouchen.mininetlive.di.scopes.UserScope;
+import com.kouchen.mininetlive.presenter.ActivityDetailPresenter;
 import com.kouchen.mininetlive.ui.ActivityDetailActivity;
 import dagger.Component;
 
@@ -12,10 +12,10 @@ import dagger.Component;
  */
 @UserScope
 @ActivityScope
-@Component(dependencies = NetComponent.class, modules = PayModule.class)
-public interface PayComponent {
+@Component(dependencies = NetComponent.class,  modules = ActivityDetailModule.class)
+public interface ActivityDetailComponent {
 
     void inject(ActivityDetailActivity activity);
 
-    PayPresenter presenter();
+    ActivityDetailPresenter presenter();
 }
