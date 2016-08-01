@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.kouchen.mininetlive.R;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
@@ -51,9 +53,10 @@ public class VideoPlayer extends RelativeLayout {
         mVideoView.setOnCompletionListener(mOnCompletionListener);
         mVideoView.setOnSeekCompleteListener(mOnSeekCompleteListener);
         mVideoView.setOnErrorListener(mOnErrorListener);
+        mVideoView.setOnPreparedListener(mOnPreparedListener);
     }
 
-    public void setup(final String videoPath,final String title,final boolean isLiveStreaming,boolean isFullScreen) {
+    public void setup(final String videoPath, final String title, final boolean isLiveStreaming, boolean isFullScreen, boolean canplay) {
         AVOptions options = new AVOptions();
         // the unit of timeout is ms
         options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
@@ -69,11 +72,14 @@ public class VideoPlayer extends RelativeLayout {
         // whether start play automatically after prepared, default value is 1
         options.setInteger(AVOptions.KEY_START_ON_PREPARED, 0);
         mVideoView.setAVOptions(options);
-        mVideoView.setVideoPath(videoPath);
-
-        mMediaController = new MediaController(getContext(), findViewById(R.id.controller), title,isLiveStreaming,isFullScreen);
+        mMediaController = new MediaController(getContext(), findViewById(R.id.controller), title, isLiveStreaming, isFullScreen);
         mVideoView.setBufferingIndicator(mMediaController.getLoadProgress());
         mVideoView.setMediaController(mMediaController);
+
+        mMediaController.setEnabled(canplay);
+        if (canplay) {
+            mVideoView.setVideoPath(videoPath);
+        }
     }
 
     private PLMediaPlayer.OnInfoListener mOnInfoListener = new PLMediaPlayer.OnInfoListener() {
@@ -90,38 +96,38 @@ public class VideoPlayer extends RelativeLayout {
             Log.e(TAG, "Error happened, errorCode = " + errorCode);
             switch (errorCode) {
                 case PLMediaPlayer.ERROR_CODE_INVALID_URI:
-                    printLog("Invalid URL !");
+                    printLog("Invalid URL !" );
                     break;
                 case PLMediaPlayer.ERROR_CODE_404_NOT_FOUND:
-                    printLog("404 resource not found !");
+                    printLog("404 resource not found !" );
                     break;
                 case PLMediaPlayer.ERROR_CODE_CONNECTION_REFUSED:
-                    printLog("Connection refused !");
+                    printLog("Connection refused !" );
                     break;
                 case PLMediaPlayer.ERROR_CODE_CONNECTION_TIMEOUT:
-                    printLog("Connection timeout !");
+                    printLog("Connection timeout !" );
                     break;
                 case PLMediaPlayer.ERROR_CODE_EMPTY_PLAYLIST:
-                    printLog("Empty playlist !");
+                    printLog("Empty playlist !" );
                     break;
                 case PLMediaPlayer.ERROR_CODE_STREAM_DISCONNECTED:
-                    printLog("Stream disconnected !");
+                    printLog("Stream disconnected !" );
                     break;
                 case PLMediaPlayer.ERROR_CODE_IO_ERROR:
-                    printLog("Network IO Error !");
+                    printLog("Network IO Error !" );
                     break;
                 case PLMediaPlayer.ERROR_CODE_UNAUTHORIZED:
-                    printLog("Unauthorized Error !");
+                    printLog("Unauthorized Error !" );
                     break;
                 case PLMediaPlayer.ERROR_CODE_PREPARE_TIMEOUT:
-                    printLog("Prepare timeout !");
+                    printLog("Prepare timeout !" );
                     break;
                 case PLMediaPlayer.ERROR_CODE_READ_FRAME_TIMEOUT:
-                    printLog("Read frame timeout !");
+                    printLog("Read frame timeout !" );
                     break;
                 case PLMediaPlayer.MEDIA_ERROR_UNKNOWN:
                 default:
-                    printLog("unknown error !");
+                    printLog("unknown error !" );
                     break;
             }
             // Todo pls handle the error status here, retry or call finish()
@@ -130,6 +136,11 @@ public class VideoPlayer extends RelativeLayout {
             // mVideoView.start();
             // Return true means the error has been handled
             // If return false, then `onCompletion` will be called
+            if (mMediaController != null) {
+                mMediaController.getCover().setVisibility(View.VISIBLE);
+                mMediaController.getThumb().setVisibility(View.VISIBLE);
+            }
+            Toast.makeText(getContext(), "播放异常!", Toast.LENGTH_SHORT).show();
             return true;
         }
     };
@@ -142,7 +153,7 @@ public class VideoPlayer extends RelativeLayout {
             new PLMediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(PLMediaPlayer plMediaPlayer) {
-                    Log.d(TAG, "Play Completed !");
+                    Log.d(TAG, "Play Completed !" );
                 }
             };
 
@@ -158,7 +169,7 @@ public class VideoPlayer extends RelativeLayout {
             new PLMediaPlayer.OnSeekCompleteListener() {
                 @Override
                 public void onSeekComplete(PLMediaPlayer plMediaPlayer) {
-                    Log.d(TAG, "onSeekComplete !");
+                    Log.d(TAG, "onSeekComplete !" );
                 }
             };
 
@@ -167,6 +178,17 @@ public class VideoPlayer extends RelativeLayout {
                 @Override
                 public void onVideoSizeChanged(PLMediaPlayer plMediaPlayer, int width, int height) {
                     Log.d(TAG, "onVideoSizeChanged: " + width + "," + height);
+                }
+            };
+
+    private PLMediaPlayer.OnPreparedListener mOnPreparedListener =
+            new PLMediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(PLMediaPlayer plMediaPlayer) {
+                    if (mMediaController != null) {
+                        mMediaController.getCover().setVisibility(View.GONE);
+                        mMediaController.getThumb().setVisibility(View.GONE);
+                    }
                 }
             };
 
@@ -182,15 +204,8 @@ public class VideoPlayer extends RelativeLayout {
         }
     }
 
-    public void resume(){
-
-    }
-
     public void start() {
-        if (mMediaController != null) {
-            mMediaController.getCover().setVisibility(View.GONE);
-            mMediaController.getThumb().setVisibility(View.GONE);
-        }
+
         if (mVideoView != null) {
             mVideoView.start();
         }
@@ -225,9 +240,23 @@ public class VideoPlayer extends RelativeLayout {
         return 0;
     }
 
-    public void setCurrentPosition(long position){
+    public void setCurrentPosition(long position) {
         if (mVideoView != null) {
             mVideoView.seekTo(position);
         }
+    }
+
+    public void setCover(String frontCover) {
+        mMediaController.getCover().setVisibility(View.VISIBLE);
+        Glide.with(getContext())
+                .load(frontCover)
+                .fitCenter()
+                .placeholder(R.drawable.img_default)
+                .crossFade()
+                .into(mMediaController.getCover());
+    }
+
+    public void disable() {
+        mMediaController.setEnabled(false);
     }
 }

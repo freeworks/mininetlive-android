@@ -122,7 +122,7 @@ public class MediaController extends FrameLayout implements IMediaController {
 
     private void disableUnsupportedButtons() {
         try {
-            if (mPauseButton != null && !mPlayer.canPause()) mPauseButton.setEnabled(false);
+            if (mPauseButton != null && mPlayer!=null && !mPlayer.canPause()) mPauseButton.setEnabled(false);
         } catch (IncompatibleClassChangeError ex) {
         }
     }
@@ -239,7 +239,7 @@ public class MediaController extends FrameLayout implements IMediaController {
 
 
     private void updatePausePlay() {
-        if (mPauseButton == null) return;
+        if (mPlayer == null) return;
         if (mPlayer.isPlaying()) {
             mPauseButton.setImageResource(R.drawable.jc_click_pause_selector);
         } else {
@@ -248,6 +248,9 @@ public class MediaController extends FrameLayout implements IMediaController {
     }
 
     private void doPauseResume() {
+        if(mPlayer == null){
+            return;
+        }
         if (mPlayer.isPlaying()) {
             mPlayer.pause();
         } else {
@@ -363,10 +366,19 @@ public class MediaController extends FrameLayout implements IMediaController {
 
     @Override
     public void setEnabled(boolean enabled) {
+        if(enabled){
+            mPauseButton.setVisibility(View.VISIBLE);
+            mProgress.setVisibility(View.VISIBLE);
+        }else{
+            mPauseButton.setVisibility(View.INVISIBLE);
+            mProgress.setVisibility(View.INVISIBLE);
+        }
         if (mPauseButton != null) {
             mPauseButton.setEnabled(enabled);
         }
-        if (mProgress != null && !mDisableProgress) mProgress.setEnabled(enabled);
+        if (mProgress != null && !mDisableProgress) {
+            mProgress.setEnabled(enabled);
+        }
         disableUnsupportedButtons();
         super.setEnabled(enabled);
     }

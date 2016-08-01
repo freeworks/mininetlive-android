@@ -115,9 +115,8 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         //        player.getLayoutParams().height = (int) (screenWidth * 9 / 16f);
         info = (ActivityInfo) getIntent().getSerializableExtra("activityInfo" );
 
-        final String mVideoPath =
-                info.isLiveStream() ? info.getLivePullPath() : info.getVideoPath();
-        player.setup(mVideoPath, null, info.isLiveStream(), false);
+        final String mVideoPath = info.isLiveStream() ? info.getLivePullPath() : info.getVideoPath();
+        player.setup(mVideoPath, null, info.isLiveStream(), false,canplay());
         player.setFullScreenListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,12 +131,8 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                 finish();
             }
         });
-        Glide.with(this)
-                .load(info.getFrontCover())
-                .centerCrop()
-                .placeholder(R.drawable.img_default)
-                .crossFade()
-                .into(player.getCover());
+        player.setCover(info.getFrontCover());
+
         title.setText(info.getTitle());
         nickname.setText(info.getOwner().getNickname());
         date.setText("时间：" + info.getDate());
@@ -217,9 +212,9 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                     } else {
                         pricelayout.setVisibility(View.VISIBLE);
                     }
-                    button.setBackgroundResource(R.drawable.red_rect_selector);
-                    button.setText("打赏红包" );
-                    button.setTag("reward" );
+                    button.setBackgroundResource(R.drawable.grey_rect_selector);
+                    button.setText("已结束" );
+                    button.setEnabled(false);
                     break;
             }
         } else { //点播
@@ -263,13 +258,14 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     @Override
     protected void onPause() {
         super.onPause();
-        player.pause();
+        if(canplay()){
+            player.pause();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        player.start();
         if (info.isLiveStream() && info.isLiving()) {
             presenter.getOnlineMemberList(info.getId());
             intervalSubscribe = Observable.interval(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
@@ -280,6 +276,10 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                         }
                     });
         }
+
+        if(canplay()){
+            player.start();
+        }
     }
 
     @Override
@@ -288,7 +288,16 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         if(intervalSubscribe!=null){
             intervalSubscribe.unsubscribe();
         }
-        player.stopPlayback();
+        if(canplay()){
+            player.stopPlayback();
+        }
+    }
+
+    private boolean canplay(){
+        if((info.isLiveStream() && info.isLiving()) || !info.isLiveStream()){
+            return true;
+        }
+        return false;
     }
 
     @Override

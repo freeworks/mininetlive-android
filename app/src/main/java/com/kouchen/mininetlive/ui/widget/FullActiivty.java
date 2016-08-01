@@ -53,7 +53,7 @@ public class FullActiivty extends Activity {
 
         try {
             player = new VideoPlayer(this);
-            player.setup(videoPath,title,isLivestream,true);
+            player.setup(videoPath,title,isLivestream,true,true);
             if(!isLivestream){
                 player.setCurrentPosition(position);
             }
