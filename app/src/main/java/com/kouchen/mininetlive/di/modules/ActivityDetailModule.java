@@ -25,13 +25,13 @@ public class ActivityDetailModule {
 
     @Provides
     @ActivityScope
-    ActivityDetailContract.View provideActivityDetailContractView() {
+    ActivityDetailContract.View providesActivityDetailContractView() {
         return mView;
     }
 
     @Provides
     @ActivityScope
-    ActivityDetailPresenter providePayresenter(@NonNull PayService payService,@NonNull ActivityService activityService,
+    ActivityDetailPresenter providesActivityDetailPresenter(@NonNull PayService payService,@NonNull ActivityService activityService,
         @NonNull ActivityDetailContract.View view) {
         return new ActivityDetailPresenter(payService, activityService,view);
     }

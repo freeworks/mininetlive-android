@@ -2,6 +2,7 @@ package com.kouchen.mininetlive.contracts;
 
 import com.kouchen.mininetlive.BasePresenter;
 import com.kouchen.mininetlive.BaseView;
+import com.kouchen.mininetlive.models.OnlinUserInfo;
 import com.kouchen.mininetlive.ui.PayChannel;
 import java.util.List;
 
@@ -12,7 +13,9 @@ public interface ActivityDetailContract {
 
     interface View extends BaseView<Presenter> {
 
-        void onGetMemberListSuccess(List<String> uid);
+        void onGetChargeSuccess(String charge);
+
+        void onGetMemberListSuccess(List<OnlinUserInfo> onlinUserInfos);
     }
 
     interface Presenter extends BasePresenter {

@@ -35,15 +35,13 @@ public class BalanceActivity extends AbsTitlebarActivity implements AccountContr
     AccountPresenter presenter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initInject() {
         DaggerAccountComponent.builder()
                 .accountModule(new AccountModule(this))
                 .netComponent(((MNLApplication) getApplication()).getNetComponent())
                 .build()
                 .inject(this);
-        showProgress();
-        presenter.getBalance();
+
     }
 
     @Override
@@ -61,7 +59,8 @@ public class BalanceActivity extends AbsTitlebarActivity implements AccountContr
                 presenter.getWithdrawRecordList();
             }
         });
-
+        showProgress();
+        presenter.getBalance();
     }
 
     @Override

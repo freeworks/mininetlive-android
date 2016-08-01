@@ -9,4 +9,13 @@ public class HttpResponse {
     public int ret;
     public String msg;
     public JsonElement data;
+
+    @Override
+    public String toString() {
+        return "HttpResponse{" +
+                "ret=" + ret +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

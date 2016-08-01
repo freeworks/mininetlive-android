@@ -12,6 +12,11 @@ public class AboutActivity extends AbsTitlebarActivity {
 
 
     @Override
+    protected void initInject() {
+
+    }
+
+    @Override
     protected void initView(View contentView) {
 
     }

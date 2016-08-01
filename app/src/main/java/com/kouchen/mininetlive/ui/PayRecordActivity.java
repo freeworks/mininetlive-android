@@ -24,13 +24,12 @@ public class PayRecordActivity extends RecordActivity {
     AccountPresenter presenter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initInject() {
         DaggerAccountComponent.builder()
-            .accountModule(new AccountModule(this))
-            .netComponent(((MNLApplication) getApplication()).getNetComponent())
-            .build()
-            .inject(this);
+                .accountModule(new AccountModule(this))
+                .netComponent(((MNLApplication) getApplication()).getNetComponent())
+                .build()
+                .inject(this);
     }
 
     @Override

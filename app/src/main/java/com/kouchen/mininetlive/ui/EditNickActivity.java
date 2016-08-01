@@ -35,8 +35,7 @@ public class EditNickActivity extends AbsTitlebarActivity implements AccountCont
     private  UserInfo userInfo;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initInject() {
         DaggerAccountComponent.builder()
                 .accountModule(new AccountModule(this))
                 .netComponent(((MNLApplication) getApplication()).getNetComponent())

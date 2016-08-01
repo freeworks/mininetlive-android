@@ -7,6 +7,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by cainli on 16/6/5.
@@ -26,19 +27,21 @@ public interface ActivityService {
     Call<HttpResponse> GetLiveList();
 
     @FormUrlEncoded
-    @POST("/activity/group/leave")
-    Call<HttpResponse> Leave(@Field("groupId") String groupId);
+    @POST("/activity/leave")
+    Call<HttpResponse> Leave(@Field("aid") String id);
 
     @FormUrlEncoded
-    @POST("/activity/group/join")
-    Call<HttpResponse> Join(@Field("groupId") String groupId);
+    @POST("/activity/join")
+    Call<HttpResponse> Join(@Field("aid") String id);
+
+    @GET("/activity/member/list")
+    Call<HttpResponse> GetOnlineUserList(@Query("aid") String id);
+
+    @GET("/activity/member/count")
+    Call<HttpResponse> GetOnlineUserCount(@Query("aid") String id);
 
     @FormUrlEncoded
-    @POST("/activity/group/member/list")
-    Call<HttpResponse> GetGroupOnlineUserList(@Field("groupId") String groupId);
-
-    @FormUrlEncoded
-    @POST("/activity/group/member/count")
-    Call<HttpResponse> GetGroupOnlineUserCount(@Field("groupId") String groupId);
+    @POST("/activity/appointment")
+    Call<HttpResponse> appointment(@Field("aid") String id);
 
 }

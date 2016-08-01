@@ -218,4 +218,8 @@ public class ActivityInfo implements Serializable {
     public void setAppointmentState(int appointmentState) {
         this.appointmentState = appointmentState;
     }
+
+    public boolean isLiving() {
+        return activityState == 1;
+    }
 }

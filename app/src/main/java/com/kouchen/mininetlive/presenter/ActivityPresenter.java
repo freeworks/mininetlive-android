@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.kouchen.mininetlive.ui.HomeModel;
+import com.kouchen.mininetlive.models.HomeModel;
 import com.kouchen.mininetlive.contracts.ActivityContract;
 import com.kouchen.mininetlive.models.ActivityInfo;
 import com.kouchen.mininetlive.api.ActivityService;

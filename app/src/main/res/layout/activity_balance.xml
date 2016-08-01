@@ -24,7 +24,7 @@
         android:textColor="#4A4A4A"
         android:textSize="17sp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/balanceLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,13 +36,12 @@
             android:id="@+id/balanceIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/label"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_alignBottom="@+id/balance"
             android:text="￥"
             android:textColor="#F67C15"
             android:textSize="17sp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginRight="2dp"
             android:textStyle="bold" />
 
         <TextView
@@ -52,10 +51,11 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="6dp"
+            android:layout_toRightOf="@+id/balanceIcon"
             android:text="--.--"
             android:textColor="#F67C15"
             android:textSize="40sp" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/withdrawBtn"
@@ -64,7 +64,7 @@
         android:layout_below="@+id/balanceLayout"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/blue_btn_selector"
         android:gravity="center"
         android:paddingBottom="10dp"

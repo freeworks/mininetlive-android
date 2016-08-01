@@ -204,6 +204,9 @@
             android:layout_height="wrap_content"
             android:text="在线人数:xxxx" />
         <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/labelOnlineUser"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/onlineUserList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

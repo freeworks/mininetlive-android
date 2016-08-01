@@ -37,24 +37,21 @@ public class RegisterStep3Activity extends AbsTitlebarActivity implements AuthCo
     String mPhone,mPassword,mInviteCode,mVCode;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initInject() {
         DaggerAuthComponent.builder()
                 .authModule(new AuthModule(this))
                 .netComponent(((MNLApplication) getApplication()).getNetComponent())
                 .build()
                 .inject(this);
+    }
 
+    @Override
+    protected void initView(View contentView) {
         Intent intent = getIntent();
         mPhone = intent.getStringExtra("phone");
         mVCode = intent.getStringExtra("vcode");
         mPassword = intent.getStringExtra("password");
         mInviteCode = intent.getStringExtra("inviteCode");
-    }
-
-    @Override
-    protected void initView(View contentView) {
-
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.kouchen.mininetlive.ui;
+package com.kouchen.mininetlive.models;
 
 import com.google.gson.annotations.SerializedName;
 

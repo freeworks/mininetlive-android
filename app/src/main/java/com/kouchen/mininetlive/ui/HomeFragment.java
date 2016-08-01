@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.R;
@@ -14,11 +13,9 @@ import com.kouchen.mininetlive.contracts.ActivityContract;
 import com.kouchen.mininetlive.di.components.DaggerActivityComponent;
 import com.kouchen.mininetlive.di.modules.ActivityModule;
 import com.kouchen.mininetlive.models.ActivityInfo;
+import com.kouchen.mininetlive.models.HomeModel;
 import com.kouchen.mininetlive.presenter.ActivityPresenter;
 import com.kouchen.mininetlive.ui.base.AbsTitlebarFragment;
-import com.kouchen.mininetlive.ui.widget.NetErrorView;
-import com.kouchen.mininetlive.ui.widget.RecycleViewDivider;
-import com.kouchen.mininetlive.utils.DisplayUtil;
 
 import java.util.List;
 

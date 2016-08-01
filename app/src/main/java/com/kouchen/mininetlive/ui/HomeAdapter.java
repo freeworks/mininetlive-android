@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.models.ActivityInfo;
+import com.kouchen.mininetlive.models.HomeModel;
 import com.kouchen.mininetlive.ui.widget.GlideRoundTransform;
 import com.kouchen.mininetlive.utils.DisplayUtil;
 

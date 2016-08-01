@@ -20,6 +20,11 @@ public class EditGenderActivity extends AbsTitlebarActivity {
     ItemView2 maleItem;
 
     @Override
+    protected void initInject() {
+
+    }
+
+    @Override
     protected void initView(View contentView) {
 
     }

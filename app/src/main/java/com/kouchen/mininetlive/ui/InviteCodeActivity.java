@@ -23,6 +23,11 @@ public class InviteCodeActivity extends AbsTitlebarActivity {
     TextView inviteCode;
 
     @Override
+    protected void initInject() {
+
+    }
+
+    @Override
     protected void initView(View contentView) {
         inviteCode.setText(getIntent().getStringExtra("inviteCode"));
     }

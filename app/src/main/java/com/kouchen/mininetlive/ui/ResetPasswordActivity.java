@@ -44,8 +44,7 @@ public class ResetPasswordActivity extends AbsTitlebarActivity implements AuthCo
     private CountDownTimer downTimer;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initInject() {
         DaggerAuthComponent.builder()
                 .authModule(new AuthModule(this))
                 .netComponent(((MNLApplication) getApplication()).getNetComponent())

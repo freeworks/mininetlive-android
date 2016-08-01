@@ -39,6 +39,7 @@ public abstract class AbsTitlebarActivity extends BaseActivity implements View.O
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initInject();
         setContentView(R.layout.activity_base_titlebar);
         rootContainer = (ViewGroup) findViewById(R.id.rootContainer);
         rootContainer.addView(getContentView(), rootContainer.getChildCount() - 2);
@@ -56,6 +57,8 @@ public abstract class AbsTitlebarActivity extends BaseActivity implements View.O
         }
         initView(getContentView());
     }
+
+    protected abstract void initInject();
 
     protected abstract void initView(View contentView);
 

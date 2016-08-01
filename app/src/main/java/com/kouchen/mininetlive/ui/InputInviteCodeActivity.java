@@ -36,23 +36,17 @@ public class InputInviteCodeActivity extends AbsTitlebarActivity implements Auth
     AuthPresenter mPresenter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initInject() {
         DaggerAuthComponent.builder()
                 .authModule(new AuthModule(this))
                 .netComponent(((MNLApplication) getApplication()).getNetComponent())
                 .build()
                 .inject(this);
-
-        titlebarView.setBackLister(null);
-
     }
-
-
 
     @Override
     protected void initView(View contentView) {
-
+        titlebarView.setBackLister(null);
     }
 
     @Override

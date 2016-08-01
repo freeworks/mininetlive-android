@@ -51,13 +51,16 @@ public class RegisterStep2Activity extends AbsTitlebarActivity implements AuthCo
     AuthPresenter presenter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initInject() {
         DaggerAuthComponent.builder()
                 .authModule(new AuthModule(this))
                 .netComponent(((MNLApplication) getApplication()).getNetComponent())
                 .build()
                 .inject(this);
+    }
+
+    @Override
+    protected void initView(View contentView) {
         mPhone = getIntent().getStringExtra("phone");
         phone.setText(mPhone);
         downTimer = new CountDownTimer(60_000, 1000) {
@@ -73,11 +76,6 @@ public class RegisterStep2Activity extends AbsTitlebarActivity implements AuthCo
                 sendVCode.setText("再次获取");
             }
         };
-    }
-
-    @Override
-    protected void initView(View contentView) {
-
     }
 
     @Override

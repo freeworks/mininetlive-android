@@ -1,7 +1,5 @@
 package com.kouchen.mininetlive.ui;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,8 +40,7 @@ public class WithdrawRecordActivity extends AbsTitlebarActivity implements Accou
     protected WithdrawRecordAdapter adapter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initInject() {
         DaggerAccountComponent.builder()
                 .accountModule(new AccountModule(this))
                 .netComponent(((MNLApplication) getApplication()).getNetComponent())
@@ -90,7 +87,7 @@ public class WithdrawRecordActivity extends AbsTitlebarActivity implements Accou
 
     @Override
     public void showProgress() {
-        showProgressView("获取中...");
+        showProgressView("获取中..." );
     }
 
     @Override
@@ -103,6 +100,7 @@ public class WithdrawRecordActivity extends AbsTitlebarActivity implements Accou
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         netErrView.setVisibility(View.VISIBLE);
     }
+
     @Override
     public void onSuccess(Object data) {
         if (adapter != null) {

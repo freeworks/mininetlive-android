@@ -36,13 +36,12 @@ public class RegisterStep1Activity extends AbsTitlebarActivity implements AuthCo
     String  mPhone;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initInject() {
         DaggerAuthComponent.builder()
-            .authModule(new AuthModule(this))
-            .netComponent(((MNLApplication) getApplication()).getNetComponent())
-            .build()
-            .inject(this);
+                .authModule(new AuthModule(this))
+                .netComponent(((MNLApplication) getApplication()).getNetComponent())
+                .build()
+                .inject(this);
     }
 
     @Override
