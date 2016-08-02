@@ -66,7 +66,7 @@ public class ShareDialog extends Dialog implements PlatformActionListener {
         SinaWeibo.ShareParams sp = new SinaWeibo.ShareParams();
         sp.setTitle(title);
         sp.setText(desc);
-        sp.setUrl("http://www.weiwanglive.com:8080/share/weibo/activity/"+id);
+        sp.setUrl("http:/106.75.19.205:8080/share.html?aid="+id);
         sp.setImageUrl(imgPath);
         sp.setShareType(Platform.SHARE_WEBPAGE);
         Platform weibo = ShareSDK.getPlatform(SinaWeibo.NAME);
