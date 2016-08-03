@@ -1,15 +1,14 @@
 package com.kouchen.mininetlive.di.components;
 
-import com.kouchen.mininetlive.ui.BindPhoneActivity;
-import com.kouchen.mininetlive.ui.InputInviteCodeActivity;
-import com.kouchen.mininetlive.ui.LoginActivity;
-import com.kouchen.mininetlive.ui.RegisterStep3Activity;
-import com.kouchen.mininetlive.ui.RegisterStep2Activity;
-import com.kouchen.mininetlive.ui.RegisterStep1Activity;
 import com.kouchen.mininetlive.di.modules.AuthModule;
-import com.kouchen.mininetlive.presenter.AuthPresenter;
 import com.kouchen.mininetlive.di.scopes.ActivityScope;
 import com.kouchen.mininetlive.di.scopes.UserScope;
+import com.kouchen.mininetlive.presenter.AuthPresenter;
+import com.kouchen.mininetlive.ui.InputInviteCodeActivity;
+import com.kouchen.mininetlive.ui.LoginActivity;
+import com.kouchen.mininetlive.ui.RegisterStep1Activity;
+import com.kouchen.mininetlive.ui.RegisterStep2Activity;
+import com.kouchen.mininetlive.ui.RegisterStep3Activity;
 import com.kouchen.mininetlive.ui.ResetPasswordActivity;
 
 import dagger.Component;
@@ -21,8 +20,6 @@ import dagger.Component;
 @ActivityScope
 @Component(dependencies = NetComponent.class, modules = AuthModule.class)
 public interface AuthComponent {
-
-    void inject(BindPhoneActivity activity);
 
     void inject(InputInviteCodeActivity activity);
 

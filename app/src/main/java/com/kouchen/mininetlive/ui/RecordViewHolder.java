@@ -10,6 +10,7 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.models.RecordInfo;
+import com.kouchen.mininetlive.ui.widget.FrontCoverImageView;
 import com.kouchen.mininetlive.ui.widget.GlideRoundTransform;
 import com.kouchen.mininetlive.utils.DisplayUtil;
 
@@ -23,7 +24,7 @@ public class RecordViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.nickname)
     TextView nickname;
     @BindView(R.id.frontCover)
-    ImageView frontCover;
+    FrontCoverImageView frontCover;
     @BindView(R.id.date)
     @Nullable
     TextView date;
@@ -36,11 +37,7 @@ public class RecordViewHolder extends RecyclerView.ViewHolder {
     public void setData(RecordInfo t) {
         title.setText(t.getTitle());
         nickname.setText(t.getNickname());
-        Glide.with(itemView.getContext())
-                .load(t.getFrontCover())
-                .transform(new GlideRoundTransform(itemView.getContext(), DisplayUtil.dip2px(itemView.getContext(), 1.5f)))
-                .placeholder(R.drawable.img_default)
-                .into(frontCover);
+        frontCover.setUrl(t.getFrontCover());
         if (date != null) {
             date.setText("时间:"+t.getDate());
         }

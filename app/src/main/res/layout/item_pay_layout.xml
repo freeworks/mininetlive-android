@@ -63,7 +63,7 @@
         android:paddingBottom="9dp"
         android:paddingTop="9dp">
 
-        <ImageView
+        <com.kouchen.mininetlive.ui.widget.FrontCoverImageView
             android:id="@+id/frontCover"
             android:layout_width="100dp"
             android:layout_height="60dp"

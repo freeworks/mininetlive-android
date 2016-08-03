@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.kouchen.mininetlive.ui.widget.FrontCoverImageView
         android:id="@+id/frontCover"
         android:layout_alignParentLeft="true"
         android:src="@drawable/img_default"

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.models.ActivityInfo;
 import com.kouchen.mininetlive.models.HomeModel;
+import com.kouchen.mininetlive.ui.widget.FrontCoverImageView;
 import com.kouchen.mininetlive.ui.widget.GlideRoundTransform;
 import com.kouchen.mininetlive.utils.DisplayUtil;
 
@@ -102,10 +103,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
 
     static class ActivityViewHolder2 extends ActivityViewHolder {
 
-        private ImageView frontCover0;
+        private FrontCoverImageView frontCover0;
         private TextView title0, playCount0;
 
-        private ImageView frontCover1;
+        private FrontCoverImageView frontCover1;
         private TextView title1, playCount1;
 
         private View view0, view1;
@@ -113,11 +114,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
         public ActivityViewHolder2(View view) {
             super(view);
             view0 = view.findViewById(R.id.item0);
-            frontCover0 = (ImageView) view0.findViewById(R.id.frontCover);
+            frontCover0 = (FrontCoverImageView) view0.findViewById(R.id.frontCover);
             title0 = (TextView) view0.findViewById(R.id.title);
             playCount0 = (TextView) view0.findViewById(R.id.playCount);
             view1 = view.findViewById(R.id.item1);
-            frontCover1 = (ImageView) view1.findViewById(R.id.frontCover);
+            frontCover1 = (FrontCoverImageView) view1.findViewById(R.id.frontCover);
             title1 = (TextView) view1.findViewById(R.id.title);
             playCount1 = (TextView) view1.findViewById(R.id.playCount);
         }
@@ -134,11 +135,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
                 view0.setVisibility(View.INVISIBLE);
             } else {
                 view0.setVisibility(View.VISIBLE);
-                Glide.with(itemView.getContext())
-                        .load(info0.getFrontCover())
-                        .placeholder(R.drawable.img_default)
-                        .transform(new GlideRoundTransform(itemView.getContext(), DisplayUtil.dip2px(itemView.getContext(), 1.5f)))
-                        .into(frontCover0);
+                frontCover0.setUrl(info0.getFrontCover());
                 title0.setText(info0.getTitle());
                 playCount0.setText(info0.getPlayCount());
                 view0.setOnClickListener(new View.OnClickListener() {
@@ -157,11 +154,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
             if (info1 != null) {
                 view1.setVisibility(View.VISIBLE);
                 itemView.setVisibility(View.VISIBLE);
-                Glide.with(itemView.getContext())
-                        .load(info1.getFrontCover())
-                        .placeholder(R.drawable.img_default)
-                        .transform(new GlideRoundTransform(itemView.getContext(), DisplayUtil.dip2px(itemView.getContext(), 1.5f)))
-                        .into(frontCover1);
+                frontCover1.setUrl(info1.getFrontCover());
                 title1.setText(info1.getTitle());
                 playCount1.setText(info1.getPlayCount());
                 view1.setOnClickListener(new View.OnClickListener() {
@@ -183,12 +176,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
 
     static class ActivityViewHolder1 extends ActivityViewHolder {
 
-        private ImageView frontCover;
+        private FrontCoverImageView frontCover;
         private TextView title, nickname, onlineCount, appointCount, state;
 
         public ActivityViewHolder1(View view) {
             super(view);
-            frontCover = (ImageView) view.findViewById(R.id.frontCover);
+            frontCover = (FrontCoverImageView) view.findViewById(R.id.frontCover);
             title = (TextView) view.findViewById(R.id.title);
             onlineCount = (TextView) view.findViewById(R.id.onlineCount);
             appointCount = (TextView) view.findViewById(R.id.appointmentCount);
@@ -201,11 +194,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
                 itemView.setVisibility(View.INVISIBLE);
                 return;
             }
-
-            Glide.with(itemView.getContext())
-                    .load(info.getFrontCover())
-                    .placeholder(R.drawable.img_default)
-                    .into(frontCover);
+            frontCover.setUrl(info.getFrontCover());
             title.setText(info.getTitle());
             nickname.setText(info.getOwner().getNickname());
             appointCount.setVisibility(View.INVISIBLE);

@@ -20,7 +20,6 @@ public class ActivityInfo implements Serializable {
     private int streamType;
     private String livePullPath;
     private String videoPath;
-    private int appointmentState;
     private int activityState;
     private int activityType;
     private int playCount;
@@ -70,6 +69,10 @@ public class ActivityInfo implements Serializable {
         return frontCover;
     }
 
+    public String getFrontCover(int w,int h) {
+        return frontCover+"?iopcmd=thumbnail&type=8&width="+w+"&height="+h;
+    }
+
     public void setFrontCover(String frontCover) {
         this.frontCover = frontCover;
     }
@@ -81,7 +84,7 @@ public class ActivityInfo implements Serializable {
     public String getPriceStr() {
         DecimalFormat myformat = new DecimalFormat();
         myformat.applyPattern("##,##0.00" );
-        return myformat.format(price);
+        return myformat.format(price/100f);
     }
 
 
@@ -211,15 +214,15 @@ public class ActivityInfo implements Serializable {
         return "";
     }
 
-    public int getAppointmentState() {
-        return appointmentState;
-    }
-
-    public void setAppointmentState(int appointmentState) {
-        this.appointmentState = appointmentState;
-    }
-
     public boolean isLiving() {
         return activityState == 1;
+    }
+
+    public boolean isAppointed() {
+        return appoinState == 1;
+    }
+
+    public boolean isPaid() {
+        return payState == 1;
     }
 }

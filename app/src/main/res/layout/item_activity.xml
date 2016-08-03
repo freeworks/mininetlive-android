@@ -18,6 +18,7 @@
             app:riv_border_color="#333333"
             app:riv_border_width="0dp"
             app:riv_corner_radius="4dip"
+            android:scaleType="centerCrop"
             app:riv_mutate_background="true"
             app:riv_oval="false" />
 

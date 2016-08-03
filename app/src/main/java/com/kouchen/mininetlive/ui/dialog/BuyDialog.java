@@ -64,7 +64,7 @@ public class BuyDialog extends Dialog {
         if(amountTv!= null){
             DecimalFormat myformat = new DecimalFormat();
             myformat.applyPattern("##,##0.00");
-            amountTv.setText(myformat.format(amount));
+            amountTv.setText(myformat.format(amount/100f));
         }
         if (wxpay!=null){
             wxpay.setOnClickListener(new View.OnClickListener() {

@@ -1,16 +1,17 @@
 package com.kouchen.mininetlive.ui;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
+
 import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.di.components.DaggerAccountComponent;
 import com.kouchen.mininetlive.di.modules.AccountModule;
-import com.kouchen.mininetlive.presenter.AccountPresenter;
 import com.kouchen.mininetlive.models.AppointmentRecordInfo;
 import com.kouchen.mininetlive.models.RecordInfo;
+import com.kouchen.mininetlive.presenter.AccountPresenter;
+
 import java.util.List;
+
 import javax.inject.Inject;
 
 /**

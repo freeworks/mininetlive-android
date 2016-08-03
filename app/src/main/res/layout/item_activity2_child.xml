@@ -13,6 +13,7 @@
         app:riv_border_color="#333333"
         app:riv_mutate_background="true"
         app:riv_oval="false"
+        android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

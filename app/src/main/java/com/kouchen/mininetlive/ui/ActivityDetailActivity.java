@@ -173,7 +173,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                 case 0:
                     appointCountLayout.setVisibility(View.VISIBLE);
                     appointmentCount.setText(info.getAppointmentCount());
-                    if (info.getAppointmentState() == 0) {
+                    if (!info.isAppointed()) {
                         button.setBackgroundResource(R.drawable.blue_rect_selector);
                         button.setText("立即预约" );
                         button.setTag("appointment" );
@@ -195,7 +195,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                         button.setTag("reward" );
                     } else {
                         pricelayout.setVisibility(View.VISIBLE);
-                        if (info.getPayState() == 0) {
+                        if (!info.isPaid()) {
                             button.setBackgroundResource(R.drawable.green_rect_selector);
                             button.setText("购买" );
                             button.setTag("buy" );
@@ -253,6 +253,9 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         if (info.isLiveStream() && info.isLiving()) {
             presenter.leave(info.getId());
         }
+        if(intervalSubscribe!=null){
+            intervalSubscribe.unsubscribe();
+        }
     }
 
     @Override
@@ -268,7 +271,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         super.onResume();
         if (info.isLiveStream() && info.isLiving()) {
             presenter.getOnlineMemberList(info.getId());
-            intervalSubscribe = Observable.interval(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
+            intervalSubscribe = Observable.interval(5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<Long>() {
                         @Override
                         public void call(Long aLong) {
@@ -285,9 +288,6 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(intervalSubscribe!=null){
-            intervalSubscribe.unsubscribe();
-        }
         if(canplay()){
             player.stopPlayback();
         }

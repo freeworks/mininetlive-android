@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.models.ActivityInfo;
+import com.kouchen.mininetlive.ui.widget.FrontCoverImageView;
 import com.kouchen.mininetlive.ui.widget.GlideRoundTransform;
 import com.kouchen.mininetlive.utils.DisplayUtil;
 
@@ -51,12 +52,12 @@ public class LiveAdapter extends RecyclerView.Adapter<LiveAdapter.ActivityViewHo
 
     static class ActivityViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView frontCover;
+        private FrontCoverImageView frontCover;
         private TextView title, nickname, onlineCount, state;
 
         public ActivityViewHolder(View view) {
             super(view);
-            frontCover = (ImageView) view.findViewById(R.id.frontCover);
+            frontCover = (FrontCoverImageView) view.findViewById(R.id.frontCover);
             title = (TextView) view.findViewById(R.id.title);
             onlineCount = (TextView) view.findViewById(R.id.onlineCount);
             nickname = (TextView) view.findViewById(R.id.nickname);
@@ -64,13 +65,7 @@ public class LiveAdapter extends RecyclerView.Adapter<LiveAdapter.ActivityViewHo
         }
 
         public void setActivity(final ActivityInfo info) {
-            Glide.with(itemView.getContext())
-                    .load(info.getFrontCover())
-                    .centerCrop()
-                    .placeholder(R.drawable.img_default)
-                    .crossFade()
-                    .transform(new GlideRoundTransform(itemView.getContext(), DisplayUtil.dip2px(itemView.getContext(),1f)))
-                    .into(frontCover);
+            frontCover.setUrl(info.getFrontCover());
             title.setText(info.getTitle());
             onlineCount.setText("111111");
             nickname.setText(info.getOwner().getNickname());

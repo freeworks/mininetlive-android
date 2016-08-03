@@ -398,38 +398,7 @@ public class AuthPresenter implements AuthContract.Presenter {
         });
     }
 
-    public void resetOrBindPhone(final String phone, String vcode) {
-        mAuthView.showProgress();
-        Call<HttpResponse> call = mAuthService.bindPhone(phone,vcode);
-        call.enqueue(new Callback<HttpResponse>() {
-            @Override
-            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                mAuthView.hideProgress();
-                if (response.isSuccess()) {
-                    HttpResponse httpResponse = response.body();
-                    if (httpResponse.ret == 0) {
-                        Type userType = new TypeToken<UserInfo>() {
-                        }.getType();
-                        UserInfo userInfo = (UserInfo) MNLApplication.getCacheManager().get("user", UserInfo.class, userType);
-                        userInfo.setPhone(phone);
-                        MNLApplication.getCacheManager().put("user",userInfo);
-                        mAuthView.onSuccess(null);
-                    } else {
-                        mAuthView.onError(httpResponse.msg);
-                    }
-                } else {
-                    mAuthView.onError("重置密码失败");
-                }
-            }
 
-            @Override
-            public void onFailure(Call<HttpResponse> call, Throwable t) {
-                Log.e(TAG, "onFailure: ", t);
-                mAuthView.hideProgress();
-                mAuthView.onError("重置密码失败");
-            }
-        });
-    }
 }
 
 
