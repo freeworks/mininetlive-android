@@ -15,6 +15,7 @@ import com.kouchen.mininetlive.di.components.DaggerNetComponent;
 import com.kouchen.mininetlive.di.components.NetComponent;
 import com.kouchen.mininetlive.di.modules.AppModule;
 import com.kouchen.mininetlive.di.modules.NetModule;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.message.PushAgent;
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +44,8 @@ public class MNLApplication extends Application {
         super.onCreate();
         mInstance = this;
         ButterKnife.setDebug(true);
+        CrashReport.initCrashReport(getApplicationContext(), "900045192", false);
+
         String cachePath = getCacheDir().getPath();
         File cacheFile = new File(cachePath + File.separator + BuildConfig.APPLICATION_ID);
         try {
@@ -77,8 +80,8 @@ public class MNLApplication extends Application {
         //    .observeOn(AndroidSchedulers.mainThread())
         //    .subscribe();
 
-//        String API_URL = "http://106.75.19.205:8080";
-        String API_URL = "http://192.168.0.100:8080";
+        String API_URL = "http://106.75.19.205:8080";
+//        String API_URL = "http://192.168.0.100:8080";
 //        String API_URL = "http://172.17.23.194:8080";
         mNetComponent = DaggerNetComponent.builder()
             .appModule(new AppModule(this))
