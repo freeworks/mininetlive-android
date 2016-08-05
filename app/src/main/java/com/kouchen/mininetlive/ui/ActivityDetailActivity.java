@@ -40,9 +40,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by cainli on 16/6/21.
@@ -113,10 +115,10 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         titlebarView.setVisibility(View.GONE);
         //        int screenWidth = MNLApplication.getApplication().getScreenWidth();
         //        player.getLayoutParams().height = (int) (screenWidth * 9 / 16f);
-        info = (ActivityInfo) getIntent().getSerializableExtra("activityInfo" );
+        info = (ActivityInfo) getIntent().getSerializableExtra("activityInfo");
 
         final String mVideoPath = info.isLiveStream() ? info.getLivePullPath() : info.getVideoPath();
-        player.setup(mVideoPath, null, info.isLiveStream(), false,canplay());
+        player.setup(mVideoPath, null, info.isLiveStream(), false, canplay());
         player.setFullScreenListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,34 +177,34 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                     appointmentCount.setText(info.getAppointmentCount());
                     if (!info.isAppointed()) {
                         button.setBackgroundResource(R.drawable.blue_rect_selector);
-                        button.setText("立即预约" );
-                        button.setTag("appointment" );
+                        button.setText("立即预约");
+                        button.setTag("appointment");
                     } else {
                         button.setBackgroundResource(R.drawable.grey_disable);
-                        button.setText("已经预约" );
-                        button.setTag("appointmented" );
+                        button.setText("已经预约");
+                        button.setTag("appointmented");
                     }
                     break;
                 case 1:
                     onlineUserListLayout.setVisibility(View.VISIBLE);
                     onlineCount1.setVisibility(View.VISIBLE);
-                    onlineCount1.setText(info.getOnlineCount() + "人在线观看" );
+                    onlineCount1.setText(info.getOnlineCount() + "人在线观看");
                     labelOnlineUser.setText("在线人数:" + info.getOnlineCount());
                     if (info.isFree()) { //免费
                         pricelayout.setVisibility(View.VISIBLE);
                         button.setBackgroundResource(R.drawable.red_rect_selector);
-                        button.setText("打赏红包" );
-                        button.setTag("reward" );
+                        button.setText("打赏红包");
+                        button.setTag("reward");
                     } else {
                         pricelayout.setVisibility(View.VISIBLE);
                         if (!info.isPaid()) {
                             button.setBackgroundResource(R.drawable.green_rect_selector);
-                            button.setText("购买" );
-                            button.setTag("buy" );
+                            button.setText("购买");
+                            button.setTag("buy");
                         } else {
                             button.setBackgroundResource(R.drawable.red_rect_selector);
-                            button.setText("打赏红包" );
-                            button.setTag("reward" );
+                            button.setText("打赏红包");
+                            button.setTag("reward");
                         }
                     }
                     break;
@@ -213,27 +215,27 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                         pricelayout.setVisibility(View.VISIBLE);
                     }
                     button.setBackgroundResource(R.drawable.grey_rect_selector);
-                    button.setText("已结束" );
+                    button.setText("已结束");
                     button.setEnabled(false);
                     break;
             }
         } else { //点播
             playCount.setVisibility(View.VISIBLE);
-            playCount.setText("播放：" + info.getPlayCount() + "次" );
+            playCount.setText("播放：" + info.getPlayCount() + "次");
             if (info.isFree()) {
                 button.setBackgroundResource(R.drawable.red_rect_selector);
-                button.setText("打赏红包" );
-                button.setTag("reward" );
+                button.setText("打赏红包");
+                button.setTag("reward");
             } else {
                 pricelayout.setVisibility(View.VISIBLE);
                 if (info.getPayState() == 0) {
                     button.setBackgroundResource(R.drawable.green_rect_selector);
-                    button.setText("购买" );
-                    button.setTag("buy" );
+                    button.setText("购买");
+                    button.setTag("buy");
                 } else {
                     button.setBackgroundResource(R.drawable.red_rect_selector);
-                    button.setText("打赏红包" );
-                    button.setTag("reward" );
+                    button.setText("打赏红包");
+                    button.setTag("reward");
                 }
             }
         }
@@ -253,7 +255,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         if (info.isLiveStream() && info.isLiving()) {
             presenter.leave(info.getId());
         }
-        if(intervalSubscribe!=null){
+        if (intervalSubscribe != null) {
             intervalSubscribe.unsubscribe();
         }
     }
@@ -261,7 +263,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     @Override
     protected void onPause() {
         super.onPause();
-        if(canplay()){
+        if (canplay()) {
             player.pause();
         }
     }
@@ -280,7 +282,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                     });
         }
 
-        if(canplay()){
+        if (canplay()) {
             player.start();
         }
     }
@@ -288,13 +290,13 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(canplay()){
+        if (canplay()) {
             player.stopPlayback();
         }
     }
 
-    private boolean canplay(){
-        if((info.isLiveStream() && info.isLiving()) || !info.isLiveStream()){
+    private boolean canplay() {
+        if ((info.isLiveStream() && info.isLiving()) || !info.isLiveStream()) {
             return true;
         }
         return false;
@@ -347,7 +349,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                                     channel = PayChannel.CHANNEL_ALIPAY;
                                 }
                                 buyDialog.dismiss();
-                                showProgressView("获取支付信息..." );
+                                showProgressView("获取支付信息...");
                                 presenter.pay(info.getId(), channel, info.getPrice(), 1);
                             }
                         });
@@ -372,7 +374,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                                     channel = PayChannel.CHANNEL_ALIPAY;
                                 }
                                 rewardDialog.dismiss();
-                                showProgressView("获取支付信息..." );
+                                showProgressView("获取支付信息...");
                                 presenter.pay(info.getId(), channel, rewardDialog.getAmount(), 0);
                             }
                         });
@@ -388,7 +390,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         if (requestCode == Pingpp.REQUEST_CODE_PAYMENT) {
             hideProgressView();
             if (resultCode == Activity.RESULT_OK) {
-                String result = data.getExtras().getString("pay_result" );
+                String result = data.getExtras().getString("pay_result");
                 if (result == null) {
                     Toast.makeText(this, "支付失败!", Toast.LENGTH_SHORT).show();
                     return;
@@ -412,8 +414,8 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                 // "fail"    - 支付失败
                 // "cancel"  - 取消支付
                 // "invalid" - 支付插件未安装（一般是微信客户端未安装的情况）
-                String errorMsg = data.getExtras().getString("error_msg" ); // 错误信息
-                String extraMsg = data.getExtras().getString("extra_msg" ); // 错误信息
+                String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
+                String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
                 Log.i(TAG, "errorMsg:" + errorMsg);
                 Log.i(TAG, "extraMsg:" + extraMsg);
             }
@@ -453,7 +455,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
 
     @Override
     public void showProgress() {
-        showProgressView("正在获取订单..." );
+        showProgressView("正在获取订单...");
     }
 
     @Override
@@ -464,32 +466,47 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     @Override
     public void onError(String msg) {
         hideProgress();
-        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSuccess(Object data) {
         hideProgress();
-        Toast.makeText(this,(String)data,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, (String) data, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onGetChargeSuccess(String charge) {
-        showProgressView("正在支付..." );
+        showProgressView("正在支付...");
         Pingpp.createPayment(this, charge);
     }
 
     @Override
     public void onGetMemberListSuccess(List<OnlinUserInfo> onlinUserInfos) {
         int size;
-        if(onlinUserInfos == null){
+        if (onlinUserInfos == null) {
             size = 0;
-        }else{
+        } else {
             size = onlinUserInfos.size();
         }
-        onlineCount1.setText(size + "人在线观看" );
-        labelOnlineUser.setText("在线人数:" +size);
+        onlineCount1.setText(size + "人在线观看");
+        labelOnlineUser.setText("在线人数:" + size);
         adapter.setData(onlinUserInfos);
+    }
+
+    @Override
+    public void onAppointmentSuccess(String s) {
+        hideProgress();
+        Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                try {
+                    MNLApplication.getApplication().getPushAgent().getTagManager().add("test1");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe();
     }
 
     public class OnlineUserAdapter extends RecyclerView.Adapter<OnlinUserViewHolder> {

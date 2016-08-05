@@ -16,6 +16,8 @@ public interface ActivityDetailContract {
         void onGetChargeSuccess(String charge);
 
         void onGetMemberListSuccess(List<OnlinUserInfo> onlinUserInfos);
+
+        void onAppointmentSuccess(String s);
     }
 
     interface Presenter extends BasePresenter {

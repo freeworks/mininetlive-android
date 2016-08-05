@@ -15,6 +15,9 @@ import java.util.Arrays;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by cainli on 16/6/25.
@@ -114,16 +117,16 @@ public class ActivityDetailPresenter implements ActivityDetailContract.Presenter
                 if (response.isSuccess()) {
                     HttpResponse httpResponse = response.body();
                     Log.i(TAG, "onResponse: " + httpResponse);
-                    mView.onSuccess("预约成功!");
+                    mView.onAppointmentSuccess("预约成功!");
                 }else{
                     Log.i(TAG, "onResponse: " +response.code()+" "+response.message());
-                    mView.onSuccess("预约失败!");
+                    mView.onError("预约失败!");
                 }
             }
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
                 Log.e(TAG, "onResponse: ",t);
-                mView.onSuccess("预约失败!");
+                mView.onError("预约失败!");
             }
         });
     }

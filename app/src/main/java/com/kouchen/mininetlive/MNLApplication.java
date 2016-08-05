@@ -6,9 +6,11 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
+
 import butterknife.ButterKnife;
 import cn.sharesdk.framework.ShareSDK;
 import cn.smssdk.SMSSDK;
+
 import com.iainconnor.objectcache.CacheManager;
 import com.iainconnor.objectcache.DiskCache;
 import com.kouchen.mininetlive.di.components.DaggerNetComponent;
@@ -17,6 +19,7 @@ import com.kouchen.mininetlive.di.modules.AppModule;
 import com.kouchen.mininetlive.di.modules.NetModule;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.message.PushAgent;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -38,6 +41,8 @@ public class MNLApplication extends Application {
     }
 
     private NetComponent mNetComponent;
+
+    private PushAgent mPushAgent;
 
     @Override
     public void onCreate() {
@@ -66,27 +71,21 @@ public class MNLApplication extends Application {
         ShareSDK.initSDK(this);
         SMSSDK.initSDK(this, "13ad46f97ff34", "14c2f4b8f54c030c12b6ed47cb79f10e");
 
-        final PushAgent mPushAgent = PushAgent.getInstance(this);
+        mPushAgent = PushAgent.getInstance(this);
         mPushAgent.enable();
 
-        //Observable.create((Observable.OnSubscribe<String>) subscriber -> {
-        //    try {
-        //        mPushAgent.getTagManager().add("test1");
-        //    } catch (Exception e) {
-        //        e.printStackTrace();
-        //    }
-        //})
-        //    .subscribeOn(Schedulers.newThread())
-        //    .observeOn(AndroidSchedulers.mainThread())
-        //    .subscribe();
 
-        String API_URL = "http://106.75.19.205:8080";
-//        String API_URL = "http://192.168.0.100:8080";
+//        String API_URL = "http://106.75.19.205:8080";
+        String API_URL = "http://192.168.0.100:8080";
 //        String API_URL = "http://172.17.23.194:8080";
         mNetComponent = DaggerNetComponent.builder()
-            .appModule(new AppModule(this))
-            .netModule(new NetModule(API_URL))
-            .build();
+                .appModule(new AppModule(this))
+                .netModule(new NetModule(API_URL))
+                .build();
+    }
+
+    public PushAgent getPushAgent() {
+        return mPushAgent;
     }
 
     public NetComponent getNetComponent() {
@@ -175,4 +174,6 @@ public class MNLApplication extends Application {
     public String getCacheDirPath() {
         return getCacheDir().getAbsolutePath();
     }
+
+
 }
