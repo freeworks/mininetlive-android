@@ -15,6 +15,7 @@ import com.kouchen.mininetlive.di.modules.AuthModule;
 import com.kouchen.mininetlive.presenter.AuthPresenter;
 import com.kouchen.mininetlive.ui.base.AbsTitlebarActivity;
 import com.kouchen.mininetlive.ui.widget.GenderChooseView;
+import com.kouchen.mininetlive.utils.ValidateUtil;
 
 import javax.inject.Inject;
 
@@ -34,7 +35,7 @@ public class RegisterStep3Activity extends AbsTitlebarActivity implements AuthCo
     @BindView(R.id.genderView)
     GenderChooseView genderView;
 
-    String mPhone,mPassword,mInviteCode,mVCode;
+    String mPhone, mPassword, mInviteCode, mVCode;
 
     @Override
     protected void initInject() {
@@ -67,12 +68,12 @@ public class RegisterStep3Activity extends AbsTitlebarActivity implements AuthCo
 
     @OnClick(R.id.registerBtn)
     public void onClick(View view) {
-        String name = nickname.getText().toString();
-        if(TextUtils.isEmpty(name)){
-            Toast.makeText(this,"昵称不能为空!",Toast.LENGTH_SHORT).show();
+        String name = nickname.getText().toString().trim();
+        if (TextUtils.isEmpty(name)) {
+            Toast.makeText(this, "昵称不能为空!", Toast.LENGTH_SHORT).show();
             return;
         }
-        mPresenter.register(mPhone,mVCode,mPassword,mInviteCode,name,genderView.getValue());
+        mPresenter.register(mPhone, mVCode, mPassword, mInviteCode, name, genderView.getValue());
     }
 
     @Override
@@ -87,13 +88,13 @@ public class RegisterStep3Activity extends AbsTitlebarActivity implements AuthCo
 
     @Override
     public void onError(String msg) {
-        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSuccess(Object data) {
-        Intent intent  = new Intent(this,MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
         finish();
     }

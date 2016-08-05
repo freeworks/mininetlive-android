@@ -24,7 +24,7 @@ import butterknife.BindView;
 /**
  * Created by cainli on 16/6/24.
  */
-public class EditNickActivity extends AbsTitlebarActivity implements AccountContract.View{
+public class EditNickActivity extends AbsTitlebarActivity implements AccountContract.View {
 
     @BindView(R.id.nickname)
     EditText nickname;
@@ -32,7 +32,7 @@ public class EditNickActivity extends AbsTitlebarActivity implements AccountCont
     @Inject
     AccountPresenter mPresenter;
 
-    private  UserInfo userInfo;
+    private UserInfo userInfo;
 
     @Override
     protected void initInject() {
@@ -46,7 +46,7 @@ public class EditNickActivity extends AbsTitlebarActivity implements AccountCont
     @Override
     protected void initView(View contentView) {
         userInfo = getUserInfo();
-        titlebarView.setRightTextView("保存",this);
+        titlebarView.setRightTextView("保存", this);
         if (userInfo != null) {
             nickname.setText(userInfo.getNickname());
         }
@@ -65,12 +65,12 @@ public class EditNickActivity extends AbsTitlebarActivity implements AccountCont
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.right){
+        if (view.getId() == R.id.right) {
             String name = nickname.getText().toString();
-            if(ValidateUtil.checkNickname(name) && !nickname.equals(userInfo.getNickname())){
+            if (!nickname.equals(userInfo.getNickname())) {
                 mPresenter.updateNickname(name);
             }
-        }else if(view.getId() == R.id.clear){
+        } else if (view.getId() == R.id.clear) {
             nickname.setText("");
         }
     }
@@ -87,15 +87,15 @@ public class EditNickActivity extends AbsTitlebarActivity implements AccountCont
 
     @Override
     public void onError(String msg) {
-        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSuccess(Object data) {
-        Toast.makeText(this,"更新成功",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "更新成功", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();
-        intent.putExtra("nickname",nickname.getText().toString());
-        setResult(RESULT_OK,intent);
+        intent.putExtra("nickname", nickname.getText().toString());
+        setResult(RESULT_OK, intent);
         finish();
     }
 }

@@ -102,13 +102,13 @@ public class ResetPasswordActivity extends AbsTitlebarActivity implements AuthCo
                 if (ValidateUtil.checkPassword(pwd)) {
                     mAuthPresenter.resetPassword(p, vcode, pwd);
                 } else {
-                    Toast.makeText(this, "密码格式错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "输入的6-18位只包含字母和数字组成的密码", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(this, "验证码格式错误", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "请输入6位正确的验证码", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, "手机号不能空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -98,10 +98,10 @@ public class RegisterStep2Activity extends AbsTitlebarActivity implements AuthCo
             if (ValidateUtil.checkPassword(password)) {
                 presenter.checkPhone(mPhone,vcode);
             } else {
-                Toast.makeText(this, "输入的密码格式错误", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "输入的6-18位只包含字母和数字组成的密码", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, "输入正确的验证码", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "输入6位正确的验证码", Toast.LENGTH_SHORT).show();
         }
     }
 
