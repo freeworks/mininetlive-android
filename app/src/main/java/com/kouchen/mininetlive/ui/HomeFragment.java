@@ -6,15 +6,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.R;
-import com.kouchen.mininetlive.contracts.ActivityContract;
-import com.kouchen.mininetlive.di.components.DaggerActivityComponent;
-import com.kouchen.mininetlive.di.modules.ActivityModule;
+import com.kouchen.mininetlive.contracts.HomeContract;
+import com.kouchen.mininetlive.di.components.DaggerHomeComponent;
+import com.kouchen.mininetlive.di.modules.HomeModule;
 import com.kouchen.mininetlive.models.ActivityInfo;
 import com.kouchen.mininetlive.models.HomeModel;
-import com.kouchen.mininetlive.presenter.ActivityPresenter;
+import com.kouchen.mininetlive.presenter.HomePresenter;
 import com.kouchen.mininetlive.ui.base.AbsTitlebarFragment;
 
 import java.util.List;
@@ -32,10 +33,10 @@ import cn.finalteam.loadingviewfinal.RecyclerViewFinal;
 /**
  * Created by cainli on 16/6/24.
  */
-public class HomeFragment extends AbsTitlebarFragment implements ActivityContract.View {
+public class HomeFragment extends AbsTitlebarFragment implements HomeContract.View {
 
     @Inject
-    ActivityPresenter presenter;
+    HomePresenter presenter;
 
     HomeAdapter adapter;
 
@@ -48,8 +49,8 @@ public class HomeFragment extends AbsTitlebarFragment implements ActivityContrac
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DaggerActivityComponent.builder()
-                .activityModule(new ActivityModule(this))
+        DaggerHomeComponent.builder()
+                .homeModule(new HomeModule(this))
                 .netComponent(((MNLApplication) getActivity().getApplication()).getNetComponent())
                 .build()
                 .inject(this);
@@ -60,15 +61,13 @@ public class HomeFragment extends AbsTitlebarFragment implements ActivityContrac
     protected void initView(View view) {
         super.initView(view);
         recyclerViewFinal.setLayoutManager(new LinearLayoutManager(getContext()));
-//        recyclerViewFinal.addItemDecoration(new RecycleViewDivider(
-//                getContext(), LinearLayoutManager.VERTICAL, DisplayUtil.dip2px(getContext(), 8), getResources().getColor(R.color.divide_gray_color)));
         recyclerViewFinal.setHasFixedSize(true);
         recyclerViewFinal.setAdapter(adapter);
 
         mPtrRvLayout.setOnRefreshListener(new OnDefaultRefreshListener() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                presenter.getHomeList();
+                presenter.refresh();
             }
         });
         recyclerViewFinal.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -81,12 +80,20 @@ public class HomeFragment extends AbsTitlebarFragment implements ActivityContrac
         netErrView.setup(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.getHomeList();
                 showProgress();
+                presenter.initLoad();
             }
         });
         showProgress();
-        presenter.getHomeList();
+        presenter.initLoad();
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        if(presenter!=null){
+            presenter.initLoad();
+        }
     }
 
     @Override
@@ -114,12 +121,8 @@ public class HomeFragment extends AbsTitlebarFragment implements ActivityContrac
 
     @Override
     public void onError(String msg) {
-        adapter.setData(null);
-        mPtrRvLayout.onRefreshComplete();//完成下拉刷新
         recyclerViewFinal.onLoadMoreComplete();
-        //TODO 判断是否是刷新
         netErrView.setVisibility(View.VISIBLE);
-
     }
 
     @Override
@@ -127,17 +130,17 @@ public class HomeFragment extends AbsTitlebarFragment implements ActivityContrac
     }
 
     @Override
-    public void onInitLoadSuccess(Object data) {
-        HomeModel homeModel = (HomeModel) data;
-        adapter.setData(homeModel);
-        recyclerViewFinal.setHasLoadMore(homeModel.hasMore);
-        mPtrRvLayout.onRefreshComplete();//完成下拉刷新
-        if (homeModel.getCount() == 0) {
-            noDateView.setVisibility(View.VISIBLE);
-        } else {
-            noDateView.setVisibility(View.GONE);
-        }
+    public void onRefreshError(String msg) {
+        mPtrRvLayout.onRefreshComplete();
+        Toast.makeText(getContext(),msg,Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onLoadMoreError(String msg) {
+        recyclerViewFinal.onLoadMoreComplete();
+        Toast.makeText(getContext(),msg,Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public void onLoadMoreSuccess(List<ActivityInfo> activityInfos, boolean hasmore) {
@@ -150,8 +153,24 @@ public class HomeFragment extends AbsTitlebarFragment implements ActivityContrac
     }
 
     @Override
+    public void onLoadSuccess(HomeModel homeModel) {
+        mPtrRvLayout.onRefreshComplete();
+        if(homeModel.getCount() <= 0){
+            if(adapter.getItemCount() <=0){
+                noDateView.setVisibility(View.VISIBLE);
+            }else{
+                noDateView.setVisibility(View.GONE);
+            }
+        }else{
+            adapter.setData(homeModel);
+        }
+        recyclerViewFinal.setHasLoadMore(homeModel.hasMore);
+        mPtrRvLayout.onRefreshComplete();
+    }
+
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         return rootView;

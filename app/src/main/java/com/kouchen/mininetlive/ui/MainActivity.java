@@ -6,8 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
 
-import com.kouchen.mininetlive.Constants;
+import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.R;
+import com.kouchen.mininetlive.push.PushService;
 import com.kouchen.mininetlive.ui.base.BaseActivity;
 import com.kouchen.mininetlive.ui.base.BaseFragment;
 import com.kouchen.mininetlive.ui.widget.BottomTab;
@@ -25,6 +26,8 @@ public class MainActivity extends BaseActivity {
     private HomeFragment homeFragment;
     private LiveFragment liveFragment;
     private MeFragment meFragment;
+
+    private int currentIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +47,15 @@ public class MainActivity extends BaseActivity {
 
                 switch (checkedId) {
                     case R.id.tab_home:
+                        currentIndex = 0;
                         switchContent(currentFragemnt, homeFragment);
                         break;
                     case R.id.tab_live:
+                        currentIndex = 1;
                         switchContent(currentFragemnt, liveFragment);
                         break;
                     case R.id.tab_me:
+                        currentIndex = 2;
                         if (!isLogin()) {
                            showLoginActivity();
                         }
@@ -63,8 +69,28 @@ public class MainActivity extends BaseActivity {
         homeTab.setChecked(true);
 
         toSplash();
+
+        MNLApplication.getApplication().getPushAgent().setPushIntentServiceClass(PushService.class);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int tabIndex = intent.getIntExtra("tabIndex",currentIndex);
+        if(currentIndex != tabIndex){
+            switch (tabIndex){
+                case 0:
+                    homeTab.setChecked(true);
+                    break;
+                case 1:
+                    liveTab.setChecked(true);
+                    break;
+                case 2:
+                    meTab.setChecked(true);
+                    break;
+            }
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -77,6 +103,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void handleLogin(int resultCode, Intent data) {
         if (resultCode == RESULT_CANCELED) {
+            currentIndex = 0;
             homeTab.setChecked(true);
         }
     }

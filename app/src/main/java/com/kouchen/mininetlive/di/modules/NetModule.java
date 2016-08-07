@@ -98,15 +98,15 @@ public class NetModule {
         client.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Interceptor.Chain chain) throws IOException {
-                Type userType = new TypeToken<UserInfo>() {
-                }.getType();
-                UserInfo userInfo = (UserInfo) MNLApplication.getCacheManager()
-                        .get("user", UserInfo.class, userType);
+                CacheManager cacheManager = MNLApplication.getCacheManager();
+                UserInfo userInfo = (UserInfo) cacheManager.get("user", UserInfo.class, new TypeToken<UserInfo>() {}.getType());
+//                String deviceId = (String) cacheManager.get("deviceId", String.class, new TypeToken<String>() {}.getType());
                 Request original = chain.request();
                 Request.Builder builder = original.newBuilder();
                 if (userInfo != null) {
                     builder.header("uid", userInfo.getUid());
                 }
+//                builder.header("deviceId",deviceId);
                 Request request = builder.header("Accept", "application/vnd.yourapi.v1.full+json")
                                 .method(original.method(), original.body())
                                 .build();

@@ -4,20 +4,31 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
 import butterknife.ButterKnife;
 import cn.sharesdk.framework.ShareSDK;
 import cn.smssdk.SMSSDK;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.iainconnor.objectcache.CacheManager;
 import com.iainconnor.objectcache.DiskCache;
+import com.kouchen.mininetlive.api.CommonService;
 import com.kouchen.mininetlive.di.components.DaggerNetComponent;
 import com.kouchen.mininetlive.di.components.NetComponent;
 import com.kouchen.mininetlive.di.modules.AppModule;
 import com.kouchen.mininetlive.di.modules.NetModule;
+import com.kouchen.mininetlive.models.HomeModel;
+import com.kouchen.mininetlive.models.HttpResponse;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.message.ALIAS_TYPE;
+import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
 
 import java.io.File;
@@ -68,20 +79,24 @@ public class MNLApplication extends Application {
             return;
         }
 
-        ShareSDK.initSDK(this);
-        SMSSDK.initSDK(this, "13ad46f97ff34", "14c2f4b8f54c030c12b6ed47cb79f10e");
-
-        mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.enable();
-
-
-//        String API_URL = "http://106.75.19.205:8080";
-        String API_URL = "http://192.168.0.100:8080";
+        String API_URL = "http://106.75.19.205:80";
+//        String API_URL = "http://192.168.0.100:8080";
 //        String API_URL = "http://172.17.23.194:8080";
         mNetComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
                 .netModule(new NetModule(API_URL))
                 .build();
+
+        ShareSDK.initSDK(this);
+        SMSSDK.initSDK(this, "13ad46f97ff34", "14c2f4b8f54c030c12b6ed47cb79f10e");
+
+        mPushAgent = PushAgent.getInstance(this);
+        mPushAgent.enable(new IUmengRegisterCallback() {
+            @Override
+            public void onRegistered(String registrationId) {
+                cacheManager.put("deviceId", registrationId);
+            }
+        });
     }
 
     public PushAgent getPushAgent() {
