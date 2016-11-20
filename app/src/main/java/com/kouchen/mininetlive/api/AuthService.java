@@ -66,4 +66,9 @@ public interface AuthService {
     @POST("/auth/phone/bind")
     Call<HttpResponse> bindPhone(String phone, String vcode);
 
+
+    @FormUrlEncoded
+    @POST("/auth/bindPush")
+    Call<HttpResponse> bindPush(@Field("deviceId") String deviceId);
+
 }

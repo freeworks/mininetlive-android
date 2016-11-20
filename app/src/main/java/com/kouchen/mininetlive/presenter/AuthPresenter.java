@@ -84,6 +84,7 @@ public class AuthPresenter implements AuthContract.Presenter {
                                     UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                                     MNLApplication.getCacheManager().put("user", user);
                                     mAuthView.onSuccess(user);
+                                    bindPush();
                                 } else {
                                     oauthRegister(plat, res, mAuthView, mAuthService);
                                 }
@@ -180,6 +181,7 @@ public class AuthPresenter implements AuthContract.Presenter {
                         } else {
                             mAuthView.onSuccess(user);
                         }
+                        bindPush();
                     } else {
                         mAuthView.onError(httpResponse.msg);
                     }
@@ -253,6 +255,7 @@ public class AuthPresenter implements AuthContract.Presenter {
                         UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                         MNLApplication.getCacheManager().put("user", user);
                         mAuthView.onSuccess(null);
+                        bindPush();
                     } else {
                         mAuthView.onError(httpResponse.msg);
                     }
@@ -319,6 +322,7 @@ public class AuthPresenter implements AuthContract.Presenter {
                         UserInfo user = gson.fromJson(data.get("user"), UserInfo.class);
                         MNLApplication.getCacheManager().put("user", user);
                         mAuthView.onSuccess(user);
+                        bindPush();
                     } else {
                         mAuthView.onError(httpResponse.msg);
                     }
@@ -332,6 +336,24 @@ public class AuthPresenter implements AuthContract.Presenter {
                 Log.e(TAG, "onFailure: ", t);
                 mAuthView.hideProgress();
                 mAuthView.onError("登陆失败");
+            }
+        });
+    }
+
+    private void bindPush() {
+        //bindPush
+        String deviceId = (String) MNLApplication.getCacheManager().get("deviceId", String.class, new TypeToken<String>() {
+        }.getType());
+        Call<HttpResponse> bindPushCall = mAuthService.bindPush(deviceId);
+        bindPushCall.enqueue(new Callback<HttpResponse>() {
+            @Override
+            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                Log.d(TAG, "bindPush onResponse: " + response.body().ret);
+            }
+
+            @Override
+            public void onFailure(Call<HttpResponse> call, Throwable t) {
+                Log.d(TAG, "bindPush onFailure " + t.getMessage());
             }
         });
     }
@@ -372,7 +394,7 @@ public class AuthPresenter implements AuthContract.Presenter {
     @Override
     public void resetPassword(String phone, String vcode, String password) {
         mAuthView.showProgress();
-        Call<HttpResponse> call = mAuthService.resetPassword(phone,vcode, password);
+        Call<HttpResponse> call = mAuthService.resetPassword(phone, vcode, password);
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {

@@ -115,6 +115,7 @@ public class MNLApplication extends Application {
             @Override
             public void onSuccess(String deviceToken) {
                 Log.i(TAG, "device token: " + deviceToken);
+                cacheManager.put("deviceId",deviceToken);
                 sendBroadcast(new Intent(UPDATE_STATUS_ACTION));
             }
 
