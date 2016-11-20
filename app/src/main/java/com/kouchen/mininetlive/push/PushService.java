@@ -1,16 +1,6 @@
 package com.kouchen.mininetlive.push;
 
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-
-import com.kouchen.mininetlive.utils.Helper;
-import com.umeng.message.UTrack;
 import com.umeng.message.UmengBaseIntentService;
-import com.umeng.message.entity.UMessage;
-
-import org.android.agoo.client.BaseConstants;
-import org.json.JSONObject;
 
 /**
  * Created by cainli on 16/8/6.

@@ -29,7 +29,7 @@ public class MediaController extends FrameLayout implements IMediaController {
     private static final String TAG = "PLMediaController";
     private MediaPlayerControl mPlayer;
     private Context mContext;
-    private ProgressBar mProgress;
+    private SeekBar mProgress;
     private TextView mEndTime, mCurrentTime;
     private long mDuration;
     private boolean mShowing;
@@ -75,13 +75,11 @@ public class MediaController extends FrameLayout implements IMediaController {
         }
 
         loadProgress = view.findViewById(R.id.loading);
-        mProgress = (ProgressBar) view.findViewById(R.id.progress);
+        mProgress = (SeekBar) view.findViewById(R.id.progress);
         if (mProgress != null) {
-            if (mProgress instanceof SeekBar) {
-                SeekBar seeker = (SeekBar) mProgress;
-                seeker.setOnSeekBarChangeListener(mSeekListener);
-                seeker.setThumbOffset(1);
-            }
+            SeekBar seeker = (SeekBar) mProgress;
+            seeker.setOnSeekBarChangeListener(mSeekListener);
+            seeker.setThumbOffset(1);
             mProgress.setMax(1000);
             mProgress.setEnabled(!mDisableProgress);
         }

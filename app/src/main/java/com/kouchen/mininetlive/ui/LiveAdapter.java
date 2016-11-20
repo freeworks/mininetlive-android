@@ -75,7 +75,8 @@ public class LiveAdapter extends RecyclerView.Adapter<LiveAdapter.ActivityViewHo
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
-                    intent.putExtra("activityInfo", info);
+//                    intent.putExtra("activityInfo", info);
+                    intent.putExtra("aid", info.getId());
                     view.getContext().startActivity(intent);
 
                 }

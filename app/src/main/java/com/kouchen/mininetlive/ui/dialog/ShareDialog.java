@@ -66,7 +66,7 @@ public class ShareDialog extends Dialog implements PlatformActionListener {
         SinaWeibo.ShareParams sp = new SinaWeibo.ShareParams();
         sp.setTitle(title);
         sp.setText(desc);
-        sp.setUrl("http:/106.75.19.205:80/share.html?aid="+id);
+        sp.setUrl("http://www.weiwanglive.com/share.html?aid="+id);
         sp.setImageUrl(imgPath);
         sp.setShareType(Platform.SHARE_WEBPAGE);
         Platform weibo = ShareSDK.getPlatform(SinaWeibo.NAME);
@@ -79,7 +79,7 @@ public class ShareDialog extends Dialog implements PlatformActionListener {
         Wechat.ShareParams sp = new Wechat.ShareParams();
         sp.setTitle(title);
         sp.setText(desc);
-        sp.setUrl("http://106.75.19.205:80/share.html?aid="+id);
+        sp.setUrl("http://www.weiwanglive.com/share.html?aid="+id);
         sp.setImageUrl(imgPath);
         sp.setShareType(Platform.SHARE_WEBPAGE);
         Platform wechat = ShareSDK.getPlatform(Wechat.NAME);

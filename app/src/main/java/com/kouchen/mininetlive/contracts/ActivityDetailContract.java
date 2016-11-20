@@ -1,7 +1,9 @@
 package com.kouchen.mininetlive.contracts;
 
+
 import com.kouchen.mininetlive.BasePresenter;
 import com.kouchen.mininetlive.BaseView;
+import com.kouchen.mininetlive.models.ActivityInfo;
 import com.kouchen.mininetlive.models.OnlinUserInfo;
 import com.kouchen.mininetlive.ui.PayChannel;
 import java.util.List;
@@ -17,6 +19,8 @@ public interface ActivityDetailContract {
 
         void onGetMemberListSuccess(List<OnlinUserInfo> onlinUserInfos);
 
+        void onGetActivityDetailSuccess(ActivityInfo activityInfo);
+
         void onAppointmentSuccess(String s);
     }
 
@@ -31,5 +35,7 @@ public interface ActivityDetailContract {
         void appointment(String aid);
 
         void getOnlineMemberList(String aid);
+
+        void getActivityDetail(String aid);
     }
 }

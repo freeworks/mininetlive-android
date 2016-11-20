@@ -142,7 +142,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
-                        intent.putExtra("activityInfo", info0);
+//                        intent.putExtra("activityInfo", info0);
+                        intent.putExtra("aid", info0.getId());
                         view.getContext().startActivity(intent);
 
                     }
@@ -161,7 +162,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
-                        intent.putExtra("activityInfo", info1);
+//                        intent.putExtra("activityInfo", info1);
+                        intent.putExtra("aid", info1.getId());
                         view.getContext().startActivity(intent);
 
                     }
@@ -228,7 +230,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ActivityViewHo
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
-                    intent.putExtra("activityInfo", info);
+//                    intent.putExtra("activityInfo", info);
+                    intent.putExtra("aid", info.getId());
                     view.getContext().startActivity(intent);
 
                 }

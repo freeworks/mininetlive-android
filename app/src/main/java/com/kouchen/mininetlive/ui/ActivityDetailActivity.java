@@ -2,8 +2,11 @@ package com.kouchen.mininetlive.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +33,8 @@ import com.kouchen.mininetlive.ui.widget.FullActiivty;
 import com.kouchen.mininetlive.ui.widget.GlideCircleTransform;
 import com.kouchen.mininetlive.ui.widget.VideoPlayer;
 import com.pingplusplus.android.Pingpp;
+import com.umeng.message.common.inter.ITagManager;
+import com.umeng.message.tag.TagManager;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -87,6 +92,9 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     @BindView(R.id.onlineUserList)
     RecyclerView onlineUserList;
 
+    @BindView(R.id.content_layout)
+    RelativeLayout contentLayout;
+
     OnlineUserAdapter adapter;
 
     ShareDialog shareDialog;
@@ -95,10 +103,22 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
 
     Subscription intervalSubscribe;
 
-    private ActivityInfo info;
+    private ActivityInfo cInfo;
 
     @Inject
     ActivityDetailPresenter presenter;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        processIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        processIntent(intent);
+    }
 
     @Override
     protected void initInject() {
@@ -115,8 +135,38 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         titlebarView.setVisibility(View.GONE);
         //        int screenWidth = MNLApplication.getApplication().getScreenWidth();
         //        player.getLayoutParams().height = (int) (screenWidth * 9 / 16f);
-        info = (ActivityInfo) getIntent().getSerializableExtra("activityInfo");
+//        ActivityInfo info = (ActivityInfo) getIntent().getSerializableExtra("activityInfo");
+//        if (info == null) {
+//            return;
+//        }
+//        cInfo = info;
+//        renderView(info);
+    }
 
+    private void processIntent(Intent intent) {
+//        ActivityInfo info = (ActivityInfo) intent.getSerializableExtra("activityInfo");
+//        if (info == null) {
+//            String aid = intent.getStringExtra("aid");
+//            if(!TextUtils.isEmpty(aid)){
+//                showProgressView("获取活动详情中...");
+//                presenter.getActivityDetail(aid);
+//            }
+//            return;
+//        }else{
+//            renderView(info);
+//        }
+        String aid = intent.getStringExtra("aid");
+        if (!TextUtils.isEmpty(aid)) {
+            contentLayout.setVisibility(View.INVISIBLE);
+            showProgressView("获取活动详情中...");
+            presenter.getActivityDetail(aid);
+            return;
+        }
+        Toast.makeText(this.getApplicationContext(), "活动不存在!", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void renderView(final ActivityInfo info) {
         final String mVideoPath = info.isLiveStream() ? info.getLivePullPath() : info.getVideoPath();
         player.setup(mVideoPath, null, info.isLiveStream(), false, canplay());
         player.setFullScreenListener(new View.OnClickListener() {
@@ -239,21 +289,22 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                 }
             }
         }
+        contentLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (info.isLiveStream() && info.isLiving()) {
-            presenter.join(info.getId());
+        if (cInfo != null && cInfo.isLiveStream() && cInfo.isLiving()) {
+            presenter.join(cInfo.getId());
         }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (info.isLiveStream() && info.isLiving()) {
-            presenter.leave(info.getId());
+        if (cInfo != null && cInfo.isLiveStream() && cInfo.isLiving()) {
+            presenter.leave(cInfo.getId());
         }
         if (intervalSubscribe != null) {
             intervalSubscribe.unsubscribe();
@@ -271,13 +322,13 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if (info.isLiveStream() && info.isLiving()) {
-            presenter.getOnlineMemberList(info.getId());
+        if (cInfo != null && cInfo.isLiveStream() && cInfo.isLiving()) {
+            presenter.getOnlineMemberList(cInfo.getId());
             intervalSubscribe = Observable.interval(5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<Long>() {
                         @Override
                         public void call(Long aLong) {
-                            presenter.getOnlineMemberList(info.getId());
+                            presenter.getOnlineMemberList(cInfo.getId());
                         }
                     });
         }
@@ -296,7 +347,10 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     }
 
     private boolean canplay() {
-        if ((info.isLiveStream() && info.isLiving()) || !info.isLiveStream()) {
+        if (cInfo == null) {
+            return true;
+        }
+        if ((cInfo.isLiveStream() && cInfo.isLiving()) || !cInfo.isLiveStream()) {
             return true;
         }
         return false;
@@ -320,6 +374,9 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
 
     @OnClick({R.id.button})
     public void onClick(View view) {
+        if (cInfo == null) {
+            return;
+        }
         if (view.getId() == R.id.button) {
             switch (view.getTag().toString()) {
                 case "appointment":
@@ -328,14 +385,14 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                         return;
                     }
                     showProgressView("预约中...");
-                    presenter.appointment(info.getId());
+                    presenter.appointment(cInfo.getId());
                     break;
                 case "buy":
                     if (buyDialog == null) {
                         buyDialog = new BuyDialog(this);
                     }
                     if (!buyDialog.isShowing()) {
-                        buyDialog.show(info.getPrice(), new View.OnClickListener() {
+                        buyDialog.show(cInfo.getPrice(), new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 if (!isLogin()) {
@@ -350,7 +407,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                                 }
                                 buyDialog.dismiss();
                                 showProgressView("获取支付信息...");
-                                presenter.pay(info.getId(), channel, info.getPrice(), 1);
+                                presenter.pay(cInfo.getId(), channel, cInfo.getPrice(), 1);
                             }
                         });
                     }
@@ -375,7 +432,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                                 }
                                 rewardDialog.dismiss();
                                 showProgressView("获取支付信息...");
-                                presenter.pay(info.getId(), channel, rewardDialog.getAmount(), 0);
+                                presenter.pay(cInfo.getId(), channel, rewardDialog.getAmount(), 0);
                             }
                         });
                     }
@@ -427,7 +484,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
             } else {
                 player.pause();
             }
-            if (!info.isLiveStream()) {
+            if (cInfo != null && !cInfo.isLiveStream()) {
                 player.setCurrentPosition(currentPosition);
             }
         }
@@ -435,13 +492,16 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
 
     @OnClick(R.id.share)
     protected void share() {
+        if (cInfo == null) {
+            return;
+        }
         if (shareDialog == null) {
             shareDialog = new ShareDialog(this);
         }
         if (shareDialog.isShowing()) {
             return;
         }
-        shareDialog.show(info.getId(), info.getTitle(), info.getDesc(), info.getFrontCover());
+        shareDialog.show(cInfo.getId(), cInfo.getTitle(), cInfo.getDesc(), cInfo.getFrontCover());
     }
 
     @Override
@@ -495,13 +555,24 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     }
 
     @Override
+    public void onGetActivityDetailSuccess(ActivityInfo activityInfo) {
+        cInfo = activityInfo;
+        renderView(activityInfo);
+    }
+
+    @Override
     public void onAppointmentSuccess(String s) {
         hideProgress();
         Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 try {
-                    MNLApplication.getApplication().getPushAgent().getTagManager().add("test1");
+                    MNLApplication.getApplication().getPushAgent().getTagManager().add(new TagManager.TCallBack() {
+                        @Override
+                        public void onMessage(boolean b, ITagManager.Result result) {
+                            Log.i(TAG, "push add tag onMessage " + b + " " + result.jsonString);
+                        }
+                    }, "test1");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

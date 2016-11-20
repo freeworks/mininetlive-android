@@ -69,8 +69,6 @@ public class MainActivity extends BaseActivity {
         homeTab.setChecked(true);
 
         toSplash();
-
-        MNLApplication.getApplication().getPushAgent().setPushIntentServiceClass(PushService.class);
     }
 
     @Override

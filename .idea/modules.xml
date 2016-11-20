@@ -6,8 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/libActionSheet/libActionSheet.iml" filepath="$PROJECT_DIR$/libActionSheet/libActionSheet.iml" />
-      <module fileurl="file://$PROJECT_DIR$/libActionSheet/libActionSheet.iml" filepath="$PROJECT_DIR$/libActionSheet/libActionSheet.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mininetlive-android.iml" filepath="$PROJECT_DIR$/mininetlive-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/minnetlive.iml" filepath="$PROJECT_DIR$/minnetlive.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/pingpp/pingpp.iml" filepath="$PROJECT_DIR$/lib/pingpp/pingpp.iml" />
     </modules>

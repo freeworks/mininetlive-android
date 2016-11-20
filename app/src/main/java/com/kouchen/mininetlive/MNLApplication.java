@@ -2,11 +2,16 @@ package com.kouchen.mininetlive;
 
 import android.app.ActivityManager;
 import android.app.Application;
+import android.app.Notification;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import cn.sharesdk.framework.ShareSDK;
@@ -26,10 +31,17 @@ import com.kouchen.mininetlive.di.modules.AppModule;
 import com.kouchen.mininetlive.di.modules.NetModule;
 import com.kouchen.mininetlive.models.HomeModel;
 import com.kouchen.mininetlive.models.HttpResponse;
+import com.kouchen.mininetlive.ui.ActivityDetailActivity;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.message.ALIAS_TYPE;
 import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.MsgConstant;
 import com.umeng.message.PushAgent;
+import com.umeng.message.UTrack;
+import com.umeng.message.UmengMessageHandler;
+import com.umeng.message.UmengNotificationClickHandler;
+import com.umeng.message.common.UmLog;
+import com.umeng.message.entity.UMessage;
 
 import java.io.File;
 import java.io.IOException;
@@ -78,9 +90,9 @@ public class MNLApplication extends Application {
             Log.e(TAG, "enter the service process!");
             return;
         }
-
-        String API_URL = "http://106.75.19.205:80";
-//        String API_URL = "http://192.168.0.100:8080";
+//        String API_URL = "http://www.weiwanglive.com";
+//        String API_URL = "http://106.75.19.205:80";
+        String API_URL = "http://192.168.0.101:8080";
 //        String API_URL = "http://172.17.23.194:8080";
         mNetComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
@@ -89,12 +101,27 @@ public class MNLApplication extends Application {
 
         ShareSDK.initSDK(this);
         SMSSDK.initSDK(this, "13ad46f97ff34", "14c2f4b8f54c030c12b6ed47cb79f10e");
+        push();
+    }
 
+    public void push() {
         mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.enable(new IUmengRegisterCallback() {
+        mPushAgent.setDebugMode(BuildConfig.DEBUG);
+        // 通知声音由服务端控制
+        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SERVER);
+        final String UPDATE_STATUS_ACTION = "com.umeng.message.example.action.UPDATE_STATUS";
+        //注册推送服务 每次调用register都会回调该接口
+        mPushAgent.register(new IUmengRegisterCallback() {
             @Override
-            public void onRegistered(String registrationId) {
-                cacheManager.put("deviceId", registrationId);
+            public void onSuccess(String deviceToken) {
+                Log.i(TAG, "device token: " + deviceToken);
+                sendBroadcast(new Intent(UPDATE_STATUS_ACTION));
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+                Log.i(TAG, "register failed: " + s + " " + s1);
+                sendBroadcast(new Intent(UPDATE_STATUS_ACTION));
             }
         });
     }
