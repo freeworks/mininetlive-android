@@ -17,6 +17,8 @@ import java.lang.reflect.Type;
  */
 public class BaseActivity extends FragmentActivity {
 
+    protected final String TAG = this.getClass().getSimpleName();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

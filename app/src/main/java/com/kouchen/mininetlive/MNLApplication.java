@@ -92,41 +92,17 @@ public class MNLApplication extends Application {
         }
 //        String API_URL = "http://www.weiwanglive.com";
 //        String API_URL = "http://106.75.19.205:80";
-        String API_URL = "http://192.168.0.101:8080";
+        String API_URL = "http://192.168.0.102:8080";
 //        String API_URL = "http://172.17.23.194:8080";
         mNetComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
                 .netModule(new NetModule(API_URL))
                 .build();
-
-        ShareSDK.initSDK(this);
-        SMSSDK.initSDK(this, "13ad46f97ff34", "14c2f4b8f54c030c12b6ed47cb79f10e");
-        push();
     }
 
-    public void push() {
-        mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.setDebugMode(BuildConfig.DEBUG);
-        // 通知声音由服务端控制
-        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SERVER);
-        final String UPDATE_STATUS_ACTION = "com.umeng.message.example.action.UPDATE_STATUS";
-        //注册推送服务 每次调用register都会回调该接口
-        mPushAgent.register(new IUmengRegisterCallback() {
-            @Override
-            public void onSuccess(String deviceToken) {
-                Log.i(TAG, "device token: " + deviceToken);
-                cacheManager.put("deviceId",deviceToken);
-                sendBroadcast(new Intent(UPDATE_STATUS_ACTION));
-            }
-
-            @Override
-            public void onFailure(String s, String s1) {
-                Log.i(TAG, "register failed: " + s + " " + s1);
-                sendBroadcast(new Intent(UPDATE_STATUS_ACTION));
-            }
-        });
+    public void setPushAgent(PushAgent mPushAgent) {
+        this.mPushAgent = mPushAgent;
     }
-
     public PushAgent getPushAgent() {
         return mPushAgent;
     }

@@ -278,7 +278,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                 button.setTag("reward");
             } else {
                 pricelayout.setVisibility(View.VISIBLE);
-                if (info.getPayState() == 0) {
+                if (info.getPayState() == 0) {;
                     button.setBackgroundResource(R.drawable.green_rect_selector);
                     button.setText("购买");
                     button.setTag("buy");
