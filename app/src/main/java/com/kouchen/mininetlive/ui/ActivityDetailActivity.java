@@ -2,6 +2,7 @@ package com.kouchen.mininetlive.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -95,6 +96,9 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     @BindView(R.id.content_layout)
     RelativeLayout contentLayout;
 
+    @BindView(R.id.buyBtn)
+    TextView buyBtn;
+
     OnlineUserAdapter adapter;
 
     ShareDialog shareDialog;
@@ -105,19 +109,21 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
 
     private ActivityInfo cInfo;
 
+    private boolean inited = false;
+
     @Inject
     ActivityDetailPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        processIntent(getIntent());
+        processIntent(getIntent(), true);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        processIntent(intent);
+        processIntent(intent, true);
     }
 
     @Override
@@ -133,32 +139,15 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     protected void initView(View contentView) {
         titlebarView.setTransparentBackground(true);
         titlebarView.setVisibility(View.GONE);
-        //        int screenWidth = MNLApplication.getApplication().getScreenWidth();
-        //        player.getLayoutParams().height = (int) (screenWidth * 9 / 16f);
-//        ActivityInfo info = (ActivityInfo) getIntent().getSerializableExtra("activityInfo");
-//        if (info == null) {
-//            return;
-//        }
-//        cInfo = info;
-//        renderView(info);
     }
 
-    private void processIntent(Intent intent) {
-//        ActivityInfo info = (ActivityInfo) intent.getSerializableExtra("activityInfo");
-//        if (info == null) {
-//            String aid = intent.getStringExtra("aid");
-//            if(!TextUtils.isEmpty(aid)){
-//                showProgressView("获取活动详情中...");
-//                presenter.getActivityDetail(aid);
-//            }
-//            return;
-//        }else{
-//            renderView(info);
-//        }
+    private void processIntent(Intent intent, boolean showProgressbar) {
         String aid = intent.getStringExtra("aid");
         if (!TextUtils.isEmpty(aid)) {
-            contentLayout.setVisibility(View.INVISIBLE);
-            showProgressView("获取活动详情中...");
+            if (showProgressbar) {
+                contentLayout.setVisibility(View.INVISIBLE);
+                showProgressView("获取活动详情中...");
+            }
             presenter.getActivityDetail(aid);
             return;
         }
@@ -168,23 +157,24 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
 
     private void renderView(final ActivityInfo info) {
         final String mVideoPath = info.isLiveStream() ? info.getLivePullPath() : info.getVideoPath();
-        player.setup(mVideoPath, null, info.isLiveStream(), false, canplay());
-        player.setFullScreenListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FullActiivty.startActivityFromNormal(ActivityDetailActivity.this, mVideoPath,
-                        info.getId(), info.isLiveStream(), player.isPlaying(),
-                        player.getCurrentPosition());
-            }
-        });
-        player.setOnBackListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-        player.setCover(info.getFrontCover());
-
+        if (TextUtils.isEmpty(player.getVideoPath())) {
+            player.setup(mVideoPath, null, info.isLiveStream(), false, canplay());
+            player.setFullScreenListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FullActiivty.startActivityFromNormal(ActivityDetailActivity.this, mVideoPath,
+                            info.getId(), info.isLiveStream(), player.isPlaying(),
+                            player.getCurrentPosition());
+                }
+            });
+            player.setOnBackListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+            player.setCover(info.getFrontCover());
+        }
         title.setText(info.getTitle());
         nickname.setText(info.getOwner().getNickname());
         date.setText("时间：" + info.getDate());
@@ -220,6 +210,10 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
 
         pricelayout.setVisibility(View.GONE);
         price.setText(info.getPriceStr());
+        if (info.isPaid()) {
+            price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            price.getPaint().setColor(getResources().getColor(R.color.grey));
+        }
         if (info.isLiveStream()) {
             switch (info.getActivityState()) {
                 case 0:
@@ -248,10 +242,15 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                     } else {
                         pricelayout.setVisibility(View.VISIBLE);
                         if (!info.isPaid()) {
+                            player.setCover(info.getFrontCover());
+                            buyBtn.setVisibility(View.VISIBLE);
+                            player.disable();
                             button.setBackgroundResource(R.drawable.green_rect_selector);
                             button.setText("购买");
                             button.setTag("buy");
                         } else {
+                            buyBtn.setVisibility(View.GONE);
+                            player.enable();
                             button.setBackgroundResource(R.drawable.red_rect_selector);
                             button.setText("打赏红包");
                             button.setTag("reward");
@@ -278,11 +277,16 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                 button.setTag("reward");
             } else {
                 pricelayout.setVisibility(View.VISIBLE);
-                if (info.getPayState() == 0) {;
+                if (info.getPayState() == 0) {
+                    player.setCover(info.getFrontCover());
+                    buyBtn.setVisibility(View.VISIBLE);
+                    player.disable();
                     button.setBackgroundResource(R.drawable.green_rect_selector);
                     button.setText("购买");
                     button.setTag("buy");
                 } else {
+                    buyBtn.setVisibility(View.GONE);
+                    player.enable();
                     button.setBackgroundResource(R.drawable.red_rect_selector);
                     button.setText("打赏红包");
                     button.setTag("reward");
@@ -322,6 +326,12 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     @Override
     protected void onResume() {
         super.onResume();
+        if (inited) {
+            processIntent(getIntent(), false);
+        } else {
+            inited = true;
+        }
+
         if (cInfo != null && cInfo.isLiveStream() && cInfo.isLiving()) {
             presenter.getOnlineMemberList(cInfo.getId());
             intervalSubscribe = Observable.interval(5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
@@ -348,9 +358,9 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
 
     private boolean canplay() {
         if (cInfo == null) {
-            return true;
+            return false;
         }
-        if ((cInfo.isLiveStream() && cInfo.isLiving()) || !cInfo.isLiveStream()) {
+        if ((cInfo.isLiveStream() && cInfo.isLiving()) || !cInfo.isLiveStream() && (cInfo.isFree() || cInfo.isPaid())) {
             return true;
         }
         return false;
@@ -372,7 +382,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     }
 
 
-    @OnClick({R.id.button})
+    @OnClick({R.id.button, R.id.buyBtn})
     public void onClick(View view) {
         if (cInfo == null) {
             return;
@@ -388,29 +398,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                     presenter.appointment(cInfo.getId());
                     break;
                 case "buy":
-                    if (buyDialog == null) {
-                        buyDialog = new BuyDialog(this);
-                    }
-                    if (!buyDialog.isShowing()) {
-                        buyDialog.show(cInfo.getPrice(), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if (!isLogin()) {
-                                    showLoginActivity();
-                                    return;
-                                }
-                                PayChannel channel;
-                                if (view.getId() == R.id.wxpay) {
-                                    channel = PayChannel.CHANNEL_WECHAT;
-                                } else {
-                                    channel = PayChannel.CHANNEL_ALIPAY;
-                                }
-                                buyDialog.dismiss();
-                                showProgressView("获取支付信息...");
-                                presenter.pay(cInfo.getId(), channel, cInfo.getPrice(), 1);
-                            }
-                        });
-                    }
+                    doBuy();
                     break;
                 case "reward":
                     if (rewardDialog == null) {
@@ -438,6 +426,34 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                     }
                     break;
             }
+        } else if (view.getId() == R.id.buyBtn) {
+            doBuy();
+        }
+    }
+
+    private void doBuy() {
+        if (buyDialog == null) {
+            buyDialog = new BuyDialog(this);
+        }
+        if (!buyDialog.isShowing()) {
+            buyDialog.show(cInfo.getPrice(), new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!isLogin()) {
+                        showLoginActivity();
+                        return;
+                    }
+                    PayChannel channel;
+                    if (view.getId() == R.id.wxpay) {
+                        channel = PayChannel.CHANNEL_WECHAT;
+                    } else {
+                        channel = PayChannel.CHANNEL_ALIPAY;
+                    }
+                    buyDialog.dismiss();
+                    showProgressView("获取支付信息...");
+                    presenter.pay(cInfo.getId(), channel, cInfo.getPrice(), 1);
+                }
+            });
         }
     }
 
@@ -454,6 +470,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                 }
                 switch (result) {
                     case "success":
+                        processIntent(getIntent(),false);
                         Toast.makeText(this, "支付成功!", Toast.LENGTH_SHORT).show();
                         break;
                     case "fail":

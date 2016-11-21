@@ -57,8 +57,12 @@ public class MediaController extends FrameLayout implements IMediaController {
     private ImageView cover;
     private TextView titleView;
 
-    public MediaController(Context context, View view,String title,boolean disableProgressBar,boolean isFullScreen) {
+    private View rootView;
+
+    public MediaController(Context context,ImageView cover, View view,String title,boolean disableProgressBar,boolean isFullScreen) {
         super(context);
+        this.cover = cover;
+        this.rootView = view;
         this.mDisableProgress = disableProgressBar;
         initController(context, view,title,isFullScreen);
     }
@@ -91,7 +95,6 @@ public class MediaController extends FrameLayout implements IMediaController {
         bottomContainer = (ViewGroup) view.findViewById(R.id.layout_bottom);
 
         thumb = (ImageView) view.findViewById(R.id.thumb);
-        cover = (ImageView) view.findViewById(R.id.cover);
 
         fullscreenView = (ImageView) view.findViewById(R.id.fullscreen);
         if(isFullScreen){
@@ -111,6 +114,10 @@ public class MediaController extends FrameLayout implements IMediaController {
 
     public ImageView getCover() {
         return cover;
+    }
+
+    public ImageView getStartButton() {
+        return mPauseButton;
     }
 
     public View getLoadProgress() {
@@ -252,6 +259,7 @@ public class MediaController extends FrameLayout implements IMediaController {
         if (mPlayer.isPlaying()) {
             mPlayer.pause();
         } else {
+            getCover().setVisibility(GONE);
             mPlayer.start();
         }
         updatePausePlay();
@@ -379,5 +387,13 @@ public class MediaController extends FrameLayout implements IMediaController {
         }
         disableUnsupportedButtons();
         super.setEnabled(enabled);
+    }
+
+    public void setViewEnable(boolean enabled){
+        if(enabled){
+            rootView.setVisibility(View.VISIBLE);
+        }else{
+            rootView.setVisibility(View.INVISIBLE);
+        }
     }
 }

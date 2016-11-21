@@ -14,8 +14,8 @@ import retrofit2.http.Query;
  */
 public interface ActivityService {
 
-    @GET("/activity/detail/{id}")
-    Call<HttpResponse> GetActivityDetail(@Path("id") String activityId);
+    @GET("/activity/detail/{aid}")
+    Call<HttpResponse> GetActivityDetail(@Path("aid") String activityId);
 
     @GET("/activity/list")
     Call<HttpResponse> GetAcivityList();

@@ -25,6 +25,10 @@ public class VideoPlayer extends RelativeLayout {
     private MediaController mMediaController;
     private PLVideoView mVideoView;
 
+    private boolean startOnPrepared = true;
+
+    private String videoPath;
+
     public static final int FULLSCREEN_REQUESTCODE = 1000;
 
     public VideoPlayer(Context context) {
@@ -57,6 +61,7 @@ public class VideoPlayer extends RelativeLayout {
     }
 
     public void setup(final String videoPath, final String title, final boolean isLiveStreaming, boolean isFullScreen, boolean canplay) {
+        this.videoPath = videoPath;
         AVOptions options = new AVOptions();
         // the unit of timeout is ms
         options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
@@ -70,16 +75,18 @@ public class VideoPlayer extends RelativeLayout {
         //int codec = getIntent().getIntExtra("mediaCodec", 0);
         options.setInteger(AVOptions.KEY_MEDIACODEC, 0);
         // whether start play automatically after prepared, default value is 1
-        options.setInteger(AVOptions.KEY_START_ON_PREPARED, 0);
+        startOnPrepared = canplay;
+        options.setInteger(AVOptions.KEY_START_ON_PREPARED, canplay ? 1 : 0);
         mVideoView.setAVOptions(options);
-        mMediaController = new MediaController(getContext(), findViewById(R.id.controller), title, isLiveStreaming, isFullScreen);
+        mMediaController = new MediaController(getContext(), (ImageView) findViewById(R.id.cover), findViewById(R.id.controller), title, isLiveStreaming, isFullScreen);
         mVideoView.setBufferingIndicator(mMediaController.getLoadProgress());
         mVideoView.setMediaController(mMediaController);
+        mVideoView.setVideoPath(videoPath);
+//        mMediaController.setEnabled(canplay);
+    }
 
-        mMediaController.setEnabled(canplay);
-        if (canplay) {
-            mVideoView.setVideoPath(videoPath);
-        }
+    public String getVideoPath() {
+        return videoPath;
     }
 
     private PLMediaPlayer.OnInfoListener mOnInfoListener = new PLMediaPlayer.OnInfoListener() {
@@ -96,38 +103,38 @@ public class VideoPlayer extends RelativeLayout {
             Log.e(TAG, "Error happened, errorCode = " + errorCode);
             switch (errorCode) {
                 case PLMediaPlayer.ERROR_CODE_INVALID_URI:
-                    printLog("Invalid URL !" );
+                    printLog("Invalid URL !");
                     break;
                 case PLMediaPlayer.ERROR_CODE_404_NOT_FOUND:
-                    printLog("404 resource not found !" );
+                    printLog("404 resource not found !");
                     break;
                 case PLMediaPlayer.ERROR_CODE_CONNECTION_REFUSED:
-                    printLog("Connection refused !" );
+                    printLog("Connection refused !");
                     break;
                 case PLMediaPlayer.ERROR_CODE_CONNECTION_TIMEOUT:
-                    printLog("Connection timeout !" );
+                    printLog("Connection timeout !");
                     break;
                 case PLMediaPlayer.ERROR_CODE_EMPTY_PLAYLIST:
-                    printLog("Empty playlist !" );
+                    printLog("Empty playlist !");
                     break;
                 case PLMediaPlayer.ERROR_CODE_STREAM_DISCONNECTED:
-                    printLog("Stream disconnected !" );
+                    printLog("Stream disconnected !");
                     break;
                 case PLMediaPlayer.ERROR_CODE_IO_ERROR:
-                    printLog("Network IO Error !" );
+                    printLog("Network IO Error !");
                     break;
                 case PLMediaPlayer.ERROR_CODE_UNAUTHORIZED:
-                    printLog("Unauthorized Error !" );
+                    printLog("Unauthorized Error !");
                     break;
                 case PLMediaPlayer.ERROR_CODE_PREPARE_TIMEOUT:
-                    printLog("Prepare timeout !" );
+                    printLog("Prepare timeout !");
                     break;
                 case PLMediaPlayer.ERROR_CODE_READ_FRAME_TIMEOUT:
-                    printLog("Read frame timeout !" );
+                    printLog("Read frame timeout !");
                     break;
                 case PLMediaPlayer.MEDIA_ERROR_UNKNOWN:
                 default:
-                    printLog("unknown error !" );
+                    printLog("unknown error !");
                     break;
             }
             // Todo pls handle the error status here, retry or call finish()
@@ -153,7 +160,7 @@ public class VideoPlayer extends RelativeLayout {
             new PLMediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(PLMediaPlayer plMediaPlayer) {
-                    Log.d(TAG, "Play Completed !" );
+                    Log.d(TAG, "Play Completed !");
                 }
             };
 
@@ -169,7 +176,7 @@ public class VideoPlayer extends RelativeLayout {
             new PLMediaPlayer.OnSeekCompleteListener() {
                 @Override
                 public void onSeekComplete(PLMediaPlayer plMediaPlayer) {
-                    Log.d(TAG, "onSeekComplete !" );
+                    Log.d(TAG, "onSeekComplete !");
                 }
             };
 
@@ -185,9 +192,11 @@ public class VideoPlayer extends RelativeLayout {
             new PLMediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(PLMediaPlayer plMediaPlayer) {
-                    if (mMediaController != null) {
+                    if (mMediaController != null && startOnPrepared) {
                         mMediaController.getCover().setVisibility(View.GONE);
-                        mMediaController.getThumb().setVisibility(View.GONE);
+                    }
+                    if (!startOnPrepared) {
+                        startOnPrepared = true;
                     }
                 }
             };
@@ -205,7 +214,7 @@ public class VideoPlayer extends RelativeLayout {
     }
 
     public void start() {
-
+        mMediaController.getCover().setVisibility(View.GONE);
         if (mVideoView != null) {
             mVideoView.start();
         }
@@ -257,6 +266,10 @@ public class VideoPlayer extends RelativeLayout {
     }
 
     public void disable() {
-        mMediaController.setEnabled(false);
+        mMediaController.setViewEnable(false);
+    }
+
+    public void enable() {
+        mMediaController.setViewEnable(true);
     }
 }
