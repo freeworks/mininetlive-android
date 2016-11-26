@@ -6,14 +6,15 @@ import java.text.DecimalFormat;
 /**
  * Created by cainli on 16/7/2.
  */
-public class WithdrawRecordInfo implements Serializable {
+public class DividendRecordInfo implements Serializable {
 
     private int amount;
     private String createTime;
+    private String nickname;
 
     public String getAmount() {
         DecimalFormat myformat = new DecimalFormat();
-        myformat.applyPattern("##,##0.00" );
+        myformat.applyPattern("##,##0.00");
         return myformat.format(amount/100f);
     }
 
@@ -25,7 +26,11 @@ public class WithdrawRecordInfo implements Serializable {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

@@ -54,24 +54,55 @@
             android:layout_toRightOf="@+id/balanceIcon"
             android:text="--.--"
             android:textColor="#F67C15"
-            android:textSize="40sp" />
+            android:textSize="36sp" />
     </RelativeLayout>
+
+    <EditText
+        android:id="@+id/withdrawInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/balanceLayout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:hint="可提现金额--"
+        android:textColorHint="#c2c2c2"
+        android:inputType="numberDecimal"
+        android:background="@drawable/grey_round_rect"
+        android:textColor="#000000"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/withdrawBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/balanceLayout"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="50dp"
+        android:layout_below="@+id/withdrawInput"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/blue_btn_selector"
         android:gravity="center"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
-        android:text="提现"
+        android:text="提现到微信"
         android:textColor="#ffffff"
         android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/detail"
+        android:layout_below="@+id/withdrawBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="提现明细"
+        android:textColor="#9b9b9b"
+        android:textSize="14sp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -91,7 +122,7 @@
         android:layout_marginRight="70dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="关注公众号“微网”，发送消息“提现”就可以收到微信提现红包"
+        android:text="关注公众号“微网Live”，查收微信支付入账"
         android:textColor="#9B9B9B"
         android:textSize="12sp" />
 

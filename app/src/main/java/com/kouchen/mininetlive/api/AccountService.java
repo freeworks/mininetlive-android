@@ -32,23 +32,25 @@ public interface AccountService {
     @GET("/account/record/appointment/list")
     Call<HttpResponse> GetAppointmentRecordList();
 
-    @GET("/account/record/withdraw/list")
+    @GET("/account/record/transfer/list")
     Call<HttpResponse> GetWithdrawRecordList();
+
+    @GET("/account/record/dividend/list")
+    Call<HttpResponse> GetDividendRecordList();
 
     @FormUrlEncoded
     @POST("/account/nickname")
     Call<HttpResponse> updateNickname(@Field("nickname") String name);
 
-    @GET("/account/vcode")
-    Call<HttpResponse> getVCode();
+    @FormUrlEncoded
+    @POST("/account/vcode")
+    Call<HttpResponse> getVCode(@Field("phone") String phone);
 
+    @FormUrlEncoded
     @POST("/account/phone")
-    Call<HttpResponse> updatePhone();
+    Call<HttpResponse> updatePhone(@Field("phone") String name,@Field("vcode") String vcode);
 
     @Multipart
     @POST("/account/avatar")
     Call<HttpResponse> uploadAvatar(@PartMap Map<String, RequestBody> params);
-
-    @GET("/account/balance")
-    Call<HttpResponse> getBalance();
 }

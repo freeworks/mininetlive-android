@@ -360,7 +360,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         if (cInfo == null) {
             return false;
         }
-        if ((cInfo.isLiveStream() && cInfo.isLiving()) || !cInfo.isLiveStream() && (cInfo.isFree() || cInfo.isPaid())) {
+        if (((cInfo.isLiveStream() && cInfo.isLiving()) || !cInfo.isLiveStream() )&& (cInfo.isFree() || cInfo.isPaid())) {
             return true;
         }
         return false;
@@ -518,7 +518,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         if (shareDialog.isShowing()) {
             return;
         }
-        shareDialog.show(cInfo.getId(), cInfo.getTitle(), cInfo.getDesc(), cInfo.getFrontCover());
+        shareDialog.show(cInfo.getId(), cInfo.getTitle(), cInfo.getDesc(), cInfo.getFrontCover(),getUserInfo().getInviteCode());
     }
 
     @Override

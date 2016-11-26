@@ -56,6 +56,7 @@ public class WithdrawRecordActivity extends AbsTitlebarActivity implements Accou
                 presenter.getWithdrawRecordList();
             }
         });
+        noDateView.setup("暂无记录");
     }
 
     @Override
@@ -104,7 +105,13 @@ public class WithdrawRecordActivity extends AbsTitlebarActivity implements Accou
     @Override
     public void onSuccess(Object data) {
         if (adapter != null) {
-            adapter.setData((List<WithdrawRecordInfo>) data);
+            List<WithdrawRecordInfo> records = (List<WithdrawRecordInfo>) data;
+            adapter.setData(records);
+            if(records == null || records.isEmpty()){
+                noDateView.setVisibility(View.VISIBLE);
+            }else{
+                noDateView.setVisibility(View.GONE);
+            }
         }
     }
 

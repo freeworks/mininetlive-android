@@ -22,13 +22,14 @@ public interface AccountContract {
 
         void getAppointRecordList();
 
-        void getAccountInfo();
+        void getDividendRecordList();
 
-        void getBalance();
+        void getAccountInfo();
 
         void uploadAvatar(String filepath);
 
         void updateNickname(String name);
+
 
     }
 }

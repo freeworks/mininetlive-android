@@ -3,6 +3,7 @@ package com.kouchen.mininetlive.di.modules;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.kouchen.mininetlive.api.AccountService;
 import com.kouchen.mininetlive.api.ActivityService;
 import com.kouchen.mininetlive.api.AuthService;
 import com.kouchen.mininetlive.api.PayService;
@@ -37,15 +38,15 @@ public class BindPhoneModule {
 
     @Provides
     @ActivityScope
-    BindPhonePresenter providesBindPhonePresenter(@NonNull AuthService authService,
+    BindPhonePresenter providesBindPhonePresenter(@NonNull AccountService authService,
                                                   @NonNull BindPhoneContract.View view,
                                                   @NonNull SharedPreferences sp) {
         return new BindPhonePresenter(authService, view, sp);
     }
 
     @Provides
-    public AuthService providesAuthService(Retrofit retrofit) {
-        return retrofit.create(AuthService.class);
+    public AccountService providesAccountService(Retrofit retrofit) {
+        return retrofit.create(AccountService.class);
     }
 
 }

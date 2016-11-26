@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.kouchen.mininetlive.MNLApplication;
 import com.kouchen.mininetlive.contracts.AccountContract;
 import com.kouchen.mininetlive.models.AppointmentRecordInfo;
+import com.kouchen.mininetlive.models.DividendRecordInfo;
 import com.kouchen.mininetlive.models.PayRecordInfo;
 import com.kouchen.mininetlive.models.PlayRecordInfo;
 import com.kouchen.mininetlive.models.UserInfo;
@@ -173,6 +174,39 @@ public class AccountPresenter implements AccountContract.Presenter {
     }
 
     @Override
+    public void getDividendRecordList() {
+        mAccountView.showProgress();
+        Call<HttpResponse> call = mAccountService.GetDividendRecordList();
+        call.enqueue(new Callback<HttpResponse>() {
+            @Override
+            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                mAccountView.hideProgress();
+                if (response.isSuccess()) {
+                    HttpResponse httpResponse = response.body();
+                    if (httpResponse.ret == 0) {
+                        Log.i(TAG, "onResponse: " + httpResponse.data);
+                        Gson gson = new Gson();
+                        DividendRecordInfo[] dividendRecordInfos = gson.fromJson(httpResponse.data, DividendRecordInfo[].class);
+                        mAccountView.onSuccess(Arrays.asList(dividendRecordInfos));
+                    } else {
+                        mAccountView.onError(httpResponse.msg);
+                    }
+                } else {
+                    mAccountView.onError(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HttpResponse> call, Throwable t) {
+                mAccountView.hideProgress();
+                mAccountView.onError("获取失败");
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
+    }
+
+
+    @Override
     public void getAccountInfo() {
 
     }
@@ -253,33 +287,4 @@ public class AccountPresenter implements AccountContract.Presenter {
         });
     }
 
-    @Override
-    public void getBalance() {
-        Call<HttpResponse> call = mAccountService.getBalance();
-        call.enqueue(new Callback<HttpResponse>() {
-            @Override
-            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                mAccountView.hideProgress();
-                if (response.isSuccess()) {
-                    HttpResponse httpResponse = response.body();
-                    if (httpResponse.ret == 0) {
-                        Log.i(TAG, "onResponse: " + httpResponse.data);
-                        long balance = httpResponse.data.getAsJsonObject().get("balance").getAsLong();
-                        mAccountView.onSuccess(balance);
-                    } else {
-                        mAccountView.onError(httpResponse.msg);
-                    }
-                } else {
-                    mAccountView.onError(response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<HttpResponse> call, Throwable t) {
-                mAccountView.hideProgress();
-                mAccountView.onError("更改昵称失败");
-                Log.e(TAG, "onFailure: ", t);
-            }
-        });
-    }
 }

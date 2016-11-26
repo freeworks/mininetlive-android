@@ -42,6 +42,7 @@ public class ShareDialog extends Dialog implements PlatformActionListener {
     private String desc;
     private String imgPath;
     private String id;
+    private String inviteCode;
 
     public ShareDialog(Context context) {
         super(context, R.style.payDialog);
@@ -66,7 +67,7 @@ public class ShareDialog extends Dialog implements PlatformActionListener {
         SinaWeibo.ShareParams sp = new SinaWeibo.ShareParams();
         sp.setTitle(title);
         sp.setText(desc);
-        sp.setUrl("http://www.weiwanglive.com/share.html?aid="+id);
+        sp.setUrl("http://www.weiwanglive.com/share.html?aid="+id+"&icode="+inviteCode);
         sp.setImageUrl(imgPath);
         sp.setShareType(Platform.SHARE_WEBPAGE);
         Platform weibo = ShareSDK.getPlatform(SinaWeibo.NAME);
@@ -79,7 +80,7 @@ public class ShareDialog extends Dialog implements PlatformActionListener {
         Wechat.ShareParams sp = new Wechat.ShareParams();
         sp.setTitle(title);
         sp.setText(desc);
-        sp.setUrl("http://www.weiwanglive.com/share.html?aid="+id);
+        sp.setUrl("http://www.weiwanglive.com/share.html?aid="+id+"&icode="+inviteCode);
         sp.setImageUrl(imgPath);
         sp.setShareType(Platform.SHARE_WEBPAGE);
         Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
@@ -92,7 +93,7 @@ public class ShareDialog extends Dialog implements PlatformActionListener {
         WechatMoments.ShareParams sp = new WechatMoments.ShareParams();
         sp.setTitle(title);
         sp.setText(desc);
-        sp.setUrl("http://106.75.19.205:80/share.html?aid="+id);
+        sp.setUrl("http://106.75.19.205:80/share.html?aid="+id+"&icode="+inviteCode);
         sp.setImageUrl(imgPath);
         sp.setShareType(Platform.SHARE_WEBPAGE);
         Platform wechat = ShareSDK.getPlatform(WechatMoments.NAME);
@@ -100,11 +101,12 @@ public class ShareDialog extends Dialog implements PlatformActionListener {
         wechat.share(sp);
     }
 
-    public void show(String id,String title,String desc,String imgPath) {
+    public void show(String id,String title,String desc,String imgPath,String inviteCode) {
         this.id = id;
         this.title = title;
         this.desc = desc;
         this.imgPath = imgPath;
+        this.inviteCode = inviteCode;
         super.show();
     }
 

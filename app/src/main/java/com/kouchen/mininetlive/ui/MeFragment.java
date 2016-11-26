@@ -1,8 +1,6 @@
 package com.kouchen.mininetlive.ui;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -130,7 +128,7 @@ public class MeFragment extends AbsTitlebarFragment {
                 intent = new Intent(getContext(), EditMeActivity.class);
                 break;
             case R.id.reward:
-                intent = new Intent(getContext(), BalanceActivity.class);
+                intent = new Intent(getContext(), WithdrawActivity.class);
                 break;
             case R.id.appointmentRecord:
                 intent = new Intent(getContext(), AppointmentRecordActivity.class);

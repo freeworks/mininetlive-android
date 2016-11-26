@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 import com.kouchen.mininetlive.MNLApplication;
+import com.kouchen.mininetlive.api.AccountService;
 import com.kouchen.mininetlive.api.AuthService;
 import com.kouchen.mininetlive.contracts.BindPhoneContract;
 import com.kouchen.mininetlive.models.HttpResponse;
@@ -26,15 +27,15 @@ public class BindPhonePresenter implements BindPhoneContract.Presenter {
 
     private BindPhoneContract.View mView;
 
-    private AuthService mAuthService;
+    private AccountService mAccountService;
 
     private SharedPreferences mSp;
 
-    public BindPhonePresenter(@NonNull AuthService authService,
+    public BindPhonePresenter(@NonNull AccountService accountService,
                               @NonNull BindPhoneContract.View authView,
                               @NonNull SharedPreferences sp) {
         this.mView = authView;
-        this.mAuthService = authService;
+        this.mAccountService = accountService;
         this.mSp = sp;
     }
 
@@ -43,7 +44,7 @@ public class BindPhonePresenter implements BindPhoneContract.Presenter {
         if (!noprogress) {
             mView.showProgress();
         }
-        Call<HttpResponse> call = mAuthService.getVCode(phone);
+        Call<HttpResponse> call = mAccountService.getVCode(phone);
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
@@ -53,7 +54,7 @@ public class BindPhonePresenter implements BindPhoneContract.Presenter {
                 if (response.isSuccess()) {
                     HttpResponse resp = response.body();
                     if (resp.ret == 0) {
-//                        mView.onSuccess("获取验证码成功");
+                        mView.onSuccess("获取验证码成功");
                     } else {
                         mView.onError(resp.msg);
                     }
@@ -76,7 +77,7 @@ public class BindPhonePresenter implements BindPhoneContract.Presenter {
     @Override
     public void resetOrBindPhone(final String phone, String vcode) {
         mView.showProgress();
-        Call<HttpResponse> call = mAuthService.bindPhone(phone,vcode);
+        Call<HttpResponse> call = mAccountService.updatePhone(phone,vcode);
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
@@ -94,7 +95,7 @@ public class BindPhonePresenter implements BindPhoneContract.Presenter {
                         mView.onError(httpResponse.msg);
                     }
                 } else {
-                    mView.onError("重置密码失败");
+                    mView.onError("绑定手机失败!");
                 }
             }
 
@@ -102,7 +103,7 @@ public class BindPhonePresenter implements BindPhoneContract.Presenter {
             public void onFailure(Call<HttpResponse> call, Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
                 mView.hideProgress();
-                mView.onError("重置密码失败");
+                mView.onError("绑定手机失败!");
             }
         });
     }

@@ -5,7 +5,8 @@ import com.kouchen.mininetlive.presenter.AccountPresenter;
 import com.kouchen.mininetlive.di.scopes.ActivityScope;
 import com.kouchen.mininetlive.di.scopes.UserScope;
 import com.kouchen.mininetlive.ui.AppointmentRecordActivity;
-import com.kouchen.mininetlive.ui.BalanceActivity;
+import com.kouchen.mininetlive.ui.DividendListActivity;
+import com.kouchen.mininetlive.ui.WithdrawActivity;
 import com.kouchen.mininetlive.ui.EditGenderActivity;
 import com.kouchen.mininetlive.ui.EditMeActivity;
 import com.kouchen.mininetlive.ui.EditNickActivity;
@@ -25,8 +26,6 @@ public interface AccountComponent {
 
     void inject(AppointmentRecordActivity activity);
 
-    void inject(BalanceActivity activity);
-
     void inject(EditGenderActivity activity);
 
     void inject(EditMeActivity activity);
@@ -40,6 +39,8 @@ public interface AccountComponent {
     void inject(PayRecordActivity activity);
 
     void inject(WithdrawRecordActivity activity);
+
+    void inject(DividendListActivity activity);
 
     AccountPresenter presenter();
 }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_round_bg2"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_smile" />
+
+    <TextView
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/text"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="#9b9b9b"
+        android:textSize="17sp"
+        android:layout_below="@+id/icon"
+        android:text="关注公众号“微网Live”，发送消息“提现”根据提示绑定手机即可" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/text"
+        android:background="#4d4d4d" />
+
+    <TextView
+        android:id="@+id/knowBtn"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:layout_below="@+id/line"
+        android:text="知道了"
+        android:textColor="@color/blue0"
+        android:textSize="17sp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
