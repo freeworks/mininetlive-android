@@ -6,6 +6,10 @@
         <item name="actionSheetStyle">@style/ActionSheetStyleiOS7</item>
     </style>
 
+    <style name="AppTheme.Launcher" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+    </style>
+
     <style name="bottomTab">
         <item name="bottomTabTextColor">@color/main_bottombar_text_selector</item>
         <item name="bottomTabTextSize">12sp</item>

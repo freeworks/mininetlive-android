@@ -2,8 +2,10 @@ package com.kouchen.mininetlive.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.kouchen.mininetlive.MNLApplication;
@@ -31,6 +33,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
+        long start = SystemClock.uptimeMillis();
+        Log.e(TAG, "start:" + start);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         container = (ViewGroup) findViewById(R.id.container);
@@ -57,7 +62,7 @@ public class MainActivity extends BaseActivity {
                     case R.id.tab_me:
                         currentIndex = 2;
                         if (!isLogin()) {
-                           showLoginActivity();
+                            showLoginActivity();
                         }
                         switchContent(currentFragemnt, meFragment);
                         break;
@@ -69,14 +74,15 @@ public class MainActivity extends BaseActivity {
         homeTab.setChecked(true);
 
         toSplash();
+        Log.e(TAG, "end:" + (SystemClock.uptimeMillis() - start));
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int tabIndex = intent.getIntExtra("tabIndex",currentIndex);
-        if(currentIndex != tabIndex){
-            switch (tabIndex){
+        int tabIndex = intent.getIntExtra("tabIndex", currentIndex);
+        if (currentIndex != tabIndex) {
+            switch (tabIndex) {
                 case 0:
                     homeTab.setChecked(true);
                     break;

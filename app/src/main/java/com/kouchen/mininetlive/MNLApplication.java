@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -31,7 +32,6 @@ public class MNLApplication extends Application {
     private static final String TAG = "MNLApplication";
 
     protected static MNLApplication mInstance;
-    private DisplayMetrics displayMetrics = null;
     private static CacheManager cacheManager;
 
     public MNLApplication() {
@@ -45,10 +45,13 @@ public class MNLApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        long start = SystemClock.uptimeMillis();
+        Log.e(TAG,"oncreate....."+System.currentTimeMillis());
         mInstance = this;
-        ButterKnife.setDebug(true);
-        CrashReport.initCrashReport(getApplicationContext(), "900045192", false);
+        ButterKnife.setDebug(BuildConfig.DEBUG);
+        CrashReport.initCrashReport(getApplicationContext(), "900045192", !BuildConfig.DEBUG);
 
+        long cacheStart = SystemClock.uptimeMillis();
         String cachePath = getCacheDir().getPath();
         File cacheFile = new File(cachePath + File.separator + BuildConfig.APPLICATION_ID);
         try {
@@ -57,6 +60,7 @@ public class MNLApplication extends Application {
         } catch (IOException e) {
             Log.e(TAG, "onCreate: ", e);
         }
+        Log.e(TAG,"cache init....."+(SystemClock.uptimeMillis() - cacheStart));
 
 
         int pid = android.os.Process.myPid();
@@ -65,19 +69,18 @@ public class MNLApplication extends Application {
             Log.e(TAG, "enter the service process!");
             return;
         }
+        long daggerStart = SystemClock.uptimeMillis();
         String API_URL = "http://www.weiwanglive.com";
-//        String API_URL = "http://106.75.19.205:80";
 //        String API_URL = "http://192.168.0.102:8080";
-//        String API_URL = "http://172.17.23.194:8080";
         mNetComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
                 .netModule(new NetModule(API_URL))
                 .build();
+        Log.e(TAG,"DaggerNetComponent init....."+(SystemClock.uptimeMillis() - daggerStart));
+
+        Log.e(TAG,"oncreate....."+(SystemClock.uptimeMillis() - start));
     }
 
-    public void setPushAgent(PushAgent mPushAgent) {
-        this.mPushAgent = mPushAgent;
-    }
     public PushAgent getPushAgent() {
         return mPushAgent;
     }
@@ -103,7 +106,7 @@ public class MNLApplication extends Application {
                 // Log.d("Process", "Error>> :"+ e.toString());
             }
         }
-        return processName;
+        return null;
     }
 
     public static CacheManager getCacheManager() {
@@ -117,57 +120,12 @@ public class MNLApplication extends Application {
     }
 
     public static MNLApplication getApplication() {
-        if (mInstance != null && mInstance instanceof MNLApplication) {
-            return (MNLApplication) mInstance;
+        if (mInstance != null) {
+            return mInstance;
         } else {
             mInstance = new MNLApplication();
             mInstance.onCreate();
-            return (MNLApplication) mInstance;
+            return mInstance;
         }
     }
-
-    public float getScreenDensity() {
-        if (this.displayMetrics == null) {
-            setDisplayMetrics(getResources().getDisplayMetrics());
-        }
-        return this.displayMetrics.density;
-    }
-
-    public int getScreenHeight() {
-        if (this.displayMetrics == null) {
-            setDisplayMetrics(getResources().getDisplayMetrics());
-        }
-        return this.displayMetrics.heightPixels;
-    }
-
-    public int getScreenWidth() {
-        if (this.displayMetrics == null) {
-            setDisplayMetrics(getResources().getDisplayMetrics());
-        }
-        return this.displayMetrics.widthPixels;
-    }
-
-    public void setDisplayMetrics(DisplayMetrics DisplayMetrics) {
-        this.displayMetrics = DisplayMetrics;
-    }
-
-    public int dp2px(float f) {
-        return (int) (0.5F + f * getScreenDensity());
-    }
-
-    public int px2dp(float pxValue) {
-        return (int) (pxValue / getScreenDensity() + 0.5f);
-    }
-
-    //获取应用的data/data/....File目录
-    public String getFilesDirPath() {
-        return getFilesDir().getAbsolutePath();
-    }
-
-    //获取应用的data/data/....Cache目录
-    public String getCacheDirPath() {
-        return getCacheDir().getAbsolutePath();
-    }
-
-
 }
