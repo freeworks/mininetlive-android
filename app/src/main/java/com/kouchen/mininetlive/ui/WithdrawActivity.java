@@ -98,6 +98,7 @@ public class WithdrawActivity extends AbsTitlebarActivity implements WithdrawCon
 
     @Override
     public void onError(String msg) {
+        Toast.makeText(this.getApplication(),msg,Toast.LENGTH_SHORT).show();
     }
 
     @Override
