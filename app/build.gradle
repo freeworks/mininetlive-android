@@ -34,9 +34,15 @@ android {
     }
     buildTypes {
         release {
+            debuggable false
             signingConfig android.signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            signingConfig android.signingConfigs.release
+            minifyEnabled false
         }
     }
     sourceSets {
@@ -93,6 +99,7 @@ dependencies {
     compile 'com.qiniu:happy-dns:0.2.+'
     compile 'com.qiniu.pili:pili-android-qos:0.8.+'
     compile 'com.tencent.bugly:crashreport:latest.release'
+    compile 'com.tencent.bugly:nativecrashreport:latest.release'
 }
 //retrolambda {
 //    jdk System.getenv("JAVA8_HOME")

@@ -141,6 +141,7 @@ public class EditMeActivity extends AbsTitlebarActivity implements ActionSheet.A
                 intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
                 String filepath = Environment.getExternalStorageDirectory() + "/tmpAvatar.png";
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(filepath)));
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivityForResult(intent,REQUEST_CAPTURE_IMAGE);
             } else {
                 Toast.makeText(getApplicationContext(), "请确认已经插入SD卡", Toast.LENGTH_LONG).show();

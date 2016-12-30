@@ -579,7 +579,9 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
 
     @Override
     public void onAppointmentSuccess(String s) {
+        Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
         hideProgress();
+        processIntent(getIntent(),false);
         Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {

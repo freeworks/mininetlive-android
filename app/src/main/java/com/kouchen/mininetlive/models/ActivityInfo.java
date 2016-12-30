@@ -219,10 +219,10 @@ public class ActivityInfo implements Serializable {
     }
 
     public boolean isAppointed() {
-        return appoinState == 1;
+        return appoinState > 0;
     }
 
     public boolean isPaid() {
-        return payState == 1;
+        return payState > 0;
     }
 }
