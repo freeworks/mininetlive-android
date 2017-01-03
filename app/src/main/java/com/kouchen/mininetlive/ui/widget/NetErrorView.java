@@ -58,4 +58,9 @@ public class NetErrorView extends RelativeLayout {
             }
         });
     }
+
+    public void setVisibility(int visible, String s) {
+        this.text.setText(s);
+        setVisibility(visible);
+    }
 }

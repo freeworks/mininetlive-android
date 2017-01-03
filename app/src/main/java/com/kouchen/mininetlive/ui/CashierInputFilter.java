@@ -78,14 +78,14 @@ public class CashierInputFilter implements InputFilter {
             // 输入后，修改控制不了，//验证小数点精度，保证小数点前位数
 
             if (dstart == POINTER_BEFORE_LENGTH && index == POINTER_BEFORE_LENGTH) {
-                return dest.subSequence(dstart, dend);
+                return dest.subSequence(dstart, dend)+"元";
 
             }
 
 
             //验证小数点精度，保证小数点后只能输入两位
             if (afterLength > POINTER_AFTER_LENGTH) {
-                return dest.subSequence(dstart, dend);
+                return dest.subSequence(dstart, dend)+"元";
             }
 
 
@@ -98,12 +98,12 @@ public class CashierInputFilter implements InputFilter {
 
                 if (dstart == POINTER_BEFORE_LENGTH) {
                     if (sourceText.contains(POINTER))
-                        return dest.subSequence(dstart, dend) + sourceText + ZERO + ZERO;
+                        return dest.subSequence(dstart, dend) + sourceText + ZERO + ZERO+"元";
                     else
-                        return dest.subSequence(dstart, dend) + POINTER + ZERO + ZERO;
+                        return dest.subSequence(dstart, dend) + POINTER + ZERO + ZERO+"元";
                 }
                 if ((POINTER.equals(source) || ZERO.equals(source)) && TextUtils.isEmpty(destText)) {
-                    return ZERO + POINTER + ZERO + ZERO;
+                    return ZERO + POINTER + ZERO + ZERO+"元";
                 }
             }
         }
@@ -111,10 +111,10 @@ public class CashierInputFilter implements InputFilter {
         //验证输入金额的大小
         double sumText = Double.parseDouble(destText + sourceText);
         if (sumText >= MAX_VALUE) {
-            return dest.subSequence(dstart, dend);
+            return dest.subSequence(dstart, dend)+"元";
         }
 
-        return dest.subSequence(dstart, dend) + sourceText;
+        return dest.subSequence(dstart, dend) + sourceText+"元";
     }
 
 

@@ -39,7 +39,7 @@
         android:hint="输入手机号"
         android:textColorHint="#C1C1C1"
         android:padding="8dp"
-        android:text="18689490100"
+        android:text=""
         android:textSize="14dp" />
 
     <com.kouchen.mininetlive.ui.widget.ItemViewDivider
@@ -65,7 +65,7 @@
         android:textColorHint="#C1C1C1"
         android:inputType="textPassword"
         android:padding="8dp"
-        android:text="123"
+        android:text=""
         android:textSize="14dp" />
 
     <TextView

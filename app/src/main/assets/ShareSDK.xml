@@ -16,17 +16,10 @@
 
     <!-- adb4e1d1b92b0740b724f839f8493c99 -->
 
-    <!--<Wechat AppId="wx36d2981a085f6370" AppSecret="abe459435306c55530e77b9e8adaef5b"-->
-        <!--BypassApproval="false" Enable="true" Id="4" SortId="4" />-->
-
-    <!--<WechatMoments AppId="wx36d2981a085f6370" AppSecret="abe459435306c55530e77b9e8adaef5b"-->
-        <!--BypassApproval="false" Enable="true" Id="5" SortId="5" />-->
-
-    <Wechat AppId="wx36d2981a085f6370" AppSecret="71e077885f43b69a871d8db2a515b66f"
+    <Wechat AppId="wx36d2981a085f6370" AppSecret="abe459435306c55530e77b9e8adaef5b"
         BypassApproval="false" Enable="true" Id="4" SortId="4" />
 
-    <WechatMoments AppId="wx36d2981a085f6370" AppSecret="71e077885f43b69a871d8db2a515b66f"
+    <WechatMoments AppId="wx36d2981a085f6370" AppSecret="abe459435306c55530e77b9e8adaef5b"
         BypassApproval="false" Enable="true" Id="5" SortId="5" />
-
 
 </DevInfor>

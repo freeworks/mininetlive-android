@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.jph.takephoto.app.TakePhoto;
+import com.jph.takephoto.permission.InvokeListener;
 import com.kouchen.mininetlive.R;
 import com.kouchen.mininetlive.ui.widget.NetErrorView;
 import com.kouchen.mininetlive.ui.widget.NoDataView;

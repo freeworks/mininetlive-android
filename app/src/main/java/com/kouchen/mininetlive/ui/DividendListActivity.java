@@ -83,7 +83,7 @@ public class DividendListActivity extends AbsTitlebarActivity implements Account
 
     @Override
     public String getTitleString() {
-        return "提现明细";
+        return "邀请有奖";
     }
 
     @Override

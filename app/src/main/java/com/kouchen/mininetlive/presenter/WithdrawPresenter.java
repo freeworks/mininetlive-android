@@ -39,6 +39,7 @@ public class WithdrawPresenter implements WithdrawContract.Presenter {
                     HttpResponse httpResponse = response.body();
                     switch (httpResponse.ret) {
                         case 0:
+                            getBalance();
                             mPayView.onSuccess(httpResponse.msg);
                             break;
                         case 1013:

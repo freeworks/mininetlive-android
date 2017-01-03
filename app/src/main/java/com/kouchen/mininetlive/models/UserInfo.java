@@ -15,7 +15,6 @@ public class UserInfo implements Serializable {
      * balance : 0
      * inviteCode : 642484
      * qrcode : http://h.hiphotos.baidu.com/image/pic/item/3bf33a87e950352a5936aa0a5543fbf2b2118b59.jpg
-     * phone : 18689490100
      */
     private String uid;
     private String nickname;

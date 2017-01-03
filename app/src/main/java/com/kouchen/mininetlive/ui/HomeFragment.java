@@ -17,6 +17,7 @@ import com.kouchen.mininetlive.models.ActivityInfo;
 import com.kouchen.mininetlive.models.HomeModel;
 import com.kouchen.mininetlive.presenter.HomePresenter;
 import com.kouchen.mininetlive.ui.base.AbsTitlebarFragment;
+import com.kouchen.mininetlive.utils.NetUtil;
 
 import java.util.List;
 
@@ -123,6 +124,11 @@ public class HomeFragment extends AbsTitlebarFragment implements HomeContract.Vi
     public void onError(String msg) {
         recyclerViewFinal.onLoadMoreComplete();
         netErrView.setVisibility(View.VISIBLE);
+        if(NetUtil.isNetworkAvailable(getContext())){
+            netErrView.setVisibility(View.VISIBLE,"系统异常点击重试!");
+        }else{
+            netErrView.setVisibility(View.VISIBLE,"请检查网络,再点击重试!");
+        }
     }
 
     @Override

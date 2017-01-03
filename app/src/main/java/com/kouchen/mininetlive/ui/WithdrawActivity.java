@@ -42,6 +42,8 @@ public class WithdrawActivity extends AbsTitlebarActivity implements WithdrawCon
     @Inject
     WithdrawPresenter presenter;
 
+    long mAmount;
+
     @Override
     protected void initInject() {
         DaggerWithdrawComponent.builder()
@@ -98,18 +100,24 @@ public class WithdrawActivity extends AbsTitlebarActivity implements WithdrawCon
 
     @Override
     public void onError(String msg) {
-        Toast.makeText(this.getApplication(),msg,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getApplication(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSuccess(Object data) {
+        Toast.makeText(this.getApplication(), data.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.withdrawBtn)
     public void withdraw() {
-        String amount = withdrawInput.getText().toString();
-        if (!TextUtils.isEmpty(amount)) {
-            presenter.withdraw(Integer.parseInt(amount.replace(".", "")) * 100);
+        String amountStr = withdrawInput.getText().toString();
+        if (!TextUtils.isEmpty(amountStr)) {
+            int amount = Integer.parseInt(amountStr.replace(".", "")) * 100;
+            if (amount > mAmount) {
+                Toast.makeText(getApplication(), "请输入正确的金额!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            presenter.withdraw(amount);
         }
     }
 
@@ -140,11 +148,21 @@ public class WithdrawActivity extends AbsTitlebarActivity implements WithdrawCon
     @Override
     public void onGetBalanceSuccess(long amount) {
         hideProgress();
+        this.mAmount = amount;
         withdrawBtn.setEnabled(true);
-        DecimalFormat myformat = new DecimalFormat();
-        myformat.applyPattern("##,###.00");
-        balance.setText(myformat.format(amount / 100f));
-        withdrawInput.setHint("可提现金额" + myformat.format(amount / 100f));
+        float cny = amount / 100f;
+        String cnyString;
+        if (cny >= 1) {
+            DecimalFormat cnyformat = new DecimalFormat();
+            cnyformat.applyPattern("##,###.00");
+            cnyString = cnyformat.format(cny);
+        } else {
+            DecimalFormat cnyformat = new DecimalFormat();
+            cnyformat.applyPattern("0.00");
+            cnyString = cnyformat.format(cny);
+        }
+        balance.setText(cnyString);
+        withdrawInput.setHint("可提现金额" + cnyString + "元");
     }
 
     @Override

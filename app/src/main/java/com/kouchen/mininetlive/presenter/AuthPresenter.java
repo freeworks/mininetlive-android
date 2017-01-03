@@ -64,6 +64,7 @@ public class AuthPresenter implements AuthContract.Presenter {
         plat.setPlatformActionListener(new PlatformActionListener() {
             public void onComplete(final Platform plat, int action,
                                    final HashMap<String, Object> res) {
+                Log.d(TAG, "onComplete..."+plat.getName());
                 if (action == Platform.ACTION_USER_INFOR) {
                     Call<HttpResponse> call = mAuthService.oauthLogin(plat.getName(), plat.getDb().getUserId(),
                             plat.getDb().getToken(), plat.getDb().getExpiresIn());
@@ -98,15 +99,21 @@ public class AuthPresenter implements AuthContract.Presenter {
                             mAuthView.onError("登陆失败");
                         }
                     });
+                } else {
+                    mAuthView.hideProgress();
+                    Log.d(TAG, "action:" + action);
                 }
             }
 
             public void onError(Platform plat, int action, Throwable t) {
+                Log.d(TAG, "onError " + plat.getName(), t);
+                mAuthView.hideProgress();
                 mAuthView.onError("登陆失败");
             }
 
             public void onCancel(Platform plat, int action) {
-                mAuthView.onError("取消成功");
+                Log.d(TAG, "onCancel " + plat.getName()+",action:"+action);
+                mAuthView.hideProgress();
             }
         });
         plat.showUser(null);

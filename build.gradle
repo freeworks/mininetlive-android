@@ -3,8 +3,7 @@
 buildscript {
     repositories {
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public'}
-//        mavenCentral()
-//        jcenter()
+        jcenter()
         flatDir{
             dirs 'libs'
         }
@@ -25,8 +24,7 @@ allprojects {
         maven {
             url 'https://raw.github.com/iainconnor/ObjectCache/master/maven/'
         }
-//        mavenCentral()
-//        jcenter()
+        jcenter()
         flatDir{
             dirs 'libs'
         }

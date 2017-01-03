@@ -158,12 +158,12 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     private void renderView(final ActivityInfo info) {
         final String mVideoPath = info.isLiveStream() ? info.getLivePullPath() : info.getVideoPath();
         if (TextUtils.isEmpty(player.getVideoPath())) {
-            player.setup(mVideoPath, null, info.isLiveStream(), false, canplay());
+            player.setup(mVideoPath, info.getTitle(), info.isLiveStream(), false, canplay());
             player.setFullScreenListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     FullActiivty.startActivityFromNormal(ActivityDetailActivity.this, mVideoPath,
-                            info.getId(), info.isLiveStream(), player.isPlaying(),
+                            info.getTitle(), info.isLiveStream(), player.isPlaying(),
                             player.getCurrentPosition());
                 }
             });
