@@ -3,6 +3,7 @@ package com.kouchen.mininetlive.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,8 +35,6 @@ import com.kouchen.mininetlive.ui.widget.FullActiivty;
 import com.kouchen.mininetlive.ui.widget.GlideCircleTransform;
 import com.kouchen.mininetlive.ui.widget.VideoPlayer;
 import com.pingplusplus.android.Pingpp;
-import com.umeng.message.common.inter.ITagManager;
-import com.umeng.message.tag.TagManager;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -46,6 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
+import rx.Observer;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -111,6 +111,8 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
 
     private boolean inited = false;
 
+    private String aid;
+
     @Inject
     ActivityDetailPresenter presenter;
 
@@ -142,7 +144,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     }
 
     private void processIntent(Intent intent, boolean showProgressbar) {
-        String aid = intent.getStringExtra("aid");
+        aid = intent.getStringExtra("aid");
         if (!TextUtils.isEmpty(aid)) {
             if (showProgressbar) {
                 contentLayout.setVisibility(View.INVISIBLE);
@@ -156,6 +158,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     }
 
     private void renderView(final ActivityInfo info) {
+        cInfo = info;
         final String mVideoPath = info.isLiveStream() ? info.getLivePullPath() : info.getVideoPath();
         if (TextUtils.isEmpty(player.getVideoPath())) {
             player.setup(mVideoPath, info.getTitle(), info.isLiveStream(), false, canplay());
@@ -215,8 +218,11 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
             price.getPaint().setColor(getResources().getColor(R.color.grey));
         }
         if (info.isLiveStream()) {
+            presenter.join(cInfo.getId());
+            interval();
             switch (info.getActivityState()) {
                 case 0:
+                    player.setCoverVisiable(true);
                     appointCountLayout.setVisibility(View.VISIBLE);
                     appointmentCount.setText(info.getAppointmentCount());
                     if (!info.isAppointed()) {
@@ -230,6 +236,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                     }
                     break;
                 case 1:
+                    player.setCoverVisiable(false);
                     onlineUserListLayout.setVisibility(View.VISIBLE);
                     onlineCount1.setVisibility(View.VISIBLE);
                     onlineCount1.setText(info.getOnlineCount() + "人在线观看");
@@ -258,6 +265,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                     }
                     break;
                 case 2:
+                    player.setCoverVisiable(true);
                     if (info.isFree()) {
                         pricelayout.setVisibility(View.INVISIBLE);
                     } else {
@@ -269,6 +277,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                     break;
             }
         } else { //点播
+            player.setCoverVisiable(false);
             playCount.setVisibility(View.VISIBLE);
             playCount.setText("播放：" + info.getPlayCount() + "次");
             if (info.isFree()) {
@@ -297,20 +306,12 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        if (cInfo != null && cInfo.isLiveStream() && cInfo.isLiving()) {
-            presenter.join(cInfo.getId());
-        }
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         if (cInfo != null && cInfo.isLiveStream() && cInfo.isLiving()) {
             presenter.leave(cInfo.getId());
         }
-        if (intervalSubscribe != null) {
+        if (intervalSubscribe != null && ! intervalSubscribe.isUnsubscribed()) {
             intervalSubscribe.unsubscribe();
         }
     }
@@ -332,19 +333,35 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
             inited = true;
         }
 
+        if (canplay()) {
+            player.start();
+        }
+        if(intervalSubscribe == null || intervalSubscribe.isUnsubscribed()){
+            interval();
+        }
+    }
+
+    private void interval() {
         if (cInfo != null && cInfo.isLiveStream() && cInfo.isLiving()) {
-            presenter.getOnlineMemberList(cInfo.getId());
-            intervalSubscribe = Observable.interval(5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<Long>() {
+            if(intervalSubscribe != null && !intervalSubscribe.isUnsubscribed()){
+                return;
+            }
+            intervalSubscribe = Observable.interval(40, TimeUnit.SECONDS)
+                    .subscribe(new Observer<Long>() {
                         @Override
-                        public void call(Long aLong) {
+                        public void onCompleted() {
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                        }
+
+                        @Override
+                        public void onNext(Long aLong) {
+                            presenter.getActivityDetail(aid);
                             presenter.getOnlineMemberList(cInfo.getId());
                         }
                     });
-        }
-
-        if (canplay()) {
-            player.start();
         }
     }
 
@@ -352,7 +369,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     protected void onDestroy() {
         super.onDestroy();
         if (canplay()) {
-            player.stopPlayback();
+            player.release();
         }
     }
 
@@ -360,7 +377,10 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         if (cInfo == null) {
             return false;
         }
-        if (((cInfo.isLiveStream() && cInfo.isLiving()) || !cInfo.isLiveStream() )&& (cInfo.isFree() || cInfo.isPaid())) {
+        if(cInfo.isLiveStream()){
+            return cInfo.isLiving();
+        }
+        if (cInfo.isFree() || cInfo.isPaid()) {
             return true;
         }
         return false;
@@ -526,6 +546,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         if (panelView.isShowing()) {
             panelView.hide();
         } else {
+            player.release();
             super.onBackPressed();
         }
     }
@@ -574,6 +595,14 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     @Override
     public void onGetActivityDetailSuccess(ActivityInfo activityInfo) {
         cInfo = activityInfo;
+        if(this.isFinishing()){
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if(this.isDestroyed()){
+               return;
+            }
+        }
         renderView(activityInfo);
     }
 
@@ -582,21 +611,6 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
         hideProgress();
         processIntent(getIntent(),false);
-        Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                try {
-                    MNLApplication.getApplication().getPushAgent().getTagManager().add(new TagManager.TCallBack() {
-                        @Override
-                        public void onMessage(boolean b, ITagManager.Result result) {
-                            Log.i(TAG, "push add tag onMessage " + b + " " + result.jsonString);
-                        }
-                    }, "test1");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe();
     }
 
     public class OnlineUserAdapter extends RecyclerView.Adapter<OnlinUserViewHolder> {

@@ -17,6 +17,7 @@ import com.kouchen.mininetlive.contracts.AuthContract;
 import com.kouchen.mininetlive.models.UserInfo;
 import com.kouchen.mininetlive.api.AuthService;
 import com.kouchen.mininetlive.models.HttpResponse;
+import com.kouchen.mininetlive.utils.CryptoUtil;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -64,7 +65,7 @@ public class AuthPresenter implements AuthContract.Presenter {
         plat.setPlatformActionListener(new PlatformActionListener() {
             public void onComplete(final Platform plat, int action,
                                    final HashMap<String, Object> res) {
-                Log.d(TAG, "onComplete..."+plat.getName());
+                Log.d(TAG, "onComplete..." + plat.getName());
                 if (action == Platform.ACTION_USER_INFOR) {
                     Call<HttpResponse> call = mAuthService.oauthLogin(plat.getName(), plat.getDb().getUserId(),
                             plat.getDb().getToken(), plat.getDb().getExpiresIn());
@@ -112,7 +113,7 @@ public class AuthPresenter implements AuthContract.Presenter {
             }
 
             public void onCancel(Platform plat, int action) {
-                Log.d(TAG, "onCancel " + plat.getName()+",action:"+action);
+                Log.d(TAG, "onCancel " + plat.getName() + ",action:" + action);
                 mAuthView.hideProgress();
             }
         });
@@ -247,7 +248,7 @@ public class AuthPresenter implements AuthContract.Presenter {
         if (mAuthView != null) {
             mAuthView.showProgress();
         }
-        Call<HttpResponse> call = mAuthService.register(phone, vcode, password, inviteCode, nickname, gender);
+        Call<HttpResponse> call = mAuthService.register(phone, vcode, CryptoUtil.md5(password), inviteCode, nickname, gender);
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
@@ -314,7 +315,7 @@ public class AuthPresenter implements AuthContract.Presenter {
     @Override
     public void login(String phone, String password) {
         mAuthView.showProgress();
-        Call<HttpResponse> call = mAuthService.login(phone, password);
+        Call<HttpResponse> call = mAuthService.login(phone, CryptoUtil.md5(password));
         call.enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {

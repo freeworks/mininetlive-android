@@ -108,6 +108,6 @@ public class FullActiivty extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        player.stopPlayback();
+        player.release();
     }
 }

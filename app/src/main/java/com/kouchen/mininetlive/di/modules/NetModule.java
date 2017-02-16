@@ -110,7 +110,8 @@ public class NetModule {
                 Request request = builder.header("Accept", "application/vnd.yourapi.v1.full+json")
                                 .method(original.method(), original.body())
                                 .build();
-                return chain.proceed(request);
+                Response resp = chain.proceed(request);
+                return resp;
             }
         });
         return client.build();

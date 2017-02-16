@@ -34,11 +34,13 @@ public interface ActivityService {
     @POST("/activity/join")
     Call<HttpResponse> Join(@Field("aid") String id);
 
-    @GET("/activity/member/list")
-    Call<HttpResponse> GetOnlineUserList(@Query("aid") String id);
+    @FormUrlEncoded
+    @POST("/activity/member/list")
+    Call<HttpResponse> GetOnlineUserList(@Field("aid") String id);
 
-    @GET("/activity/member/count")
-    Call<HttpResponse> GetOnlineUserCount(@Query("aid") String id);
+    @FormUrlEncoded
+    @POST("/activity/member/count")
+    Call<HttpResponse> GetOnlineUserCount(@Field("aid") String id);
 
     @FormUrlEncoded
     @POST("/activity/appointment")
