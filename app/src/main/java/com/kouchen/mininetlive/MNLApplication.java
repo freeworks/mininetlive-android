@@ -39,9 +39,6 @@ public class MNLApplication extends Application {
     }
 
     private NetComponent mNetComponent;
-
-    private PushAgent mPushAgent;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -79,10 +76,6 @@ public class MNLApplication extends Application {
         Log.e(TAG,"DaggerNetComponent init....."+(SystemClock.uptimeMillis() - daggerStart));
 
         Log.e(TAG,"oncreate....."+(SystemClock.uptimeMillis() - start));
-    }
-
-    public PushAgent getPushAgent() {
-        return mPushAgent;
     }
 
     public NetComponent getNetComponent() {

@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
  * Created by cainli on 16/6/25.
  */
 public class ActivityInfo implements Serializable {
-    @SerializedName("aid" )
+    @SerializedName("aid")
     private String id;
     private String title;
     private String date;
@@ -27,7 +27,7 @@ public class ActivityInfo implements Serializable {
     private int payState; //0.未开播，1.正在直播，2已经结束
     private int appoinState;
     private int onlineCount;
-    @SerializedName("owner" )
+    @SerializedName("owner")
     private UserInfo owner;
 
     public ActivityInfo() {
@@ -69,8 +69,8 @@ public class ActivityInfo implements Serializable {
         return frontCover;
     }
 
-    public String getFrontCover(int w,int h) {
-        return frontCover+"?iopcmd=thumbnail&type=8&width="+w+"&height="+h;
+    public String getFrontCover(int w, int h) {
+        return frontCover + "?iopcmd=thumbnail&type=8&width=" + w + "&height=" + h;
     }
 
     public void setFrontCover(String frontCover) {
@@ -83,8 +83,8 @@ public class ActivityInfo implements Serializable {
 
     public String getPriceStr() {
         DecimalFormat myformat = new DecimalFormat();
-        myformat.applyPattern("##,##0.00" );
-        return myformat.format(price/100f);
+        myformat.applyPattern("##,##0.00");
+        return myformat.format(price / 100f);
     }
 
 
@@ -112,7 +112,7 @@ public class ActivityInfo implements Serializable {
         return streamType == 0;
     }
 
-    public boolean isFree(){
+    public boolean isFree() {
         return activityType == 0;
     }
 
@@ -216,6 +216,10 @@ public class ActivityInfo implements Serializable {
 
     public boolean isLiving() {
         return activityState == 1;
+    }
+
+    public boolean isAppointment() {
+        return appoinState == 0;
     }
 
     public boolean isAppointed() {

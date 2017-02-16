@@ -132,7 +132,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:indeterminateDrawable="@drawable/jc_loading"
-            android:visibility="invisible" />
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/start"

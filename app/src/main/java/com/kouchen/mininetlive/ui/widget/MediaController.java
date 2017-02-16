@@ -11,12 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.kouchen.mininetlive.R;
 import com.pili.pldroid.player.IMediaController;
+
 import java.util.Locale;
 
 /**
@@ -32,10 +32,9 @@ public class MediaController extends FrameLayout implements IMediaController {
     private SeekBar mProgress;
     private TextView mEndTime, mCurrentTime;
     private long mDuration;
-    private boolean mShowing;
     private boolean mDragging;
     private boolean mInstantSeeking = true;
-    private static int sDefaultTimeout = 3000;
+    private static int sDefaultTimeout = 60000;
     private static final int SEEK_TO_POST_DELAY_MILLIS = 200;
 
     private static final int FADE_OUT = 1;
@@ -53,24 +52,22 @@ public class MediaController extends FrameLayout implements IMediaController {
     private ImageView fullscreenView;
     private View backView;
 
-    private ImageView thumb;
-    private ImageView cover;
     private TextView titleView;
 
     private View rootView;
 
-    public MediaController(Context context,ImageView cover, View view,String title,boolean disableProgressBar,boolean isFullScreen) {
+    private boolean mShowing;
+
+    public MediaController(Context context, View view, String title, boolean disableProgressBar, boolean isFullScreen) {
         super(context);
-        this.cover = cover;
         this.rootView = view;
         this.mDisableProgress = disableProgressBar;
-        initController(context, view,title,isFullScreen);
+        initController(context, view, title, isFullScreen);
     }
 
-    private boolean initController(Context context, View view,String title,boolean isFullScreen) {
+    private boolean initController(Context context, View view, String title, boolean isFullScreen) {
         mContext = context.getApplicationContext();
         mAM = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-
         bottomContainer = (ViewGroup) view.findViewById(R.id.layout_bottom);
         mPauseButton = (ImageView) view.findViewById(R.id.start);
         if (mPauseButton != null) {
@@ -81,7 +78,7 @@ public class MediaController extends FrameLayout implements IMediaController {
         loadProgress = view.findViewById(R.id.loading);
         mProgress = (SeekBar) view.findViewById(R.id.progress);
         if (mProgress != null) {
-            SeekBar seeker = (SeekBar) mProgress;
+            SeekBar seeker = mProgress;
             seeker.setOnSeekBarChangeListener(mSeekListener);
             seeker.setThumbOffset(1);
             mProgress.setMax(1000);
@@ -93,27 +90,16 @@ public class MediaController extends FrameLayout implements IMediaController {
 
         topContainer = (ViewGroup) view.findViewById(R.id.layout_top);
         bottomContainer = (ViewGroup) view.findViewById(R.id.layout_bottom);
-
-        thumb = (ImageView) view.findViewById(R.id.thumb);
-
         fullscreenView = (ImageView) view.findViewById(R.id.fullscreen);
-        if(isFullScreen){
+        if (isFullScreen) {
             fullscreenView.setImageResource(R.drawable.jc_shrink);
-        }else{
+        } else {
             fullscreenView.setImageResource(R.drawable.jc_enlarge);
         }
         backView = view.findViewById(R.id.back);
         titleView = (TextView) view.findViewById(R.id.title);
         titleView.setText(title);
         return true;
-    }
-
-    public ImageView getThumb() {
-        return thumb;
-    }
-
-    public ImageView getCover() {
-        return cover;
     }
 
     public ImageView getStartButton() {
@@ -127,7 +113,8 @@ public class MediaController extends FrameLayout implements IMediaController {
 
     private void disableUnsupportedButtons() {
         try {
-            if (mPauseButton != null && mPlayer!=null && !mPlayer.canPause()) mPauseButton.setEnabled(false);
+            if (mPauseButton != null && mPlayer != null && !mPlayer.canPause())
+                mPauseButton.setEnabled(false);
         } catch (IncompatibleClassChangeError ex) {
         }
     }
@@ -206,8 +193,8 @@ public class MediaController extends FrameLayout implements IMediaController {
     public boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
         if (event.getRepeatCount() == 0 && (keyCode == KeyEvent.KEYCODE_HEADSETHOOK
-            || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
-            || keyCode == KeyEvent.KEYCODE_SPACE)) {
+                || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
+                || keyCode == KeyEvent.KEYCODE_SPACE)) {
             doPauseResume();
             show(sDefaultTimeout);
             if (mPauseButton != null) mPauseButton.requestFocus();
@@ -234,11 +221,11 @@ public class MediaController extends FrameLayout implements IMediaController {
         }
     };
 
-    public void setFullScreenListener(OnClickListener onClickListener){
+    public void setFullScreenListener(OnClickListener onClickListener) {
         fullscreenView.setOnClickListener(onClickListener);
     }
 
-    public void setOnBackListener(OnClickListener onClickListener){
+    public void setOnBackListener(OnClickListener onClickListener) {
         backView.setOnClickListener(onClickListener);
     }
 
@@ -253,13 +240,12 @@ public class MediaController extends FrameLayout implements IMediaController {
     }
 
     private void doPauseResume() {
-        if(mPlayer == null){
+        if (mPlayer == null) {
             return;
         }
         if (mPlayer.isPlaying()) {
             mPlayer.pause();
         } else {
-            getCover().setVisibility(GONE);
             mPlayer.start();
         }
         updatePausePlay();
@@ -305,7 +291,7 @@ public class MediaController extends FrameLayout implements IMediaController {
 
     /**
      * Set the view that acts as the anchor for the control view.
-     *
+     * <p/>
      * - This can for example be a VideoView, or your Activity's main view.
      * - AudioPlayer has no anchor view, so the view parameter will be null.
      *
@@ -331,20 +317,18 @@ public class MediaController extends FrameLayout implements IMediaController {
      * 'timeout' milliseconds of inactivity.
      *
      * @param timeout The timeout in milliseconds. Use 0 to show the controller until hide() is
-     * called.
+     *                called.
      */
     @Override
     public void show(int timeout) {
-        if (!mShowing) {
-            if (mPauseButton != null) {
-                mPauseButton.requestFocus();
-            }
-            disableUnsupportedButtons();
-            mPauseButton.setVisibility(View.VISIBLE);
-            topContainer.setVisibility(View.VISIBLE);
-            bottomContainer.setVisibility(View.VISIBLE);
-            mShowing = true;
+        mShowing = true;
+        if (mPauseButton != null) {
+            mPauseButton.requestFocus();
         }
+        disableUnsupportedButtons();
+        mPauseButton.setVisibility(View.VISIBLE);
+        topContainer.setVisibility(View.VISIBLE);
+        bottomContainer.setVisibility(View.VISIBLE);
         updatePausePlay();
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
 
@@ -361,21 +345,23 @@ public class MediaController extends FrameLayout implements IMediaController {
 
     @Override
     public void hide() {
-        if (mShowing) {
-            mHandler.removeMessages(SHOW_PROGRESS);
-            mPauseButton.setVisibility(View.GONE);
-            topContainer.setVisibility(View.GONE);
-            bottomContainer.setVisibility(View.GONE);
-            mShowing = false;
-        }
+        mShowing = false;
+        mHandler.removeMessages(SHOW_PROGRESS);
+        mPauseButton.setVisibility(View.GONE);
+        topContainer.setVisibility(View.GONE);
+        bottomContainer.setVisibility(View.GONE);
+    }
+
+    public ViewGroup getTopContainer() {
+        return topContainer;
     }
 
     @Override
     public void setEnabled(boolean enabled) {
-        if(enabled){
+        if (enabled) {
             mPauseButton.setVisibility(View.VISIBLE);
             mProgress.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mPauseButton.setVisibility(View.INVISIBLE);
             mProgress.setVisibility(View.INVISIBLE);
         }
@@ -389,10 +375,10 @@ public class MediaController extends FrameLayout implements IMediaController {
         super.setEnabled(enabled);
     }
 
-    public void setViewEnable(boolean enabled){
-        if(enabled){
+    public void setViewEnable(boolean enabled) {
+        if (enabled) {
             rootView.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             rootView.setVisibility(View.INVISIBLE);
         }
     }

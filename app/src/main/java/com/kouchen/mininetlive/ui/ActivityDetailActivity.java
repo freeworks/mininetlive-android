@@ -156,6 +156,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     }
 
     private void renderView(final ActivityInfo info) {
+        cInfo = info;
         final String mVideoPath = info.isLiveStream() ? info.getLivePullPath() : info.getVideoPath();
         if (TextUtils.isEmpty(player.getVideoPath())) {
             player.setup(mVideoPath, info.getTitle(), info.isLiveStream(), false, canplay());
@@ -217,6 +218,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         if (info.isLiveStream()) {
             switch (info.getActivityState()) {
                 case 0:
+                    player.setCoverVisiable(true);
                     appointCountLayout.setVisibility(View.VISIBLE);
                     appointmentCount.setText(info.getAppointmentCount());
                     if (!info.isAppointed()) {
@@ -230,6 +232,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                     }
                     break;
                 case 1:
+                    player.setCoverVisiable(false);
                     onlineUserListLayout.setVisibility(View.VISIBLE);
                     onlineCount1.setVisibility(View.VISIBLE);
                     onlineCount1.setText(info.getOnlineCount() + "人在线观看");
@@ -258,6 +261,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                     }
                     break;
                 case 2:
+                    player.setCoverVisiable(true);
                     if (info.isFree()) {
                         pricelayout.setVisibility(View.INVISIBLE);
                     } else {
@@ -269,6 +273,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
                     break;
             }
         } else { //点播
+            player.setCoverVisiable(false);
             playCount.setVisibility(View.VISIBLE);
             playCount.setText("播放：" + info.getPlayCount() + "次");
             if (info.isFree()) {
@@ -352,7 +357,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
     protected void onDestroy() {
         super.onDestroy();
         if (canplay()) {
-            player.stopPlayback();
+            player.release();
         }
     }
 
@@ -360,7 +365,10 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         if (cInfo == null) {
             return false;
         }
-        if (((cInfo.isLiveStream() && cInfo.isLiving()) || !cInfo.isLiveStream() )&& (cInfo.isFree() || cInfo.isPaid())) {
+        if(cInfo.isLiveStream()){
+            return cInfo.isLiving();
+        }
+        if (cInfo.isFree() || cInfo.isPaid()) {
             return true;
         }
         return false;
@@ -526,6 +534,7 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         if (panelView.isShowing()) {
             panelView.hide();
         } else {
+            player.release();
             super.onBackPressed();
         }
     }
@@ -582,21 +591,6 @@ public class ActivityDetailActivity extends AbsTitlebarActivity
         Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
         hideProgress();
         processIntent(getIntent(),false);
-        Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                try {
-                    MNLApplication.getApplication().getPushAgent().getTagManager().add(new TagManager.TCallBack() {
-                        @Override
-                        public void onMessage(boolean b, ITagManager.Result result) {
-                            Log.i(TAG, "push add tag onMessage " + b + " " + result.jsonString);
-                        }
-                    }, "test1");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe();
     }
 
     public class OnlineUserAdapter extends RecyclerView.Adapter<OnlinUserViewHolder> {

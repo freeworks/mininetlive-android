@@ -1,6 +1,7 @@
 package com.kouchen.mininetlive.ui.widget;
 
 import android.content.Context;
+import android.media.Image;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,9 +26,15 @@ public class VideoPlayer extends RelativeLayout {
     private MediaController mMediaController;
     private PLVideoView mVideoView;
 
+    private PLMediaPlayer mPLMediaPlayer;
+
     private boolean startOnPrepared = true;
 
     private String videoPath;
+
+    private ImageView cover;
+
+    private boolean canplay;
 
     public static final int FULLSCREEN_REQUESTCODE = 1000;
 
@@ -58,19 +65,23 @@ public class VideoPlayer extends RelativeLayout {
         mVideoView.setOnSeekCompleteListener(mOnSeekCompleteListener);
         mVideoView.setOnErrorListener(mOnErrorListener);
         mVideoView.setOnPreparedListener(mOnPreparedListener);
+        cover = (ImageView) findViewById(R.id.cover);
     }
 
     public void setup(final String videoPath, final String title, final boolean isLiveStreaming, boolean isFullScreen, boolean canplay) {
+        this.canplay = canplay;
         this.videoPath = videoPath;
         AVOptions options = new AVOptions();
         // the unit of timeout is ms
-        options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
-        options.setInteger(AVOptions.KEY_GET_AV_FRAME_TIMEOUT, 10 * 1000);
+        options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 60 * 1000);
+        options.setInteger(AVOptions.KEY_GET_AV_FRAME_TIMEOUT, 60 * 1000);
         // Some optimization with buffering mechanism when be set to 1
         options.setInteger(AVOptions.KEY_LIVE_STREAMING, isLiveStreaming ? 1 : 0);
         if (isLiveStreaming) {
             options.setInteger(AVOptions.KEY_DELAY_OPTIMIZATION, 1);
         }
+        options.setInteger(AVOptions.KEY_CACHE_BUFFER_DURATION, 2000);
+        options.setInteger(AVOptions.KEY_MAX_CACHE_BUFFER_DURATION, 4000);
         // 1 -> hw codec enable, 0 -> disable [recommended]
         //int codec = getIntent().getIntExtra("mediaCodec", 0);
         options.setInteger(AVOptions.KEY_MEDIACODEC, 0);
@@ -78,11 +89,19 @@ public class VideoPlayer extends RelativeLayout {
         startOnPrepared = canplay;
         options.setInteger(AVOptions.KEY_START_ON_PREPARED, canplay ? 1 : 0);
         mVideoView.setAVOptions(options);
-        mMediaController = new MediaController(getContext(), (ImageView) findViewById(R.id.cover), findViewById(R.id.controller), title, isLiveStreaming, isFullScreen);
-        mVideoView.setBufferingIndicator(mMediaController.getLoadProgress());
-        mVideoView.setMediaController(mMediaController);
-        mVideoView.setVideoPath(videoPath);
-//        mMediaController.setEnabled(canplay);
+
+//        mVideoView.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_ORIGIN);
+        mMediaController = new MediaController(getContext(), findViewById(R.id.controller), title, isLiveStreaming, isFullScreen);
+        if (!canplay) {
+            mMediaController.hide();
+            mMediaController.getTopContainer().setVisibility(VISIBLE);
+            mMediaController.getLoadProgress().setVisibility(View.INVISIBLE);
+        } else {
+            mVideoView.setBufferingIndicator(mMediaController.getLoadProgress());
+            mVideoView.setMediaController(mMediaController);
+            mVideoView.setVideoPath(videoPath);
+        }
+        return;
     }
 
     public String getVideoPath() {
@@ -93,6 +112,12 @@ public class VideoPlayer extends RelativeLayout {
         @Override
         public boolean onInfo(PLMediaPlayer plMediaPlayer, int what, int extra) {
             Log.d(TAG, "onInfo: " + what + ", " + extra);
+            mPLMediaPlayer = plMediaPlayer;
+            if (what == 701 || what == 3 || what == 10002) {
+                if (mMediaController != null && canplay) {
+                    mMediaController.hide();
+                }
+            }
             return false;
         }
     };
@@ -143,11 +168,12 @@ public class VideoPlayer extends RelativeLayout {
             // mVideoView.start();
             // Return true means the error has been handled
             // If return false, then `onCompletion` will be called
-            if (mMediaController != null) {
-                mMediaController.getCover().setVisibility(View.VISIBLE);
-                mMediaController.getThumb().setVisibility(View.VISIBLE);
-            }
             Toast.makeText(getContext(), "播放异常!", Toast.LENGTH_SHORT).show();
+            mVideoView.setVideoPath(videoPath);
+            mVideoView.start();
+            if (mMediaController != null && canplay) {
+                mMediaController.show();
+            }
             return true;
         }
     };
@@ -192,8 +218,8 @@ public class VideoPlayer extends RelativeLayout {
             new PLMediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(PLMediaPlayer plMediaPlayer) {
-                    if (mMediaController != null && startOnPrepared) {
-                        mMediaController.getCover().setVisibility(View.GONE);
+                    if (mMediaController != null && canplay && startOnPrepared) {
+                        cover.setVisibility(View.GONE);
                     }
                     if (!startOnPrepared) {
                         startOnPrepared = true;
@@ -201,11 +227,6 @@ public class VideoPlayer extends RelativeLayout {
                 }
             };
 
-    public void stopPlayback() {
-        if (mVideoView != null) {
-            mVideoView.stopPlayback();
-        }
-    }
 
     public void pause() {
         if (mVideoView != null) {
@@ -214,25 +235,28 @@ public class VideoPlayer extends RelativeLayout {
     }
 
     public void start() {
-        mMediaController.getCover().setVisibility(View.GONE);
         if (mVideoView != null) {
             mVideoView.start();
         }
     }
 
     public ImageView getCover() {
-        if (mMediaController != null) {
-            return mMediaController.getCover();
+        if (mMediaController != null && canplay) {
+            return cover;
         }
         return null;
     }
 
     public void setFullScreenListener(OnClickListener onClickListener) {
-        mMediaController.setFullScreenListener(onClickListener);
+        if (mMediaController != null && canplay) {
+            mMediaController.setFullScreenListener(onClickListener);
+        }
     }
 
     public void setOnBackListener(OnClickListener onClickListener) {
-        mMediaController.setOnBackListener(onClickListener);
+        if (mMediaController != null) {
+            mMediaController.setOnBackListener(onClickListener);
+        }
     }
 
     public boolean isPlaying() {
@@ -256,20 +280,40 @@ public class VideoPlayer extends RelativeLayout {
     }
 
     public void setCover(String frontCover) {
-        mMediaController.getCover().setVisibility(View.VISIBLE);
+        cover.setVisibility(View.VISIBLE);
         Glide.with(getContext())
                 .load(frontCover)
                 .fitCenter()
                 .placeholder(R.drawable.img_default)
                 .crossFade()
-                .into(mMediaController.getCover());
+                .into(cover);
     }
 
     public void disable() {
-        mMediaController.setViewEnable(false);
+        if (mMediaController != null && canplay) {
+            mMediaController.setViewEnable(false);
+        }
     }
 
     public void enable() {
-        mMediaController.setViewEnable(true);
+        if (mMediaController != null && canplay) {
+            mMediaController.setViewEnable(true);
+        }
+    }
+
+    public void setCoverVisiable(boolean b) {
+        if (cover != null) {
+            cover.setVisibility(b ? View.VISIBLE : View.INVISIBLE);
+        }
+    }
+
+    public void release() {
+       try {
+           if (mPLMediaPlayer != null) {
+               mPLMediaPlayer.release();
+           }
+       }catch (Exception e){
+           Log.e(TAG,"",e);
+       }
     }
 }
